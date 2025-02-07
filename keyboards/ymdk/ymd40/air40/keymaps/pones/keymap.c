@@ -4,10 +4,12 @@ enum layer_names {
   _QWERTY,
   _NUMBER,
   _SYMBOL,
-  _DEV,
+  _SYMBOL2,
   _NAV,
+  _FUNC,
+  _DEV,
   _UTIL,
-  _GAME
+  _MEDIA,
 };
 
 // Fancy zones keycodes
@@ -54,6 +56,27 @@ enum layer_names {
 #define CS_F C(S(KC_F))
 #define CS_S C(S(KC_S))
 
+// Left-hand home row mods
+#define HM_A LGUI_T(KC_A)
+#define HM_S LALT_T(KC_S)
+#define HM_D LCTL_T(KC_D)
+#define HM_F LSFT_T(KC_F)
+
+// Right-hand home row mods
+#define HM_J RSFT_T(KC_J)
+#define HM_K RCTL_T(KC_K)
+#define HM_L LALT_T(KC_L)
+#define HM_SCLN RGUI_T(KC_SCLN)
+
+#define L_SPC LT(_NUMBER, KC_SPACE)
+#define L_TAB LT(_SYMBOL, KC_TAB)
+#define L_ESC LT(_SYMBOL2, KC_ESCAPE)
+#define L_ENT LT(_DEV, KC_ENTER)
+#define L_DEL LT(_MEDIA, KC_DEL)
+#define L_BK LT(_FUNC, KC_BSPC)
+#define L_Z LT(_NAV, KC_Z)
+#define L_QUOT LT(_UTIL, KC_QUOT)
+
 enum custom_keycodes {
   DV_ARR = SAFE_RANGE, // Print C# lambda arrow
   DV_CMNT, // Comment line
@@ -64,80 +87,112 @@ enum custom_keycodes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-/* Qwerty
- * ,-----------------------------------------------------------------------------------.
- * | Esc  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * | Tab  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  '   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Ctrl | GUI  | Alt  | Nav  |Number|    Space    |Symbol|      | Alt  | GUI  | Ctrl |
- * `-----------------------------------------------------------------------------------'
- */
-  [_QWERTY] = LAYOUT_ortho_4x12(
-    QK_GESC,  KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_BSPC,
-    KC_TAB,   KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,
-    KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  SC_SENT,
-    KC_LCTL,  KC_LGUI,  KC_LALT,  TT(3),    TT(1),    SPC_TE,   KC_SPC,   MO(2),    MO(4),    KC_LALT,  KC_LGUI,  KC_LCTL
+    [_QWERTY] = LAYOUT_ortho_4x12(
+  //,----------------------------------------------------------------------------------------------------------.
+      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX,    HM_A,    HM_S,    HM_D,    HM_F,    KC_G,   KC_H,    HM_J,    HM_K,    HM_L, HM_SCLN, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX,     L_Z,    KC_X,    KC_C,    KC_V,    KC_B,   KC_N,    KC_M, KC_COMM,  KC_DOT,  L_QUOT, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX,   L_ESC,   L_TAB,   L_SPC, XXXXXXX,XXXXXXX,   L_ENT,    L_BK,   L_DEL, XXXXXXX, XXXXXXX
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
   ),
-/* Number
- * ,-----------------------------------------------------------------------------------.
- * | Qwer |  F1  |  F2  |  F3  |  F4  |      |      |   7  |   8  |   9  |   =  | Bksp |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |  F5  |  F6  |  F7  |  F8  |      |   *  |   4  |   5  |   6  |   +  |      |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |  F9  |  F10 |  F11 |  F12 |      |   /  |   1  |   2  |   3  |   -  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |   0  |   0  |   .  |      |      |
- * `-----------------------------------------------------------------------------------'
- */
-  [_NUMBER] = LAYOUT_ortho_4x12(
-    TO(0),    KC_F1,    KC_F2,    KC_F3,    KC_F4,    XXXXXXX,  XXXXXXX,  KC_7,     KC_8,     KC_9,     KC_EQUAL, KC_BSPC,
-    XXXXXXX,  KC_F5,    KC_F6,    KC_F7,    KC_F8,    XXXXXXX,  XXXXXXX,  KC_4,     KC_5,     KC_6,     KC_PLUS,  XXXXXXX,
-    XXXXXXX,  KC_F9,    KC_F10,   KC_F11,   KC_F12,   XXXXXXX,  KC_SLASH, KC_1,     KC_2,     KC_3,     KC_MINUS, KC_ENT,
-    KC_WAKE,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  SPC_TE,   XXXXXXX,  KC_0,     KC_0,     KC_DOT,   XXXXXXX,  XXXXXXX
+
+    [_NUMBER] = LAYOUT_ortho_4x12(
+  //,----------------------------------------------------------------------------------------------------------.
+      XXXXXXX, C(KC_Z), C(KC_X), C(KC_C), C(KC_V),RCS(KC_V),XXXXXXX,    KC_7,    KC_8,    KC_9, KC_ASTR, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX, KC_EQL,    KC_4,    KC_5,    KC_6, KC_PLUS, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, KC_BTN2, KC_BTN1, XXXXXXX,XXXXXXX,    KC_1,    KC_2,    KC_3, KC_SLSH, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX,KC_MINUS,  KC_DOT,    KC_0, XXXXXXX, XXXXXXX
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
   ),
-/* Symbol
- * ,-----------------------------------------------------------------------------------.
- * |      |   `  |   <  |   >  |      |      |      |  =>  |   [  |   ]  |      |  Del |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |   !  |   -  |   +  |   =  |   ~  |   &  |   @  |   (  |   )  |   #  |      |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |   ?  |   /  |   *  |      |   ^  |   |  |   $  |   {  |   }  |   %  |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |    Space    |      |      |      |      |      |
- * `-----------------------------------------------------------------------------------'
- */
-  [_SYMBOL] = LAYOUT_ortho_4x12(
-    XXXXXXX,  KC_GRV,   KC_LT,    KC_GT,    XXXXXXX,  XXXXXXX,  XXXXXXX,  DV_ARR,   KC_LBRC,  KC_RBRC,  XXXXXXX,  KC_DEL,
-    XXXXXXX,  KC_EXLM,  KC_MINUS, KC_PLUS,  KC_EQUAL, KC_TILDE, KC_AMPR,  KC_AT,    KC_LPRN,  KC_RPRN,  KC_HASH,  XXXXXXX,
-    XXXXXXX,  KC_QUES,  KC_SLASH, KC_ASTR,  XXXXXXX,  KC_CIRC,  KC_PIPE,  KC_DLR,   KC_LCBR,  KC_RCBR,  KC_PERC,  XXXXXXX,
-    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  SPC_TE,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
+
+    [_SYMBOL] = LAYOUT_ortho_4x12(
+  //,----------------------------------------------------------------------------------------------------------.
+      XXXXXXX, C(KC_Z), C(KC_X), C(KC_C), C(KC_V),RCS(KC_V),XXXXXXX, KC_SLSH, KC_LBRC, KC_RBRC, KC_BSLS, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX, KC_AMPR,KC_MINUS, KC_LPRN, KC_RPRN, KC_EXLM, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PIPE, KC_UNDS, KC_LCBR, KC_RCBR, KC_QUES, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX,  KC_EQL,   KC_LT,   KC_GT, XXXXXXX, XXXXXXX
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
   ),
-  [_DEV] = LAYOUT_ortho_4x12(
-    TO(0),    DV_TRM,   DV_NTRM,  DV_CTRM,  XXXXXXX,  XXXXXXX,  XXXXXXX,  CS_V,     CS_P,     CS_F,     CS_S,     XXXXXXX,
-    XXXXXXX,  DV_BRKP,  DV_SOUT,  DV_SIN,   DV_SOVR,  DV_BLD,   XXXXXXX,  DV_NVBW,  DV_NVFW,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-    XXXXXXX,  DV_NXER,  XXXXXXX,  DV_REFS,  DV_IMPL,  KC_F5,    XXXXXXX,  DV_CMNT,  DV_UNCMT, XXXXXXX,  XXXXXXX,  XXXXXXX,
-    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  SPC_TE,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
+
+    [_SYMBOL2] = LAYOUT_ortho_4x12(
+  //,----------------------------------------------------------------------------------------------------------.
+      XXXXXXX, C(KC_Z), C(KC_X), C(KC_C), C(KC_V),RCS(KC_V),XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX, XXXXXXX,   KC_AT, KC_HASH,  KC_DLR, KC_PERC, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_GRV, KC_CIRC, KC_TILD,  DV_ARR, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
   ),
-  [_NAV] = LAYOUT_ortho_4x12(
-    TO(0),    XXXXXXX,  S_PGUP,   S_PGDW,   XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_HOME,  KC_PGUP,  KC_PGDN,  KC_END,   XXXXXXX,
-    XXXXXXX,  C_LFT,    C_UP,     C_DWN,    C_RGT,    XXXXXXX,  XXXXXXX,  KC_LEFT,  KC_UP,    KC_DOWN,  KC_RIGHT, XXXXXXX,
-    KC_LSFT,  CS_LFT,   CS_UP,    CS_DWN,   CS_RGT,   DV_SELLN, XXXXXXX,  XXXXXXX,  LN_UP,    LN_DN,    XXXXXXX,  XXXXXXX,
-    KC_LCTL,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  SPC_TE,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
+
+    [_NAV] = LAYOUT_ortho_4x12(
+  //,----------------------------------------------------------------------------------------------------------.
+      XXXXXXX, C(KC_Z), C(KC_X), C(KC_C), C(KC_V),RCS(KC_V),XXXXXXX, KC_HOME,   KC_UP,  KC_END, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX, KC_PGUP, KC_LEFT, KC_DOWN,KC_RIGHT, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PGDN,   C_LFT, XXXXXXX,   C_RGT, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
   ),
-  [_UTIL] = LAYOUT_ortho_4x12(
-    AS_RPT,   QK_BOOT,  XXXXXXX,  XXXXXXX,  WD_CLO,   WI_CLO,   XXXXXXX,  WI_MAX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  TO(6),
-    AS_UP,    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  FZ_EXT,   FZ_LFT,   VD_NXT,   VD_PRV,   FZ_RGT,   XXXXXXX,
-    AS_DOWN,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_MPLY,  KC_MPRV,  KC_VOLU,  KC_VOLD,  KC_MNXT,  XXXXXXX,
-    AS_TOGG,  XXXXXXX,  XXXXXXX,  KC_LGUI,  KC_LALT,  XXXXXXX,  XXXXXXX,  KC_LCTL,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX
+
+    [_DEV] = LAYOUT_ortho_4x12(
+  //,----------------------------------------------------------------------------------------------------------.
+      XXXXXXX,  DV_TRM, DV_NVBW, DV_NVFW, DV_CMNT,DV_UNCMT,RCS(KC_V), C(KC_V), C(KC_C), C(KC_X), C(KC_Z), XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, DV_BRKP, DV_SOUT,  DV_SIN, DV_SOVR,  DV_BLD, XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, DV_NXER, XXXXXXX, DV_REFS, DV_IMPL,   KC_F5, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
   ),
-  [_GAME] = LAYOUT_ortho_4x12(
-    QK_GESC,  KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     TO(0),
-    KC_TAB,   KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,
-    KC_LSFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  SC_SENT,
-    KC_LCTL,  KC_LGUI,  KC_LALT,  XXXXXXX,  XXXXXXX,  KC_SPC,   KC_SPC,   XXXXXXX,  XXXXXXX,  KC_LALT,  KC_LGUI,  KC_LCTL
+
+    [_FUNC] = LAYOUT_ortho_4x12(
+  //,----------------------------------------------------------------------------------------------------------.
+      XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, KC_PSCR,RCS(KC_V), C(KC_V), C(KC_C), C(KC_X), C(KC_Z), XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, KC_PAUS, XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
+  ),
+
+     [_MEDIA] = LAYOUT_ortho_4x12(
+  //,----------------------------------------------------------------------------------------------------------.
+      XXXXXXX, XXXXXXX, KC_WH_D, KC_MS_U, KC_WH_U, KC_MPRV,RCS(KC_V), C(KC_V), C(KC_C), C(KC_X), C(KC_Z), XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, KC_VOLU, KC_MS_L, KC_MS_D, KC_MS_R, KC_MPLY, XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, KC_VOLD, XXXXXXX, KC_BTN2, KC_BTN1, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
+  ),
+
+   [_UTIL] = LAYOUT_ortho_4x12(
+  //,----------------------------------------------------------------------------------------------------------.
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_SPI, RGB_SPD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_MOD,RGB_RMOD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+----------------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG, RGB_VAI, RGB_VAD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+  //|--------+--------+--------+--------+--------+--------+-------+--------+--------+--------+--------+--------|
   )
 };
 
@@ -168,79 +223,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 };
 
-bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
-  switch(keycode) {
-    case DV_ARR:
-      return true;
-    default:
-      return false;
-  }
-}
-
-void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
-  switch(keycode) {
-    case KC_DOT:
-      (shifted) ? tap_code16(KC_UNDS) : tap_code16(KC_DOT);
-      break;
-    case KC_SLSH:
-      (shifted) ? tap_code16(KC_BSLS) : tap_code16(KC_SLSH);
-      break;
-    case KC_COMM:
-      (shifted) ? tap_code16(KC_MINUS) : SEND_STRING(", ");
-      break;
-    case DV_ARR:
-      (shifted) ? SEND_STRING("/>") : SEND_STRING("=>");
-      break;
-    case KC_GRV:
-      (shifted) ? SEND_STRING("``` ") : tap_code16(KC_GRV);
-      break;
-    default:
-      if (shifted) {
-        add_weak_mods(MOD_BIT(KC_LSFT));
-      }
-      // & 0xFF gets the Tap key for Tap Holds, required when using Retro Shift
-      register_code16((IS_RETRO(keycode)) ? keycode & 0xFF : keycode);
-    }
-}
-
-void autoshift_release_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
-  switch(keycode) {
-    case KC_DOT:
-    case KC_SLSH:
-    case KC_COMM:
-    case DV_ARR:
-    case KC_GRV:
-      break;
-    default:
-      // & 0xFF gets the Tap key for Tap Holds, required when using Retro Shift
-      // The IS_RETRO check isn't really necessary here, always using
-      // keycode & 0xFF would be fine.
-      unregister_code16((IS_RETRO(keycode)) ? keycode & 0xFF : keycode);
-  }
-}
-
-// bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-
-//   switch(get_highest_layer(layer_state|default_layer_state)) {
-//     case 1:
-//       rgb_matrix_set_color(led_min, RGB_RED);
-//       break;
-//     case 2:
-//       rgb_matrix_set_color(led_min, RGB_GREEN);
-//       break;
-//     case 3:
-//       rgb_matrix_set_color(led_min, RGB_BLUE);
-//       break;
-//     case 4:
-//       rgb_matrix_set_color(led_min, RGB_YELLOW);
-//       break;
-//     case 5:
-//       rgb_matrix_set_color(led_min, RGB_PURPLE);
-//       break;
-//     case 6:
-//       rgb_matrix_set_color(led_min, RGB_WHITE);
-//       break;
-//   }
-
-//   return false;
-// }
