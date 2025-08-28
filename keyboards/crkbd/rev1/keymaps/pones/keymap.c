@@ -84,6 +84,8 @@ enum custom_keycodes {
   DV_SELLN, // Select line
   DV_REFS,  // Find references
   WI_MAX,  // Maximize window
+  KVM_PREV, // KVM previous port
+  KVM_NEXT, // KVM next port
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -179,7 +181,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_VOLD, XXXXXXX, KC_BTN2, KC_BTN1, KC_MNXT,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                          XXXXXXX,KVM_PREV,KVM_NEXT,    XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -219,6 +221,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       case WI_MAX:
         tap_code16(A(KC_SPC));
         tap_code16(S(KC_X));
+        break;
+      case KVM_PREV:
+        tap_code16(KC_RCTL);
+        wait_ms(50);
+        tap_code16(KC_RCTL);
+        wait_ms(50);
+        tap_code16(KC_PGUP);
+        break;
+      case KVM_NEXT:
+        tap_code16(KC_RCTL);
+        wait_ms(50);
+        tap_code16(KC_RCTL);
+        wait_ms(50);
+        tap_code16(KC_PGDN);
         break;
     }
   }

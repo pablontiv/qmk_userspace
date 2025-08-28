@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:get.vial.today)",
+      "Bash(qmk compile:*)",
+      "Bash(make:*)",
+      "Bash(where:*)",
+      "Read(C:\\Users\\pablo\\qmk_firmware/**)",
+      "Read(C:\\Users\\pablo\\qmk_firmware\\keyboards\\crkbd/**)",
+      "Read(C:\\Users\\pablo\\qmk_firmware\\keyboards\\crkbd\\rev1/**)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl:*)",
+      "WebSearch"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
