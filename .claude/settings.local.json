@@ -11,7 +11,8 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(curl:*)",
       "WebSearch",
-      "WebFetch(domain:docs.qmk.fm)"
+      "WebFetch(domain:docs.qmk.fm)",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": [],
