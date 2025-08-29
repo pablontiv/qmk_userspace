@@ -60,6 +60,7 @@ enum layer_names {
   _NUMBER,
   _SYMBOL,
   _SYMBOL2,
+  _SYMBOL_NEW,
   _NAV,
   _FUNC,
   _DEV,
@@ -67,9 +68,22 @@ enum layer_names {
   _MEDIA,
 };
 
+// Tap dance definitions
+enum tap_dances {
+    TD_J_BRACES,    // { | {} | }
+    TD_K_PARENS,    // ( | () | ("") | () => {} | )
+    TD_SC_ANGLES,   // < | <> | <= | >
+    TD_L_BRACKETS,  // [ | [] | [0] | ]
+    TD_EQ_PLUS,     // = | == | += | +
+    TD_SL_BACK,     // / | // | backslash
+    TD_MN_UNDER,    // - | -- | => | _
+    TD_AM_PIPE,     // & | && | || | |
+    TD_EX_QUEST,    // ! | != | ?
+};
+
 #define L_SPC LT(_NUMBER, KC_SPACE)
-#define L_TAB LT(_SYMBOL, KC_TAB)
-#define L_ESC LT(_SYMBOL2, KC_ESCAPE)
+#define L_TAB LT(_SYMBOL_NEW, KC_TAB)
+#define L_ESC LT(_SYMBOL, KC_ESCAPE)
 #define L_ENT LT(_DEV, KC_ENTER)
 #define L_DEL LT(_MEDIA, KC_DEL)
 #define L_BK LT(_FUNC, KC_BSPC)
@@ -101,6 +115,300 @@ enum custom_keycodes {
   WI_MAX,  // Maximize window
   KVM_PREV, // KVM previous port
   KVM_NEXT, // KVM next port
+};
+
+// Tap dance functions
+void td_j_finished(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            if (state->pressed) {
+                register_code16(KC_RCBR);  // Hold = }
+            } else {
+                register_code16(KC_LCBR);  // 1 tap = {
+            }
+            break;
+        case 2:
+            SEND_STRING("{}");
+            tap_code(KC_LEFT);              // 2 taps = {}←
+            break;
+        case 3:
+            register_code16(KC_RCBR);       // 3 taps = }
+            break;
+    }
+}
+
+void td_j_reset(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            if (state->pressed) {
+                unregister_code16(KC_RCBR);
+            } else {
+                unregister_code16(KC_LCBR);
+            }
+            break;
+        case 3:
+            unregister_code16(KC_RCBR);
+            break;
+    }
+}
+
+void td_k_finished(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            if (state->pressed) {
+                register_code16(KC_RPRN);  // Hold = )
+            } else {
+                register_code16(KC_LPRN);  // 1 tap = (
+            }
+            break;
+        case 2:
+            SEND_STRING("()");
+            tap_code(KC_LEFT);              // 2 taps = ()←
+            break;
+        case 3:
+            SEND_STRING("(\"\")");
+            tap_code(KC_LEFT);
+            tap_code(KC_LEFT);              // 3 taps = ("")←←
+            break;
+        case 4:
+            SEND_STRING("() => {}");
+            tap_code(KC_LEFT);              // 4 taps = () => {}←
+            break;
+        case 5:
+            register_code16(KC_RPRN);       // 5 taps = )
+            break;
+    }
+}
+
+void td_k_reset(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            if (state->pressed) {
+                unregister_code16(KC_RPRN);
+            } else {
+                unregister_code16(KC_LPRN);
+            }
+            break;
+        case 5:
+            unregister_code16(KC_RPRN);
+            break;
+    }
+}
+
+void td_sc_finished(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            if (state->pressed) {
+                register_code16(KC_GT);     // Hold = >
+            } else {
+                register_code16(KC_LT);     // 1 tap = <
+            }
+            break;
+        case 2:
+            SEND_STRING("<>");
+            tap_code(KC_LEFT);              // 2 taps = <>←
+            break;
+        case 3:
+            SEND_STRING("<=");              // 3 taps = <=
+            break;
+    }
+}
+
+void td_sc_reset(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            if (state->pressed) {
+                unregister_code16(KC_GT);
+            } else {
+                unregister_code16(KC_LT);
+            }
+            break;
+    }
+}
+
+void td_l_finished(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            if (state->pressed) {
+                register_code16(KC_RBRC);   // Hold = ]
+            } else {
+                register_code16(KC_LBRC);   // 1 tap = [
+            }
+            break;
+        case 2:
+            SEND_STRING("[]");
+            tap_code(KC_LEFT);              // 2 taps = []←
+            break;
+        case 3:
+            SEND_STRING("[0]");
+            tap_code(KC_LEFT);              // 3 taps = [0]←
+            break;
+        case 4:
+            register_code16(KC_RBRC);       // 4 taps = ]
+            break;
+    }
+}
+
+void td_l_reset(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            if (state->pressed) {
+                unregister_code16(KC_RBRC);
+            } else {
+                unregister_code16(KC_LBRC);
+            }
+            break;
+        case 4:
+            unregister_code16(KC_RBRC);
+            break;
+    }
+}
+
+void td_eq_finished(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            register_code16(KC_EQL);        // 1 tap = =
+            break;
+        case 2:
+            SEND_STRING("==");              // 2 taps = ==
+            break;
+        case 3:
+            SEND_STRING("+=");              // 3 taps = +=
+            break;
+        case 4:
+            register_code16(KC_PLUS);       // 4 taps = +
+            break;
+    }
+}
+
+void td_eq_reset(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            unregister_code16(KC_EQL);
+            break;
+        case 4:
+            unregister_code16(KC_PLUS);
+            break;
+    }
+}
+
+void td_sl_finished(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            register_code16(KC_SLSH);       // 1 tap = /
+            break;
+        case 2:
+            SEND_STRING("//");              // 2 taps = //
+            break;
+        case 3:
+            register_code16(KC_BSLS);       // 3 taps = backslash
+            break;
+    }
+}
+
+void td_sl_reset(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            unregister_code16(KC_SLSH);
+            break;
+        case 3:
+            unregister_code16(KC_BSLS);
+            break;
+    }
+}
+
+void td_mn_finished(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            register_code16(KC_MINS);       // 1 tap = -
+            break;
+        case 2:
+            SEND_STRING("--");              // 2 taps = --
+            break;
+        case 3:
+            SEND_STRING("=>");              // 3 taps = =>
+            break;
+        case 4:
+            register_code16(KC_UNDS);       // 4 taps = _
+            break;
+    }
+}
+
+void td_mn_reset(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            unregister_code16(KC_MINS);
+            break;
+        case 4:
+            unregister_code16(KC_UNDS);
+            break;
+    }
+}
+
+void td_am_finished(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            register_code16(KC_AMPR);       // 1 tap = &
+            break;
+        case 2:
+            SEND_STRING("&&");              // 2 taps = &&
+            break;
+        case 3:
+            SEND_STRING("||");              // 3 taps = ||
+            break;
+        case 4:
+            register_code16(KC_PIPE);       // 4 taps = |
+            break;
+    }
+}
+
+void td_am_reset(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            unregister_code16(KC_AMPR);
+            break;
+        case 4:
+            unregister_code16(KC_PIPE);
+            break;
+    }
+}
+
+void td_ex_finished(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            register_code16(KC_EXLM);       // 1 tap = !
+            break;
+        case 2:
+            SEND_STRING("!=");              // 2 taps = !=
+            break;
+        case 3:
+            register_code16(KC_QUES);       // 3 taps = ?
+            break;
+    }
+}
+
+void td_ex_reset(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            unregister_code16(KC_EXLM);
+            break;
+        case 3:
+            unregister_code16(KC_QUES);
+            break;
+    }
+}
+
+// Tap dance actions
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_J_BRACES] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_j_finished, td_j_reset),
+    [TD_K_PARENS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_k_finished, td_k_reset),
+    [TD_SC_ANGLES] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sc_finished, td_sc_reset),
+    [TD_L_BRACKETS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_l_finished, td_l_reset),
+    [TD_EQ_PLUS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_eq_finished, td_eq_reset),
+    [TD_SL_BACK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sl_finished, td_sl_reset),
+    [TD_MN_UNDER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_mn_finished, td_mn_reset),
+    [TD_AM_PIPE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_am_finished, td_am_reset),
+    [TD_EX_QUEST] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_ex_finished, td_ex_reset),
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -149,6 +457,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,  KC_GRV, KC_CIRC, KC_TILD,  DV_ARR, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+    [_SYMBOL_NEW] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_GRV,TD(TD_AM_PIPE), KC_ASTR, TD(TD_SL_BACK), KC_CIRC, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                     TD(TD_EQ_PLUS),TD(TD_J_BRACES),TD(TD_K_PARENS),TD(TD_SC_ANGLES),TD(TD_L_BRACKETS), XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_TILD,TD(TD_MN_UNDER), KC_COLN,TD(TD_EX_QUEST), KC_PERC, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          XXXXXXX, XXXXXXX, XXXXXXX,      KC_AT, KC_HASH,  KC_DLR
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -256,6 +576,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   return true;
 };
+
+// Per-key tapping term optimization
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TD_J_BRACES:
+        case TD_K_PARENS:  return 180;  // Index/middle fingers more responsive
+        case TD_L_BRACKETS: return 220; // Pinky finger needs more time
+        case TD_SC_ANGLES:  return 200; // Ring finger standard
+        case HM_F: case HM_J: return 180;  // Strong index fingers
+        case HM_A: case HM_SCLN: return 250;  // Weak pinkies need more time
+        default: return TAPPING_TERM;
+    }
+}
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_270; }

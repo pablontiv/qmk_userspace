@@ -15,7 +15,10 @@
 #   define OLED_TIMEOUT 30000
 #endif
 
-#define DYNAMIC_KEYMAP_LAYER_COUNT 9
+#define DYNAMIC_KEYMAP_LAYER_COUNT 10
+
+// Tap dance configuration
+#define TAPPING_TERM_PER_KEY
 
 // Home row mods optimization
 #define PERMISSIVE_HOLD

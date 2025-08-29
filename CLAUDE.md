@@ -9,6 +9,7 @@ This is a QMK userspace repository for custom keyboard keymaps. It contains conf
 ## Build Commands
 
 ### Basic compilation
+
 ```bash
 # Compile a specific keymap
 qmk compile -kb your_keyboard -km your_keymap
@@ -21,6 +22,7 @@ qmk userspace-compile
 ```
 
 ### Configuration commands
+
 ```bash
 # Add a keymap to build targets
 qmk userspace-add -kb <keyboard> -km <keymap>
@@ -36,12 +38,15 @@ qmk config user.overlay_dir="$(realpath .)"
 ```
 
 ### Current Build Targets
+
 Based on `qmk.json`, the currently configured build target is:
+
 - `crkbd/rev1:pones`
 
 ## Repository Structure
 
 ### Keyboard Configurations
+
 - `keyboards/crkbd/rev1/keymaps/` - Corne keyboard keymaps
   - `pones/` - Main active keymap with home row mods, layers for symbols/numbers/navigation
   - `pones-old/` - Previous version keymap
@@ -51,6 +56,7 @@ Based on `qmk.json`, the currently configured build target is:
   - `pones_old/` - Previous version
 
 ### Key Files
+
 - `qmk.json` - Userspace configuration and build targets
 - `Makefile` - Forwards make commands to QMK firmware with proper userspace path
 - `*.hex` - Compiled firmware files ready for flashing
@@ -60,6 +66,7 @@ Based on `qmk.json`, the currently configured build target is:
 The main keymap (`keyboards/crkbd/rev1/keymaps/pones/`) uses a sophisticated layer system:
 
 ### Layers
+
 - `_QWERTY` - Base QWERTY layout with home row modifiers
 - `_NUMBER` - Number pad and arithmetic operators  
 - `_SYMBOL` - Symbol keys and brackets
@@ -71,12 +78,16 @@ The main keymap (`keyboards/crkbd/rev1/keymaps/pones/`) uses a sophisticated lay
 - `_UTIL` - RGB lighting controls
 
 ### Home Row Modifiers
+
 The keymap implements home row mods for efficient modifier access:
+
 - Left hand: GUI(A), Alt(S), Ctrl(D), Shift(F)
 - Right hand: Shift(J), Ctrl(K), Alt(L), GUI(;)
 
 ### Layer Access
+
 Layers are accessed via layer-tap keys on thumbs and specific positions:
+
 - Space → Numbers layer
 - Tab → Symbols layer  
 - Escape → Symbols2 layer
@@ -87,6 +98,7 @@ Layers are accessed via layer-tap keys on thumbs and specific positions:
 - Quote → Utilities layer
 
 ### Custom Features
+
 - OLED display support with layer and modifier status
 - RGB Matrix with selective animations enabled
 - Custom macros for development workflows (VS Code shortcuts)
@@ -100,3 +112,4 @@ Layers are accessed via layer-tap keys on thumbs and specific positions:
 - Master hand is configured as left side
 - Custom font included for OLED display
 - RGB animations are selectively enabled to save firmware space
+- Never compile

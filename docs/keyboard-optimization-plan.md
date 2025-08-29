@@ -57,23 +57,48 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 - Respuesta más rápida en dedos fuertes
 - Typing más natural y menos errores
 
-### 2.2 Reorganización de Símbolos por Frecuencia
+### 2.2 Implementación de Tap Dance para Símbolos
 
-**Análisis actual**: 
-- Paréntesis `()` en posiciones incómodas (anular derecho)
-- Llaves `{}` en row inferior (menos accesible)
-- Operadores `=+-` separados geográficamente
+**Objetivo**: Consolidar 16+ símbolos frecuentes en 8 tap dances para máxima eficiencia
 
-**Optimización propuesta**:
+**Análisis de frecuencia personal**:
+- `.` (1,054,817) - `,` (443,890) - `/` (543,499) - `-` (383,003)
+- `()` (735,492 total) - `=` (342,151) - `{}` (462,028 total) - `<>` (267,609 total)
+
+**SYMBOL_NEW layer (implementación con tap dance)**:
 ```
-SYMBOL layer mejorada:
-Row superior: Símbolos menos frecuentes
-Home row:     () [] {} <> (brackets principales)
-Row inferior: Operadores y símbolos especiales
-Thumbs:       = - + (acceso inmediato)
+Mano derecha optimizada:
+┌─────┬─────┬─────┬─────┬─────┬─────┐
+│  `  │TD_AM│  *  │TD_SL│  ^  │     │  Row superior
+├─────┼─────┼─────┼─────┼─────┼─────┤
+│TD_EQ│TD_J │TD_K │TD_SC│TD_L │     │  Home row (5 TDs)
+├─────┼─────┼─────┼─────┼─────┼─────┤
+│  ~  │TD_MN│  :  │TD_EX│  %  │     │  Row inferior
+└─────┴─────┴─────┴─────┴─────┴─────┘
+        Thumbs: @ # $
+
+8 Tap Dances:
+- TD_J:  { | {} | }
+- TD_K:  ( | () | ("") | () => {} | )
+- TD_SC: < | <> | <= | >
+- TD_L:  [ | [] | [0] | ]
+- TD_EQ: = | == | += | +
+- TD_SL: / | // | \
+- TD_MN: - | -- | => | _
+- TD_AM: & | && | || | |
+- TD_EX: ! | != | ?
 ```
 
-**Impacto**: Reducción 30% en movimiento lateral para programación
+**Estrategia de implementación**:
+- **L_TAB → SYMBOL_NEW** (nueva capa optimizada)
+- **L_ESC → SYMBOL** (mantener como backup temporal)
+- Período de evaluación: 2-3 semanas
+- Una vez validado → eliminar SYMBOL antigua
+
+**Impacto**: 
+- 16 símbolos consolidados en 8 teclas
+- Reducción 50% en cambios de layer
+- Patrones de código comunes en 2-4 taps
 
 ### 2.3 Optimización de Navegación
 
@@ -91,20 +116,33 @@ Thumbs:       = - + (acceso inmediato)
 
 ## 🟡 Fase 3 - Impacto Alto (2-3 semanas adaptación)
 
-### 3.1 Fusión de Capas SYMBOL
+### 3.1 Transición Gradual y Eliminación de Capas
 
-**Problema actual**: SYMBOL y SYMBOL2 fragmentan símbolos relacionados
+**Problema resuelto**: SYMBOL y SYMBOL2 fragmentaban símbolos relacionados
 
-**Nueva organización**:
-```
-Unified SYMBOL layer:
-- Brackets y parentheses agrupados
-- Operadores matemáticos juntos  
-- Símbolos de programación ($, @, #, %, etc.) organizados por frecuencia
-- Eliminación de redundancias
-```
+**Implementación por fases**:
 
-**Beneficio**: Una capa menos que memorizar, símbolos más lógicamente agrupados
+**Fase A - Transición (2-3 semanas)**:
+- L_TAB → SYMBOL_NEW (tap dances optimizados)
+- L_ESC → SYMBOL (backup de seguridad)
+- Entrenamiento gradual en tap dances
+- Fallback a SYMBOL cuando sea necesario
+
+**Fase B - Consolidación (evaluación)**:
+- Medir eficiencia y comfort con SYMBOL_NEW
+- Identificar patrones problemáticos
+- Ajustar timings y configuraciones si necesario
+
+**Fase C - Finalización**:
+- Eliminar SYMBOL y SYMBOL2 completamente
+- Liberar L_ESC para otros usos (UTIL, macros, etc.)
+- Una sola capa de símbolos ultra-optimizada
+
+**Beneficios finales**:
+- 2 capas eliminadas (SYMBOL + SYMBOL2)
+- 1 tecla de thumb liberada (L_ESC)
+- Símbolos más eficientes por tap dance
+- Patrones de programación integrados
 
 ### 3.2 Reasignación de Layer-Tap Problemático
 
@@ -173,32 +211,100 @@ Combos propuestos:
 
 ---
 
-## 🔧 Fase 5 - Optimizaciones Avanzadas
+## 🔧 Configuración Técnica de Tap Dance
 
-### 5.1 Análisis de Bigrams Personalizado
+### Configuración QMK necesaria:
 
-**Metodología**:
-1. Recopilar datos reales de typing (1-2 semanas)
-2. Analizar patrones específicos de tu código
-3. Identificar same-finger bigrams (SFBs) problemáticos
-4. Reorganizar layout basado en datos personales
+```c
+// En config.h
+#define TAP_DANCE_ENABLE
+#define TAPPING_TERM 200
+#define TAPPING_TERM_PER_KEY
 
-### 5.2 Configuración Adaptativa
+// Enum para tap dances
+enum tap_dances {
+    TD_J_BRACES,    // Llaves
+    TD_K_PARENS,    // Paréntesis
+    TD_SC_ANGLES,   // Ángulos
+    TD_L_BRACKETS,  // Corchetes
+    TD_EQ_PLUS,     // Equal/Plus
+    TD_SL_BACK,     // Slash/Backslash
+    TD_MN_UNDER,    // Minus/Underscore
+    TD_AM_PIPE,     // Ampersand/Pipe
+    TD_EX_QUEST,    // Exclamation/Question
+};
 
-**Features avanzadas**:
-- Profiles automáticos por contexto
-- Machine learning para optimización continua
-- Integration con IDEs y herramientas
+// Funciones personalizadas para cada tap dance
+void td_k_finished(qk_tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 1:
+            if (state->pressed) {
+                register_code16(KC_RPRN);  // Hold = )
+            } else {
+                register_code16(KC_LPRN);  // 1 tap = (
+            }
+            break;
+        case 2:
+            SEND_STRING("()");
+            tap_code(KC_LEFT);              // 2 taps = ()←
+            break;
+        case 3:
+            SEND_STRING("(\"\"");
+            tap_code(KC_LEFT);
+            tap_code(KC_LEFT);              // 3 taps = ("")←←
+            break;
+        case 4:
+            SEND_STRING("() => {}");
+            tap_code(KC_LEFT);
+            tap_code(KC_LEFT);
+            tap_code(KC_LEFT);              // 4 taps = () => {}←←←
+            break;
+    }
+}
+```
+
+### Timing optimizado por dedo:
+
+```c
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TD_J_BRACES:
+        case TD_K_PARENS:  return 180;  // Índice/medio más rápidos
+        case TD_L_BRACKETS: return 220; // Meñique más lento
+        case TD_SC_ANGLES:  return 200; // Anular estándar
+        default: return TAPPING_TERM;
+    }
+}
+```
+
+## 🔧 Fase 5 - Optimizaciones Futuras
+
+### 5.1 Análisis Post-Implementación
+
+**Métricas a evaluar** (post tap dance):
+- Velocidad de typing en símbolos frecuentes
+- Tasa de error en tap dances vs teclas simples
+- Fatiga subjetiva después de sesiones largas
+- Patrones de uso real de cada tap dance
+
+### 5.2 Expansiones Avanzadas
+
+**Si tap dance funciona bien**:
+- Combos adicionales para símbolos menos frecuentes
+- Macros contextuales por aplicación
+- Auto-shift para pares de símbolos
+- Integration con snippets de código
 
 ---
 
 ## 📈 Métricas de Éxito
 
 ### Objetivos Cuantificables
-- **Reducción de SFBs**: 40% menos same-finger bigrams
-- **Velocidad**: +10-15% en typing de código
-- **Fatiga**: 30% menos movimiento lateral de dedos
-- **Ergonomía**: Eliminación de painful stretches
+- **Consolidación**: 16+ símbolos en 8 tap dances
+- **Reducción de capas**: Eliminar SYMBOL y SYMBOL2 (2 capas → 1)
+- **Eficiencia**: Patrones comunes en 2-4 taps (!=, ==, &&, ||, =>, //)
+- **Ergonomía**: Todo en mano derecha, sin stretching con pulgar ocupado
+- **Velocidad**: Símbolos frecuentes en 1 tap sin latencia adicional
 
 ### Métricas de Seguimiento
 - WPM antes/después de cada fase
@@ -256,8 +362,9 @@ Mes 4+:      Fases 4-5 para usuarios power
 
 - **v1.0**: Análisis inicial y Fase 1 (Enero 2025)  
 - **v1.1**: Corrección HM_L y combos optimizados
-- **v2.0**: (Planificado) Implementación Fase 2
-- **v3.0**: (Planificado) Unificación de capas SYMBOL
+- **v2.0**: (Planificado) Implementación Tap Dance para símbolos
+- **v2.1**: (Planificado) Transición gradual con backup SYMBOL
+- **v3.0**: (Planificado) Eliminación final de capas redundantes
 
 ---
 
