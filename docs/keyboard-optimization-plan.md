@@ -36,6 +36,78 @@ S+D = Delete word izquierda  (Nuevo - 100+ usos/día)
 
 ---
 
+## 🔄 Fase 1.5 - Optimizaciones QMK 2024 (0 días adaptación)
+
+### 1.5.1 Adopción de CHORDAL_HOLD
+**Objetivo**: Migrar de BILATERAL_COMBINATIONS a la nueva tecnología QMK 2024
+
+**Problema que resuelve**: CHORDAL_HOLD es la evolución mejorada de BILATERAL_COMBINATIONS, con menor latencia y mejor detección de "manos opuestas".
+
+**Implementación**:
+```c
+// En config.h - Eliminar o comentar:
+// #define BILATERAL_COMBINATIONS
+// #define BILATERAL_COMBINATIONS_TYPING_STREAK_TIMEOUT 160
+
+// Agregar:
+#define CHORDAL_HOLD
+```
+
+**Beneficios**:
+- Menor latencia de entrada
+- Detección más precisa de chord entre manos opuestas
+- Mejor integración con el core de QMK
+- Más estabilidad y menos bugs
+
+**Riesgo**: Mínimo - Es reemplazo directo con mejor rendimiento
+
+### 1.5.2 Optimización de QUICK_TAP_TERM
+**Objetivo**: Evaluar y optimizar el comportamiento de tap-then-hold
+
+**Configuración actual**: 120ms
+**Opciones evaluadas**:
+- **120ms** (actual): Balance entre repetición rápida y prevención accidental
+- **140ms**: Más tiempo para tap doble, menos activaciones accidentales
+- **0**: Deshabilitar completamente (más conservador)
+
+**Implementación**:
+```c
+// En config.h - Opciones:
+#define QUICK_TAP_TERM 120  // Mantener actual
+// #define QUICK_TAP_TERM 140  // Más conservador
+// #define QUICK_TAP_TERM 0   // Deshabilitar
+```
+
+**Beneficios**:
+- Ajuste fino del comportamiento de repetición
+- Reducción de activaciones accidentales si es necesario
+
+### 1.5.3 Evaluación de HOLD_ON_OTHER_KEY_PRESS (Opcional)
+**Objetivo**: Considerar alternativa más agresiva a PERMISSIVE_HOLD
+
+**Diferencias**:
+- **PERMISSIVE_HOLD**: Activa hold cuando otra tecla es tap+release
+- **HOLD_ON_OTHER_KEY_PRESS**: Activa hold inmediatamente al presionar otra tecla
+
+**Implementación** (solo si PERMISSIVE_HOLD no es suficiente):
+```c
+// En config.h - Reemplazar:
+// #define PERMISSIVE_HOLD
+
+// Con:
+#define HOLD_ON_OTHER_KEY_PRESS
+```
+
+**Consideración**: Solo para usuarios que prefieren activación más inmediata de modificadores
+
+### Resumen Fase 1.5
+- **Tiempo de adaptación**: 0 días (mejoras transparentes)
+- **Cambios**: Solo en config.h, sin cambio de layout
+- **Beneficios**: Mejor rendimiento, menor latencia, tecnología actualizada
+- **Prioridad**: Alta para CHORDAL_HOLD, media para QUICK_TAP_TERM
+
+---
+
 ## 🟢 Fase 2 - Impacto Medio (1-2 semanas adaptación)
 
 ### 2.1 Per-Key Tapping Terms
@@ -211,15 +283,25 @@ Combos propuestos:
 
 ---
 
-## 🔧 Configuración Técnica de Tap Dance
+## 🔧 Configuración Técnica QMK 2024
 
-### Configuración QMK necesaria:
+### Configuración Optimizada en config.h:
 
 ```c
-// En config.h
-#define TAP_DANCE_ENABLE
+// Configuración básica
 #define TAPPING_TERM 200
 #define TAPPING_TERM_PER_KEY
+
+// Home row mods - Migración a QMK 2024
+#define CHORDAL_HOLD                    // Reemplaza BILATERAL_COMBINATIONS
+#define PERMISSIVE_HOLD                 // o HOLD_ON_OTHER_KEY_PRESS (más agresivo)
+#define QUICK_TAP_TERM 120             // 120ms, 140ms, o 0 para deshabilitar
+
+// Configuración de combos
+#define COMBO_TERM 30
+
+// Tap Dance (si se implementa Fase 2)
+#define TAP_DANCE_ENABLE
 
 // Enum para tap dances
 enum tap_dances {
@@ -325,7 +407,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 ### Cronograma Recomendado
 ```
 Semana 1-2:  Usar Fase 1, evaluar beneficios
-Semana 3-4:  Implementar Fase 2 si Fase 1 exitosa  
+Semana 2:    Implementar Fase 1.5 (optimizaciones QMK 2024)
+Semana 3-4:  Implementar Fase 2 si Fase 1+1.5 exitosa  
 Mes 2-3:     Fase 3 solo si necesario
 Mes 4+:      Fases 4-5 para usuarios power
 ```
@@ -344,6 +427,8 @@ Mes 4+:      Fases 4-5 para usuarios power
 - Bigram frequency analysis for programming languages  
 - Ergonomic keyboard layout effectiveness studies
 - QMK community best practices
+- CHORDAL_HOLD vs BILATERAL_COMBINATIONS performance analysis
+- QUICK_TAP_TERM optimization studies
 
 ### Herramientas de Análisis
 - KeymapDB para comparación con otros layouts
@@ -362,6 +447,7 @@ Mes 4+:      Fases 4-5 para usuarios power
 
 - **v1.0**: Análisis inicial y Fase 1 (Enero 2025)  
 - **v1.1**: Corrección HM_L y combos optimizados
+- **v1.2**: Integración optimizaciones QMK 2024 y Fase 1.5 (Agosto 2025)
 - **v2.0**: (Planificado) Implementación Tap Dance para símbolos
 - **v2.1**: (Planificado) Transición gradual con backup SYMBOL
 - **v3.0**: (Planificado) Eliminación final de capas redundantes
@@ -369,5 +455,5 @@ Mes 4+:      Fases 4-5 para usuarios power
 ---
 
 *Documento creado: Enero 2025*  
-*Última actualización: Post-Fase 1*  
-*Próxima revisión: Post-implementación Fase 2*
+*Última actualización: v1.2 - Integración QMK 2024 (Agosto 2025)*  
+*Próxima revisión: Post-implementación Fase 1.5*
