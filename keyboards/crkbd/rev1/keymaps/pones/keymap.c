@@ -82,6 +82,17 @@ enum layer_names {
 #define L_Z LT(_NAV, KC_Z)              // Z: tap for 'z', hold for navigation layer
 #define L_QUOT LT(_UTIL, KC_QUOT)       // Quote: tap for quote, hold for utilities layer
 
+// Tap dance aliases (max 7 characters)
+#define TD_JBR TD(TD_J_BRACES)    // { | {} | }
+#define TD_KPR TD(TD_K_PARENS)    // ( | () | ("") | () => {} | )
+#define TD_SAN TD(TD_SC_ANGLES)   // < | <> | <= | >
+#define TD_LBK TD(TD_L_BRACKETS)  // [ | [] | [0] | ]
+#define TD_EQP TD(TD_EQ_PLUS)     // = | == | += | +
+#define TD_SLB TD(TD_SL_BACK)     // / | // | backslash
+#define TD_MNU TD(TD_MN_UNDER)    // - | -- | => | _
+#define TD_AMP TD(TD_AM_PIPE)     // & | && | || | |
+#define TD_EXQ TD(TD_EX_QUEST)    // ! | != | ?
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_split_3x6_3(
       XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
@@ -98,28 +109,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
     [_SYMBOL] = LAYOUT_split_3x6_3(
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX, KC_SLSH, KC_LBRC, KC_RBRC, KC_BSLS, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_SLSH, KC_LBRC, KC_RBRC, KC_BSLS, XXXXXXX,
       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_AMPR,KC_MINUS, KC_LPRN, KC_RPRN, KC_EXLM, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_PIPE, KC_UNDS, KC_LCBR, KC_RCBR, KC_QUES, XXXXXXX,
                                           XXXXXXX, XXXXXXX, XXXXXXX,     KC_EQL,   KC_LT,   KC_GT
   ),
 
     [_SYMBOL2] = LAYOUT_split_3x6_3(
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      XXXXXXX,   KC_AT, KC_HASH,  KC_DLR, KC_PERC, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,  KC_GRV, KC_CIRC, KC_TILD,  DV_ARR, XXXXXXX,
                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
   ),
 
     [_SYMBOL_NEW] = LAYOUT_split_3x6_3(
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_GRV,TD(TD_AM_PIPE), KC_ASTR, TD(TD_SL_BACK), KC_CIRC, XXXXXXX,
-      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                     TD(TD_EQ_PLUS),TD(TD_J_BRACES),TD(TD_K_PARENS),TD(TD_SC_ANGLES),TD(TD_L_BRACKETS), XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_TILD,TD(TD_MN_UNDER), KC_COLN,TD(TD_EX_QUEST), KC_PERC, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_GRV, TD_AMP, KC_ASTR,  TD_SLB, KC_CIRC, XXXXXXX,
+      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                       TD_EQP, TD_JBR,  TD_KPR,  TD_SAN,  TD_LBK, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_TILD, TD_MNU, XXXXXXX, KC_PERC,  TD_EXQ, XXXXXXX,
                                           XXXXXXX, XXXXXXX, XXXXXXX,      KC_AT, KC_HASH,  KC_DLR
   ),
 
     [_NAV] = LAYOUT_split_3x6_3(
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX, KC_HOME,   KC_UP,  KC_END, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_HOME,   KC_UP,  KC_END, XXXXXXX, XXXXXXX,
       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_PGUP, KC_LEFT, KC_DOWN,KC_RIGHT, XXXXXXX, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_PGDN,   C_LFT, XXXXXXX,   C_RGT, XXXXXXX, XXXXXXX,
                                           XXXXXXX, XXXXXXX, XXXXXXX,   DV_SELLN, XXXXXXX, XXXXXXX
