@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:get.vial.today)",
+      "Bash(qmk compile:*)",
+      "Bash(make:*)",
+      "Bash(where:*)",
+      "Read(*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl:*)",
+      "WebSearch",
+      "WebFetch(domain:docs.qmk.fm)",
+      "Bash(rm:*)"
+    ],
+    "deny": [],
+    "ask": [],
+    "additionalDirectories": [
+      "C:\\Users\\pablo\\qmk_firmware"
+    ]
+  }
+}
