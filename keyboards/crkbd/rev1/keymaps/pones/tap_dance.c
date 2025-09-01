@@ -8,9 +8,9 @@ void td_j_finished(tap_dance_state_t *state, void *user_data) {
     switch (state->count) {
         case 1:
             if (state->pressed) {
-                SEND_STRING("}");  // Hold = }
+                tap_code16(KC_RCBR);  // Hold = }
             } else {
-                register_code16(KC_LCBR);  // 1 tap = {
+                tap_code16(KC_LCBR);  // 1 tap = {
             }
             break;
         case 2:
@@ -25,24 +25,14 @@ void td_j_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void td_j_reset(tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
-        case 1:
-            if (!state->pressed) {
-                unregister_code16(KC_LCBR);
-            }
-            break;
-    }
-}
-
 void td_k_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
     switch (state->count) {
         case 1:
             if (state->pressed) {
-                SEND_STRING(")");  // Hold = )
+                tap_code16(KC_RPRN);  // Hold = )
             } else {
-                register_code16(KC_LPRN);  // 1 tap = (
+                tap_code16(KC_LPRN);  // 1 tap = (
             }
             break;
         case 2:
@@ -61,24 +51,14 @@ void td_k_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void td_k_reset(tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
-        case 1:
-            if (!state->pressed) {
-                unregister_code16(KC_LPRN);
-            }
-            break;
-    }
-}
-
 void td_sc_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
     switch (state->count) {
         case 1:
             if (state->pressed) {
-                SEND_STRING(">");     // Hold = >
+                tap_code16(KC_GT);     // Hold = >
             } else {
-                register_code16(KC_LT);     // 1 tap = <
+                tap_code16(KC_LT);     // 1 tap = <
             }
             break;
         case 2:
@@ -91,24 +71,14 @@ void td_sc_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void td_sc_reset(tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
-        case 1:
-            if (!state->pressed) {
-                unregister_code16(KC_LT);
-            }
-            break;
-    }
-}
-
 void td_l_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
     switch (state->count) {
         case 1:
             if (state->pressed) {
-                SEND_STRING("]");   // Hold = ]
+                tap_code16(KC_RBRC);   // Hold = ]
             } else {
-                register_code16(KC_LBRC);   // 1 tap = [
+                tap_code16(KC_LBRC);   // 1 tap = [
             }
             break;
         case 2:
@@ -118,24 +88,14 @@ void td_l_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void td_l_reset(tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
-        case 1:
-            if (!state->pressed) {
-                unregister_code16(KC_LBRC);
-            }
-            break;
-    }
-}
-
 void td_eq_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
     switch (state->count) {
         case 1:
             if (state->pressed) {
-                SEND_STRING("+");   // Hold = +
+                tap_code16(KC_PLUS);   // Hold = +
             } else {
-                register_code16(KC_EQL);    // 1 tap = =
+                tap_code16(KC_EQL);    // 1 tap = =
             }
             break;
         case 2:
@@ -147,38 +107,18 @@ void td_eq_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void td_eq_reset(tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
-        case 1:
-            if (!state->pressed) {
-                unregister_code16(KC_EQL);
-            }
-            break;
-    }
-}
-
 void td_sl_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
     switch (state->count) {
         case 1:
             if (state->pressed) {
-                SEND_STRING("\\");   // Hold = backslash
+                tap_code16(KC_BSLS);   // Hold = backslash
             } else {
-                register_code16(KC_SLSH);   // 1 tap = /
+                tap_code16(KC_SLSH);   // 1 tap = /
             }
             break;
         case 2:
             SEND_STRING("//");              // 2 taps = //
-            break;
-    }
-}
-
-void td_sl_reset(tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
-        case 1:
-            if (!state->pressed) {
-                unregister_code16(KC_SLSH);
-            }
             break;
     }
 }
@@ -188,9 +128,9 @@ void td_mn_finished(tap_dance_state_t *state, void *user_data) {
     switch (state->count) {
         case 1:
             if (state->pressed) {
-                SEND_STRING("_");   // Hold = _
+                tap_code16(KC_UNDS);   // Hold = _
             } else {
-                register_code16(KC_MINS);   // 1 tap = -
+                tap_code16(KC_MINS);   // 1 tap = -
             }
             break;
         case 2:
@@ -202,24 +142,14 @@ void td_mn_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void td_mn_reset(tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
-        case 1:
-            if (!state->pressed) {
-                unregister_code16(KC_MINS);
-            }
-            break;
-    }
-}
-
 void td_am_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
     switch (state->count) {
         case 1:
             if (state->pressed) {
-                SEND_STRING("|");   // Hold = |
+                tap_code16(KC_PIPE);   // Hold = |
             } else {
-                register_code16(KC_AMPR);   // 1 tap = &
+                tap_code16(KC_AMPR);   // 1 tap = &
             }
             break;
         case 2:
@@ -231,38 +161,18 @@ void td_am_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void td_am_reset(tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
-        case 1:
-            if (!state->pressed) {
-                unregister_code16(KC_AMPR);
-            }
-            break;
-    }
-}
-
 void td_ex_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
     switch (state->count) {
         case 1:
             if (state->pressed) {
-                SEND_STRING("?");   // Hold = ?
+                tap_code16(KC_QUES);   // Hold = ?
             } else {
-                register_code16(KC_EXLM);   // 1 tap = !
+                tap_code16(KC_EXLM);   // 1 tap = !
             }
             break;
         case 2:
             SEND_STRING("!=");              // 2 taps = !=
-            break;
-    }
-}
-
-void td_ex_reset(tap_dance_state_t *state, void *user_data) {
-    switch (state->count) {
-        case 1:
-            if (!state->pressed) {
-                unregister_code16(KC_EXLM);
-            }
             break;
     }
 }

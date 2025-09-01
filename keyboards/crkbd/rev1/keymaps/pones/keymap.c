@@ -202,13 +202,13 @@ void td_ex_reset(tap_dance_state_t *state, void *user_data);
 
 // Tap dance actions (different actions based on number of taps)
 tap_dance_action_t tap_dance_actions[] = {
-    [TD_J_BRACES] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_j_finished, td_j_reset),     // { | {} | }
-    [TD_K_PARENS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_k_finished, td_k_reset),     // ( | () | ("") | () => {} | )
-    [TD_SC_ANGLES] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sc_finished, td_sc_reset),  // < | <> | <=
-    [TD_L_BRACKETS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_l_finished, td_l_reset),   // [ | [] | [0] | ]
-    [TD_EQ_PLUS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_eq_finished, td_eq_reset),    // = | == | += | +
-    [TD_SL_BACK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sl_finished, td_sl_reset),    // / | // | backslash
-    [TD_MN_UNDER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_mn_finished, td_mn_reset),   // - | -- | => | _
-    [TD_AM_PIPE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_am_finished, td_am_reset),    // & | && | || | |
-    [TD_EX_QUEST] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_ex_finished, td_ex_reset),   // ! | != | ?
+    [TD_J_BRACES] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_j_finished, NULL),     // { | {} | }
+    [TD_K_PARENS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_k_finished, NULL),     // ( | () | ("") | () => {} | )
+    [TD_SC_ANGLES] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sc_finished, NULL),  // < | <> | <=
+    [TD_L_BRACKETS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_l_finished, NULL),   // [ | [] | [0] | ]
+    [TD_EQ_PLUS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_eq_finished, NULL),    // = | == | += | +
+    [TD_SL_BACK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sl_finished, NULL),    // / | // | backslash
+    [TD_MN_UNDER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_mn_finished, NULL),   // - | -- | => | _
+    [TD_AM_PIPE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_am_finished, NULL),    // & | && | || | |
+    [TD_EX_QUEST] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_ex_finished, NULL),   // ! | != | ?
 };

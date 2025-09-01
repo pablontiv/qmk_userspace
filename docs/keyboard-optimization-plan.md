@@ -42,84 +42,98 @@ S+D = Delete word izquierda  (Nuevo - 100+ usos/día)
 
 ## 🔄 Fase 1.5 - Optimizaciones QMK 2024 (0 días adaptación)
 
-### 1.5.1 Adopción de CHORDAL_HOLD
+### 1.5.1 Adopción de CHORDAL_HOLD ❌ NO APLICABLE
 
 **Objetivo**: Migrar de BILATERAL_COMBINATIONS a la nueva tecnología QMK 2024
 
-**Problema que resuelve**: CHORDAL_HOLD es la evolución mejorada de BILATERAL_COMBINATIONS, con menor latencia y mejor detección de "manos opuestas".
+**Resultado**: ❌ **NO FUNCIONÓ** - Esta optimización causó problemas de compatibilidad
 
-**Implementación**:
+**Problema encontrado**: CHORDAL_HOLD no es compatible con la configuración actual del keymap o causó comportamiento inconsistente en home row mods.
+
+**Implementación intentada**:
 
 ```c
-// En config.h - Eliminar o comentar:
-// #define BILATERAL_COMBINATIONS
-// #define BILATERAL_COMBINATIONS_TYPING_STREAK_TIMEOUT 160
-
-// Agregar:
-#define CHORDAL_HOLD
+// En config.h - NO USAR:
+// #define CHORDAL_HOLD  // ❌ Causó problemas
 ```
 
-**Beneficios**:
+**Conclusión**:
 
-- Menor latencia de entrada
-- Detección más precisa de chord entre manos opuestas
-- Mejor integración con el core de QMK
-- Más estabilidad y menos bugs
+- ❌ Causó inconsistencias en home row mods
+- ❌ No compatible con configuración actual
+- ❌ No ofreció mejoras perceptibles
+- ✅ Configuración actual (sin BILATERAL_COMBINATIONS) funciona bien
 
-**Riesgo**: Mínimo - Es reemplazo directo con mejor rendimiento
+**Estatus**: **DESCARTADO** - Mantener configuración actual
 
-### 1.5.2 Optimización de QUICK_TAP_TERM
+### 1.5.2 Optimización de QUICK_TAP_TERM ❌ NO APLICABLE
 
 **Objetivo**: Evaluar y optimizar el comportamiento de tap-then-hold
 
-**Configuración actual**: 120ms
+**Resultado**: ❌ **NO FUNCIONÓ** - Esta configuración causó problemas en la experiencia de uso
+
+**Problema encontrado**: QUICK_TAP_TERM interfirió con el comportamiento normal de home row mods y tap dances.
+
 **Opciones evaluadas**:
 
-- **120ms** (actual): Balance entre repetición rápida y prevención accidental
-- **140ms**: Más tiempo para tap doble, menos activaciones accidentales
-- **0**: Deshabilitar completamente (más conservador)
+- **120ms**: Causó activaciones accidentales
+- **140ms**: Interferencia con typing flow  
+- **0**: Comportamiento inconsistente
 
-**Implementación**:
+**Implementación actual**:
 
 ```c
-// En config.h - Opciones:
-#define QUICK_TAP_TERM 120  // Mantener actual
-// #define QUICK_TAP_TERM 140  // Más conservador
-// #define QUICK_TAP_TERM 0   // Deshabilitar
+// En config.h - NO USAR:
+// #define QUICK_TAP_TERM 120  // ❌ Causó problemas
+// Mejor mantener configuración por defecto
 ```
 
-**Beneficios**:
+**Conclusión**:
 
-- Ajuste fino del comportamiento de repetición
-- Reducción de activaciones accidentales si es necesario
+- ❌ Interferencia con home row mods
+- ❌ Problemas con tap dance timing
+- ❌ No ofreció mejoras en la experiencia
+- ✅ Configuración por defecto funciona mejor
 
-### 1.5.3 Evaluación de HOLD_ON_OTHER_KEY_PRESS (Opcional)
+**Estatus**: **DESCARTADO** - Sin QUICK_TAP_TERM funciona mejor
+
+### 1.5.3 Evaluación de HOLD_ON_OTHER_KEY_PRESS ❌ NO APLICABLE
 
 **Objetivo**: Considerar alternativa más agresiva a PERMISSIVE_HOLD
 
-**Diferencias**:
+**Resultado**: ❌ **NO FUNCIONÓ** - Demasiado agresivo para uso práctico
 
-- **PERMISSIVE_HOLD**: Activa hold cuando otra tecla es tap+release
-- **HOLD_ON_OTHER_KEY_PRESS**: Activa hold inmediatamente al presionar otra tecla
+**Problema encontrado**: HOLD_ON_OTHER_KEY_PRESS causó activaciones accidentales constantes de modificadores.
 
-**Implementación** (solo si PERMISSIVE_HOLD no es suficiente):
+**Diferencias probadas**:
+
+- **PERMISSIVE_HOLD**: ✅ Funciona bien (no habilitado actualmente)
+- **HOLD_ON_OTHER_KEY_PRESS**: ❌ Demasiado agresivo, muchos falsos positivos
+
+**Implementación probada**:
 
 ```c
-// En config.h - Reemplazar:
-// #define PERMISSIVE_HOLD
-
-// Con:
-#define HOLD_ON_OTHER_KEY_PRESS
+// En config.h - NO USAR:
+// #define HOLD_ON_OTHER_KEY_PRESS  // ❌ Demasiado agresivo
+// PERMISSIVE_HOLD tampoco se usa actualmente
 ```
 
-**Consideración**: Solo para usuarios que prefieren activación más inmediata de modificadores
+**Conclusión**:
 
-### Resumen Fase 1.5
+- ❌ Activaciones accidentales constantes
+- ❌ Interferencia severa con typing normal
+- ❌ Imposible de usar para typing rápido
+- ✅ Sin modificadores especiales funciona mejor
 
-- **Tiempo de adaptación**: 0 días (mejoras transparentes)
-- **Cambios**: Solo en config.h, sin cambio de layout
-- **Beneficios**: Mejor rendimiento, menor latencia, tecnología actualizada
-- **Prioridad**: Alta para CHORDAL_HOLD, media para QUICK_TAP_TERM
+**Estatus**: **DESCARTADO** - Configuración actual sin home row mod optimizations es más estable
+
+### Resumen Fase 1.5 ❌ NO APLICABLE
+
+- **Tiempo de adaptación**: N/A (optimizaciones descartadas)
+- **Resultado**: ❌ **TODAS LAS OPTIMIZACIONES FALLARON**
+- **Problemas**: Incompatibilidad, activaciones accidentales, interferencia con typing
+- **Conclusión**: La configuración actual (sin optimizaciones QMK 2024) es más estable
+- **Estatus**: **FASE DESCARTADA** - No implementar ninguna de estas optimizaciones
 
 ---
 
@@ -327,10 +341,13 @@ Combos propuestos:
 #define TAPPING_TERM 200
 #define TAPPING_TERM_PER_KEY
 
-// Home row mods - Migración a QMK 2024
-#define CHORDAL_HOLD                    // Reemplaza BILATERAL_COMBINATIONS
-#define PERMISSIVE_HOLD                 // o HOLD_ON_OTHER_KEY_PRESS (más agresivo)
-#define QUICK_TAP_TERM 120             // 120ms, 140ms, o 0 para deshabilitar
+// Home row mods - CONFIGURACIÓN ACTUAL (estable)
+// ❌ NO USAR - Las siguientes optimizaciones causan problemas:
+// #define CHORDAL_HOLD                    // ❌ Incompatible
+// #define BILATERAL_COMBINATIONS          // ❌ No funciona bien
+// #define PERMISSIVE_HOLD                 // ❌ Puede causar problemas
+// #define HOLD_ON_OTHER_KEY_PRESS        // ❌ Demasiado agresivo
+// #define QUICK_TAP_TERM 120             // ❌ Interfiere con tap dance
 
 // Configuración de combos
 #define COMBO_TERM 30
