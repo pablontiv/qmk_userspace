@@ -139,38 +139,49 @@ S+D = Delete word izquierda  (Nuevo - 100+ usos/día)
 
 ## 🟢 Fase 2 - Impacto Medio (1-2 semanas adaptación)
 
-### 2.1 Per-Key Tapping Terms
+### 2.1 Per-Key Tapping Terms ✅ COMPLETADA
 
 **Objetivo**: Optimizar timing según fuerza de cada dedo
 
-**Implementación**:
+**Implementación realizada**:
 
 ```c
+// En config.h
+#define TAPPING_TERM_PER_KEY
+
+// En macros.c
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case HM_F: case HM_J: return 180;  // Índices más rápidos
-        case HM_A: case HM_SCLN: return 250;  // Meñiques más lentos
-        default: return TAPPING_TERM;
+        case TD_J_BRACES:
+        case TD_K_PARENS:
+        case TD_L_BRACKETS:
+        case TD_SC_ANGLES:  return 180;    // Tap dances más rápidos
+        case TD_EX_QUEST:
+        case TD_EQ_PLUS:
+        case TD_SL_BACK:
+        case TD_MN_UNDER:
+        case TD_AM_PIPE: return 120;       // Tap dances ultra-rápidos
+        default: return TAPPING_TERM;      // 220ms base
     }
 }
 ```
 
-**Beneficios**:
+**Beneficios obtenidos**:
 
-- Menos activaciones accidentales en dedos débiles
-- Respuesta más rápida en dedos fuertes
-- Typing más natural y menos errores
+- ✅ Timings optimizados para tap dances según frecuencia
+- ✅ Respuesta más rápida en símbolos más usados
+- ✅ Mejor experiencia de typing con tap dance
 
-### 2.2 Implementación de Tap Dance para Símbolos
+### 2.2 Implementación de Tap Dance para Símbolos ✅ COMPLETADA
 
-**Objetivo**: Consolidar 16+ símbolos frecuentes en 8 tap dances para máxima eficiencia
+**Objetivo**: Consolidar 16+ símbolos frecuentes en 9 tap dances para máxima eficiencia
 
 **Análisis de frecuencia personal**:
 
 - `.` (1,054,817) - `,` (443,890) - `/` (543,499) - `-` (383,003)
 - `()` (735,492 total) - `=` (342,151) - `{}` (462,028 total) - `<>` (267,609 total)
 
-**SYMBOL_NEW layer (implementación con tap dance)**:
+**SYMBOL_NEW layer implementada**:
 
 ```
 Mano derecha optimizada:
@@ -179,48 +190,74 @@ Mano derecha optimizada:
 ├─────┼─────┼─────┼─────┼─────┼─────┤
 │TD_EQ│TD_J │TD_K │TD_SC│TD_L │     │  Home row (5 TDs)
 ├─────┼─────┼─────┼─────┼─────┼─────┤
-│  ~  │TD_MN│  :  │TD_EX│  %  │     │  Row inferior
+│  ~  │TD_MN│  X  │TD_EX│  %  │     │  Row inferior
 └─────┴─────┴─────┴─────┴─────┴─────┘
         Thumbs: @ # $
 
-8 Tap Dances:
-- TD_J:  { | {} | }
-- TD_K:  ( | () | ("") | () => {} | )
+9 Tap Dances implementados:
+- TD_J:  { | {} | {\n\t\n} (con cursor positioning)
+- TD_K:  ( | () | ("") | () => {} 
 - TD_SC: < | <> | <= | >
-- TD_L:  [ | [] | [0] | ]
+- TD_L:  [ | [] | ]
 - TD_EQ: = | == | += | +
-- TD_SL: / | // | \
+- TD_SL: / | // | \ (backslash)
 - TD_MN: - | -- | => | _
 - TD_AM: & | && | || | |
 - TD_EX: ! | != | ?
 ```
 
-**Estrategia de implementación**:
+**Implementación realizada**:
 
-- **L_TAB → SYMBOL_NEW** (nueva capa optimizada)
-- **L_ESC → SYMBOL** (mantener como backup temporal)
-- Período de evaluación: 2-3 semanas
-- Una vez validado → eliminar SYMBOL antigua
+- ✅ **L_TAB → SYMBOL_NEW** (nueva capa optimizada activa)
+- ✅ **L_ESC → SYMBOL** (backup funcional disponible)
+- ✅ 9 tap dances completamente implementados en tap_dance.c
+- ✅ Timings optimizados con per-key tapping terms
+- ✅ Funciones avanzadas (auto-positioning, multi-character sequences)
 
-**Impacto**:
+**Impacto logrado**:
 
-- 16 símbolos consolidados en 8 teclas
-- Reducción 50% en cambios de layer
-- Patrones de código comunes en 2-4 taps
+- ✅ 16+ símbolos consolidados en 9 teclas tap dance
+- ✅ Reducción significativa en cambios de layer
+- ✅ Patrones comunes de código en 2-4 taps (==, !=, &&, ||, =>, //, {})
+- ✅ Auto-positioning para estructuras como {} y ()
+- ✅ Función hold para acceso directo a closing brackets
 
-### 2.3 Optimización de Navegación
+### 2.3 Optimización de Navegación ✅ COMPLETADA
 
-**Problemas identificados**:
+**Objetivo**: Mejorar capa NAV manteniendo emulación de teclados 100% pero optimizando accesibilidad
 
-- Page Up/Down requieren stretching
-- Word navigation poco intuitiva
-- Arrows en posiciones subóptimas para programadores
+**Cambios implementados**:
 
-**Mejoras**:
+1. **Intercambio de accesos a capas**:
+   - ESC → NAV (navegación más accesible desde pulgar)
+   - Z → SYMBOL (backup menos crítico con SYMBOL_NEW en TAB)
 
-- Word movement en home row
-- Page navigation más accesible
-- Consistency con vim shortcuts (preparación Fase 4)
+2. **Layout NAV optimizado**:
+
+```
+Nuevo layout (emula teclado 100%):
+      ___   Home  ↑    End   ___   ___
+      PgUp  ←     ↓    →     PgDn  ___
+      ___   CS←   C←   C→    CS→   ___
+
+Mapeo específico:
+- Fila superior: Home/Up/End (standard)
+- Fila media: PgUp/Arrows/PgDn (alineados verticalmente)
+- Fila inferior: Navegación palabras completa
+  * CS← = Ctrl+Shift+Left (seleccionar palabra izq)
+  * C← = Ctrl+Left (mover palabra izq)
+  * C→ = Ctrl+Right (mover palabra der)
+  * CS→ = Ctrl+Shift+Right (seleccionar palabra der)
+```
+
+**Beneficios logrados**:
+
+- ✅ **Navegación más accesible** - ESC (pulgar) vs Z (estiramiento)
+- ✅ **Page Up/Down alineados** - Como en teclados 100%
+- ✅ **Navegación de palabras completa** - Mover y seleccionar en misma fila
+- ✅ **Ergonomía mejorada** - Todo desde M hacia adelante
+- ✅ **Mantiene familiaridad** - Layout estándar de teclados completos
+- ✅ **Workflow optimizado** - Selección de texto más eficiente
 
 ---
 
@@ -510,12 +547,13 @@ Mes 4+:      Fases 4-5 para usuarios power
 - **v1.0**: Análisis inicial y Fase 1 (Enero 2025)  
 - **v1.1**: Corrección HM_L y combos optimizados
 - **v1.2**: Integración optimizaciones QMK 2024 y Fase 1.5 (Agosto 2025)
-- **v2.0**: (Planificado) Implementación Tap Dance para símbolos
-- **v2.1**: (Planificado) Transición gradual con backup SYMBOL
+- **v2.0**: ✅ Implementación Tap Dance para símbolos (Septiembre 2025)
+- **v2.1**: ✅ Per-key tapping terms y optimización de timings (Septiembre 2025)
+- **v2.2**: ✅ Optimización de navegación y intercambio ESC/Z (Septiembre 2025)
 - **v3.0**: (Planificado) Eliminación final de capas redundantes
 
 ---
 
 *Documento creado: Enero 2025*  
-*Última actualización: v1.2 - Integración QMK 2024 (Agosto 2025)*  
-*Próxima revisión: Post-implementación Fase 1.5*
+*Última actualización: v2.2 - Fase 2 completamente implementada (Septiembre 2025)*  
+*Próxima revisión: Evaluación de rendimiento completo Fase 2 y planificación Fase 3*

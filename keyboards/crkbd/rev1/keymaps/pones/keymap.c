@@ -75,11 +75,11 @@ enum layer_names {
 // Layer-tap definitions (tap for key, hold to access layer)
 #define L_SPC LT(_NUMBER, KC_SPACE)     // Space: tap for space, hold for numbers layer
 #define L_TAB LT(_SYMBOL_NEW, KC_TAB)   // Tab: tap for tab, hold for new symbols layer
-#define L_ESC LT(_SYMBOL, KC_ESCAPE)    // Escape: tap for escape, hold for symbols layer
+#define L_ESC LT(_NAV, KC_ESCAPE)       // Escape: tap for escape, hold for navigation layer
 #define L_ENT LT(_DEV, KC_ENTER)        // Enter: tap for enter, hold for development layer
 #define L_DEL LT(_MEDIA, KC_DEL)        // Delete: tap for delete, hold for media layer
 #define L_BK LT(_FUNC, KC_BSPC)         // Backspace: tap for backspace, hold for function keys layer
-#define L_Z LT(_NAV, KC_Z)              // Z: tap for 'z', hold for navigation layer
+#define L_Z LT(_SYMBOL, KC_Z)           // Z: tap for 'z', hold for symbols layer
 #define L_QUOT LT(_UTIL, KC_QUOT)       // Quote: tap for quote, hold for utilities layer
 
 // Tap dance aliases (max 7 characters)
@@ -131,8 +131,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAV] = LAYOUT_split_3x6_3(
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_HOME,   KC_UP,  KC_END, XXXXXXX, XXXXXXX,
-      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_PGUP, KC_LEFT, KC_DOWN,KC_RIGHT, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_PGDN,   C_LFT, XXXXXXX,   C_RGT, XXXXXXX, XXXXXXX,
+      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_PGUP, KC_LEFT, KC_DOWN,KC_RIGHT, KC_PGDN, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,  CS_LFT,   C_LFT,   C_RGT,  CS_RGT, XXXXXXX,
                                           XXXXXXX, XXXXXXX, XXXXXXX,   DV_SELLN, XXXXXXX, XXXXXXX
   ),
 
