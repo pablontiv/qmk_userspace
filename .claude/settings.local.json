@@ -12,7 +12,8 @@
       "Bash(curl:*)",
       "WebSearch",
       "WebFetch(domain:docs.qmk.fm)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "WebFetch(domain:getreuer.info)"
     ],
     "deny": [],
     "ask": [],
