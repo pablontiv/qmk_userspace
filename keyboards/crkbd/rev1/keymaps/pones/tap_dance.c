@@ -148,9 +148,9 @@ void td_ex_finished(tap_dance_state_t *state, void *user_data) {
     switch (state->count) {
         case 1:
             if (state->pressed) {
-                tap_code16(KC_QUES);   // Hold = ?
+                tap_code16(KC_EXLM);   // Hold = !
             } else {
-                tap_code16(KC_EXLM);   // 1 tap = !
+                tap_code16(KC_QUES);   // 1 tap = ?
             }
             break;
         case 2:

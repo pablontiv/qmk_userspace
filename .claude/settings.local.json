@@ -13,7 +13,8 @@
       "WebSearch",
       "WebFetch(domain:docs.qmk.fm)",
       "Bash(rm:*)",
-      "WebFetch(domain:getreuer.info)"
+      "WebFetch(domain:getreuer.info)",
+      "WebFetch(domain:docs.taikohub.com)"
     ],
     "deny": [],
     "ask": [],
