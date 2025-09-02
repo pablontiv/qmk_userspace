@@ -24,8 +24,7 @@
 enum layer_names {
   _QWERTY,      // Base QWERTY layer with home row mods
   _NUMBER,      // Number pad and arithmetic operators
-  _SYMBOL_LGCY, // Basic symbols and brackets (legacy)
-  _SYMBOL,      // New symbols layer with tap dance functionality
+  _SYMBOL,      // Optimized symbols layer with tap dance functionality
   _NAV,         // Navigation keys (arrows, page up/down, word movement)
 };
 
@@ -35,9 +34,8 @@ enum layer_names {
 #define L_TAB LT(_SYMBOL, KC_TAB)   // Tab: tap for tab, hold for new symbols layer
 #define L_ESC LT(_NAV, KC_ESCAPE)       // Escape: tap for escape, hold for navigation layer
 #define L_ENT LT(_SYMBOL, KC_ENTER)        // Enter: tap for enter, hold for symbols layer
-#define L_DEL LT(_SYMBOL_LGCY, KC_DEL)        // Delete: tap for delete, hold for media layer
+#define L_DEL KC_DEL                    // Delete: now just delete (layer access removed)
 #define L_BK LT(_NAV, KC_BSPC)         // Backspace: tap for backspace, hold for navigation layer
-#define L_Z LT(_SYMBOL_LGCY, KC_Z)           // Z: tap for 'z', hold for symbols layer
 
 // Tap dance aliases (max 7 characters)
 #define TD_JBR TD(TD_J_BRACES)    // { | {} | }
@@ -56,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX,    HM_A,    HM_S,    HM_D,    HM_F,    KC_G,                         KC_H,    HM_J,    HM_K,    HM_L, HM_SCLN, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,     L_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_QUOT, XXXXXXX,
+      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_QUOT, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                             L_ESC,   L_TAB,   L_SPC,      L_ENT,    L_BK,   L_DEL
                                       //`--------------------------'  `--------------------------'
@@ -74,17 +72,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
-    [_SYMBOL_LGCY] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_SLSH, KC_LBRC, KC_RBRC, KC_BSLS, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_AMPR,KC_MINUS, KC_LPRN, KC_RPRN, KC_EXLM, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_PIPE, KC_UNDS, KC_LCBR, KC_RCBR, KC_QUES, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX, XXXXXXX,     KC_EQL,   KC_LT,   KC_GT
-                                      //`--------------------------'  `--------------------------'
-  ),
 
     [_SYMBOL] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.

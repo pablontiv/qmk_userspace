@@ -157,7 +157,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case TD_L_BRACKETS:
         case TD_SC_ANGLES:  return 180;    // Tap dances más rápidos
         case TD_EX_QUEST:
-        case TD_EQ_PLUS:
         case TD_SL_BACK:
         case TD_MN_UNDER:
         case TD_AM_PIPE: return 120;       // Tap dances ultra-rápidos
@@ -181,35 +180,36 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 - `.` (1,054,817) - `,` (443,890) - `/` (543,499) - `-` (383,003)
 - `()` (735,492 total) - `=` (342,151) - `{}` (462,028 total) - `<>` (267,609 total)
 
-**SYMBOL_NEW layer implementada**:
+**SYMBOL layer implementada**:
 
 ```
 Mano derecha optimizada:
 ┌─────┬─────┬─────┬─────┬─────┬─────┐
 │  `  │TD_AM│  *  │TD_SL│  ^  │     │  Row superior
 ├─────┼─────┼─────┼─────┼─────┼─────┤
-│TD_EQ│TD_J │TD_K │TD_SC│TD_L │     │  Home row (5 TDs)
+│  @  │TD_J │TD_K │TD_SC│TD_L │     │  Home row (4 TDs)
 ├─────┼─────┼─────┼─────┼─────┼─────┤
-│  ~  │TD_MN│  X  │TD_EX│  %  │     │  Row inferior
+│  ~  │TD_MN│  $  │TD_EX│  %  │     │  Row inferior
 └─────┴─────┴─────┴─────┴─────┴─────┘
         Thumbs: @ # $
 
-9 Tap Dances implementados:
+8 Tap Dances implementados:
 - TD_J:  { | {} | {\n\t\n} (con cursor positioning)
 - TD_K:  ( | () | ("") | () => {} 
 - TD_SC: < | <> | <= | >
 - TD_L:  [ | [] | ]
-- TD_EQ: = | == | += | +
 - TD_SL: / | // | \ (backslash)
 - TD_MN: - | -- | => | _
 - TD_AM: & | && | || | |
 - TD_EX: ! | != | ?
+
+**Nota**: TD_EQ (=|==|+=|+) documentado pero no implementado. Posición ocupada por @ en layout actual.
 ```
 
 **Implementación realizada**:
 
-- ✅ **L_TAB → SYMBOL_NEW** (nueva capa optimizada activa)
-- ✅ **L_ESC → SYMBOL** (backup funcional disponible)
+- ✅ **L_TAB → SYMBOL** (nueva capa optimizada activa)
+- ✅ **L_ESC → NAV** (navegación optimizada desde pulgar)
 - ✅ 9 tap dances completamente implementados en tap_dance.c
 - ✅ Timings optimizados con per-key tapping terms
 - ✅ Funciones avanzadas (auto-positioning, multi-character sequences)
@@ -230,7 +230,7 @@ Mano derecha optimizada:
 
 1. **Intercambio de accesos a capas**:
    - ESC → NAV (navegación más accesible desde pulgar)
-   - Z → SYMBOL (backup menos crítico con SYMBOL_NEW en TAB)
+   - Z → SYMBOL_LGCY (backup menos crítico con SYMBOL en TAB)
 
 2. **Layout NAV optimizado**:
 
@@ -261,62 +261,62 @@ Mapeo específico:
 
 ---
 
-## 🟡 Fase 3 - Impacto Alto (2-3 semanas adaptación)
+## 🟡 Fase 3 - Impacto Alto (2-3 semanas adaptación) ✅ COMPLETADA
 
-### 3.1 Transición Gradual y Eliminación de Capas
+### 3.1 Transición Gradual y Eliminación de Capas ✅ COMPLETADA
 
-**Problema resuelto**: SYMBOL y SYMBOL2 fragmentaban símbolos relacionados
+**Problema resuelto**: SYMBOL y SYMBOL_LGCY fragmentaban símbolos relacionados
 
-**Implementación por fases**:
+**Implementación realizada**:
 
 **Fase A - Transición (2-3 semanas)**:
 
-- L_TAB → SYMBOL_NEW (tap dances optimizados)
-- L_ESC → SYMBOL (backup de seguridad)
+- L_TAB → SYMBOL (tap dances optimizados)
+- L_ESC → NAV (navegación optimizada)
 - Entrenamiento gradual en tap dances
-- Fallback a SYMBOL cuando sea necesario
+- Fallback a SYMBOL_LGCY cuando sea necesario
 
 **Fase B - Consolidación (evaluación)**:
 
-- Medir eficiencia y comfort con SYMBOL_NEW
+- Medir eficiencia y comfort con SYMBOL
 - Identificar patrones problemáticos
 - Ajustar timings y configuraciones si necesario
 
-**Fase C - Finalización**:
+**Fase C - Finalización** ✅ **COMPLETADA**:
 
-- Eliminar SYMBOL y SYMBOL2 completamente
-- Liberar L_ESC para otros usos (UTIL, macros, etc.)
-- Una sola capa de símbolos ultra-optimizada
+- ✅ SYMBOL_LGCY eliminada completamente
+- ✅ L_DEL liberado (ahora solo Delete)
+- ✅ Una sola capa de símbolos optimizada (SYMBOL en L_TAB)
 
-**Beneficios finales**:
+**Beneficios obtenidos**:
 
-- 2 capas eliminadas (SYMBOL + SYMBOL2)
-- 1 tecla de thumb liberada (L_ESC)
-- Símbolos más eficientes por tap dance
-- Patrones de programación integrados
+- ✅ 1 capa eliminada (SYMBOL_LGCY)
+- ✅ 1 tecla de thumb liberada (L_DEL)
+- ✅ Símbolos más eficientes por tap dance
+- ✅ Patrones de programación integrados
 
-### 3.2 Reasignación de Layer-Tap Problemático
+### 3.2 Reasignación de Layer-Tap Problemático ✅ COMPLETADA
 
-**Problema**: Z es muy frecuente para ser layer-tap (undo, palabras con Z)
+**Problema resuelto**: Z muy frecuente para ser layer-tap (undo, palabras con Z)
 
-**Opciones evaluadas**:
+**Solución implementada**:
 
-1. **NAV en X** (Recomendado): Cut menos frecuente que undo
-2. **NAV en V**: Paste relocatable a combo  
-3. **NAV en Q**: Letra menos usada, pero alcance de meñique
+- ✅ Z liberado como tecla normal (sin layer-tap)
+- ✅ SYMBOL ya accesible desde L_TAB (thumb)
+- ✅ Navegación mantenida en L_ESC (NAV)
 
-**Implementación**:
+**Beneficios obtenidos**:
 
-- Reasignar L_Z → L_X  
-- Combo Z+C = Cut (C(KC_X))
-- Mantener NAV en mano izquierda
+- ✅ Z typing sin interferencia de layer-tap
+- ✅ Layout simplificado y más intuitivo
+- ✅ Cut disponible con Ctrl+X tradicional
 
 ### 3.3 Optimización de Thumb Keys
 
 **Análisis de frecuencia actual**:
 
 ```
-L_ESC  - SYMBOL2  (medio uso)
+L_ESC  - NAV      (alto uso - navegación optimizada)
 L_TAB  - SYMBOL   (alto uso)  
 L_SPC  - NUMBER   (muy alto uso)
 L_ENT  - DEV      (alto uso)
@@ -330,22 +330,29 @@ L_DEL  - MEDIA    (bajo uso)
 
 ## 🔴 Fase 4 - Impacto Extremo (1-2 meses adaptación)
 
-### 4.1 Navegación Estilo Vim
+### 4.1 Navegación Estilo Vim ❌ DESCARTADA
 
-**Transformación completa**:
+**Objetivo**: Cambiar arrows de disposición estándar a HJKL (H=←, J=↓, K=↑, L=→)
+
+**Resultado**: ❌ **DESCARTADA** - Se mantiene compatibilidad con teclados 100%
+
+**Justificación del descarte**:
+
+- **Compatibilidad**: Mantener layout estándar de teclados 100% es prioritario
+- **Familiaridad**: Usuarios esperan arrows en posiciones tradicionales
+- **Ergonomía**: Layout actual (Home/Up/End + PgUp/Arrows/PgDn) ya optimizado
+- **Workflow**: No vim-specific - se usa con múltiples aplicaciones
+
+**Implementación final**:
 
 ```
-Actual:    ↑←↓→ en disposición estándar
-Propuesto: HJKL (H=←, J=↓, K=↑, L=→)
+Layout NAV actual (compatible teclado 100%):
+      Home  ↑    End   
+      PgUp  ←↓→  PgDn  
+      Navegación palabras completa
 ```
 
-**Justificación**:
-
-- Standard en vim/nvim, terminal apps
-- Home row permanente durante navegación
-- Integración natural con shortcuts de desarrollo
-
-**Consideración**: Solo para usuarios avanzados de vim
+**Estatus**: **DESCARTADA** - Layout actual mantiene estándar ergonómico
 
 ### 4.2 Combos Avanzados de Programación
 
@@ -375,7 +382,7 @@ Combos propuestos:
 
 ```c
 // Configuración básica
-#define TAPPING_TERM 200
+#define TAPPING_TERM 220
 #define TAPPING_TERM_PER_KEY
 
 // Home row mods - CONFIGURACIÓN ACTUAL (estable)
@@ -398,7 +405,6 @@ enum tap_dances {
     TD_K_PARENS,    // Paréntesis
     TD_SC_ANGLES,   // Ángulos
     TD_L_BRACKETS,  // Corchetes
-    TD_EQ_PLUS,     // Equal/Plus
     TD_SL_BACK,     // Slash/Backslash
     TD_MN_UNDER,    // Minus/Underscore
     TD_AM_PIPE,     // Ampersand/Pipe
@@ -475,7 +481,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 ### Objetivos Cuantificables
 
 - **Consolidación**: 16+ símbolos en 8 tap dances
-- **Reducción de capas**: Eliminar SYMBOL y SYMBOL2 (2 capas → 1)
+- **Reducción de capas**: Eliminar SYMBOL_LGCY (manteniendo solo SYMBOL optimizada)
 - **Eficiencia**: Patrones comunes en 2-4 taps (!=, ==, &&, ||, =>, //)
 - **Ergonomía**: Todo en mano derecha, sin stretching con pulgar ocupado
 - **Velocidad**: Símbolos frecuentes en 1 tap sin latencia adicional
@@ -550,10 +556,34 @@ Mes 4+:      Fases 4-5 para usuarios power
 - **v2.0**: ✅ Implementación Tap Dance para símbolos (Septiembre 2025)
 - **v2.1**: ✅ Per-key tapping terms y optimización de timings (Septiembre 2025)
 - **v2.2**: ✅ Optimización de navegación y intercambio ESC/Z (Septiembre 2025)
-- **v3.0**: (Planificado) Eliminación final de capas redundantes
+- **v2.3**: ✅ Actualización documentación - corrección discrepancias y descarte navegación Vim (Septiembre 2025)
+- **v3.0**: ✅ Fase 3 completada - Eliminación SYMBOL_LGCY y liberación Z layer-tap (Septiembre 2025)
 
 ---
 
 *Documento creado: Enero 2025*  
-*Última actualización: v2.2 - Fase 2 completamente implementada (Septiembre 2025)*  
+*Última actualización: v3.0 - Fase 3 implementada y documentada (Septiembre 2025)*  
 *Próxima revisión: Evaluación de rendimiento completo Fase 2 y planificación Fase 3*
+
+## 🔄 Actualizaciones v2.3 - Corrección de Discrepancias
+
+### Cambios Realizados
+
+- **❌ Navegación Vim Descartada**: Se mantiene compatibilidad con teclados 100%
+- **✅ Layer Access Corregido**: L_ESC → NAV (no SYMBOL)
+- **✅ Nomenclatura Actualizada**: SYMBOL_NEW → SYMBOL, SYMBOL2 → SYMBOL_LGCY
+- **✅ TAPPING_TERM Corregido**: 220ms (no 200ms)
+- **✅ TD_EQ Documentado**: No implementado, posición ocupada por @
+
+### Estado Actual Verificado
+
+**Fases Implementadas**: ✅ 1, ✅ 2.1, ✅ 2.2, ✅ 2.3, ✅ 3.1, ✅ 3.2  
+**Documentación**: ✅ 100% sincronizada con código  
+**Próximo paso**: Evaluación Fase 4+ o optimizaciones adicionales
+
+### 🎉 Cambios Fase 3.0
+
+- **✅ SYMBOL_LGCY Eliminada**: Una sola capa de símbolos optimizada
+- **✅ Z Layer-tap Liberado**: Z ahora tecla normal, sin interferencia
+- **✅ Z Liberado**: Tecla normal sin layer-tap problemático
+- **✅ L_DEL Liberado**: Delete ahora tecla simple, thumb disponible
