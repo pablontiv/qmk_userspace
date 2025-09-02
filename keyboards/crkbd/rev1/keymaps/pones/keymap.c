@@ -2,48 +2,11 @@
 #include "tap_dance.h"
 #include "custom_keycodes.h"
 
-// Fancy Zones keycodes (Windows PowerToys)
-#define FZ_EXT G(S(KC_UP))      // Expand window vertically to fill screen
-#define FZ_LFT G(KC_LEFT)       // Move window to previous zone/area
-#define FZ_RGT G(KC_RIGHT)      // Move window to next zone/area
-#define VD_NXT G(C(KC_LEFT))    // Virtual Desktop: Switch to previous desktop
-#define VD_PRV G(C(KC_RIGHT))   // Virtual Desktop: Switch to next desktop
-
-// Word navigation and text selection keycodes
-#define C_LFT C(KC_LEFT)        // Move cursor to previous word
-#define C_RGT C(KC_RIGHT)       // Move cursor to next word
-#define C_UP C(KC_HOME)         // Move cursor to beginning of document
-#define C_DWN C(KC_END)         // Move cursor to end of document
-#define CS_LFT C(S(KC_LEFT))    // Select previous word
-#define CS_RGT C(S(KC_RIGHT))   // Select next word
-#define CS_UP C(S(KC_UP))       // Select from cursor to start of paragraph
-#define CS_DWN C(S(KC_DOWN))    // Select from cursor to end of paragraph
-#define S_PGUP S(KC_PGUP)       // Select page up
-#define S_PGDW S(KC_PGDN)       // Select page down
-#define LN_UP A(KC_UP)          // Move line up (VS Code)
-#define LN_DN A(KC_DOWN)        // Move line down (VS Code)
-
-// Window management keycodes
-#define WD_CLO C(KC_F4)         // Close current document/tab
-#define WI_CLO A(KC_F4)         // Close current window
-
-// VS Code development shortcuts
+// VS Code shortcuts (only the ones actually used)
 #define DV_TRM C(KC_GRV)        // Toggle integrated terminal
-#define DV_NTRM C(S(KC_GRV))    // Create new terminal
-#define DV_CTRM C(KC_PGDN)      // Cycle through terminals
-#define DV_BLD C(S(KC_B))       // Build/compile project
-#define DV_BRKP KC_F9           // Toggle breakpoint
-#define DV_SOUT S(KC_F11)       // Step out of function (debugging)
-#define DV_SIN KC_F11           // Step into function (debugging)
-#define DV_SOVR KC_F10          // Step over line (debugging)
-#define DV_IMPL C(KC_F12)       // Go to implementation
-#define DV_NXER C(S(KC_F12))    // Go to next error
-#define DV_NVFW C(S(KC_MINUS))  // Navigate forward in history
-#define DV_NVBW C(KC_MINUS)     // Navigate backward in history
 #define CS_P C(S(KC_P))         // Command palette
 #define CS_V C(S(KC_V))         // Paste from clipboard history
 #define CS_F C(S(KC_F))         // Find in files
-#define CS_S C(S(KC_S))         // Save as
 
 // Left-hand home row modifiers (GUI/Alt/Ctrl/Shift on A/S/D/F)
 #define HM_A LGUI_T(KC_A)       // A key: tap for 'a', hold for GUI/Win key
@@ -61,14 +24,9 @@
 enum layer_names {
   _QWERTY,      // Base QWERTY layer with home row mods
   _NUMBER,      // Number pad and arithmetic operators
-  _SYMBOL_LGCY,      // Basic symbols and brackets (legacy)
-//   _SYMBOL2,     // Additional symbols (@, #, $, %, etc.)
-  _SYMBOL,  // New symbols layer with tap dance functionality
+  _SYMBOL_LGCY, // Basic symbols and brackets (legacy)
+  _SYMBOL,      // New symbols layer with tap dance functionality
   _NAV,         // Navigation keys (arrows, page up/down, word movement)
-  _FUNC,        // Function keys (F1-F12)
-  _DEV,         // Development shortcuts (VS Code specific)
-  _UTIL,        // Utility functions (RGB controls, etc.)
-  _MEDIA,       // Media controls and mouse keys
 };
 
 
@@ -86,7 +44,6 @@ enum layer_names {
 #define TD_KPR TD(TD_K_PARENS)    // ( | () | ("") | () => {} | )
 #define TD_SAN TD(TD_SC_ANGLES)   // < | <> | <= | >
 #define TD_LBK TD(TD_L_BRACKETS)  // [ | [] | [0] | ]
-#define TD_EQP TD(TD_EQ_PLUS)     // = | == | += | +
 #define TD_SLB TD(TD_SL_BACK)     // / | // | backslash
 #define TD_MNU TD(TD_MN_UNDER)    // - | -- | => | _
 #define TD_AMP TD(TD_AM_PIPE)     // & | && | || | |
@@ -128,40 +85,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                           XXXXXXX, XXXXXXX, XXXXXXX,   DV_SELLN, XXXXXXX, KC_CAPS
   ),
 
-//    [_UTIL] = LAYOUT_split_3x6_3(
-//       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_SPI, RGB_SPD,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_MOD,RGB_RMOD,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//       XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG, RGB_VAI, RGB_VAD,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
-//   )
-
-//     [_SYMBOL2] = LAYOUT_split_3x6_3(
-//       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      XXXXXXX,   KC_AT, KC_HASH,  KC_DLR, KC_PERC, XXXXXXX,
-//       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,  KC_GRV, KC_CIRC, KC_TILD,  DV_ARR, XXXXXXX,
-//                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
-//   ),
-
-//     [_DEV] = LAYOUT_split_3x6_3(
-//       XXXXXXX,  DV_TRM, DV_NVBW, DV_NVFW, DV_CMNT,DV_UNCMT,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//       XXXXXXX, DV_BRKP, DV_SOUT,  DV_SIN, DV_SOVR,  DV_BLD,                      XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, XXXXXXX,
-//       XXXXXXX, DV_NXER, XXXXXXX, DV_REFS, DV_IMPL,   KC_F5,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
-//   ),
-
-//     [_FUNC] = LAYOUT_split_3x6_3(
-//       XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, KC_PSCR,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//       XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, KC_PAUS,                      XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, XXXXXXX,
-//       XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//                                           XXXXXXX,  KC_INS, KC_CAPS,    XXXXXXX, XXXXXXX, XXXXXXX
-//   ),
-
-//      [_MEDIA] = LAYOUT_split_3x6_3(
-//       XXXXXXX, XXXXXXX, KC_WH_D, KC_MS_U, KC_WH_U, KC_MPRV,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//       XXXXXXX, KC_VOLU, KC_MS_L, KC_MS_D, KC_MS_R, KC_MPLY,                      XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, XXXXXXX,
-//       XXXXXXX, KC_VOLD, XXXXXXX, KC_BTN2, KC_BTN1, KC_MNXT,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//                                           XXXXXXX,KVM_PREV,KVM_NEXT,    XXXXXXX, XXXXXXX, XXXXXXX
-//   ),
 
 };
 
@@ -189,8 +112,6 @@ void td_sc_finished(tap_dance_state_t *state, void *user_data);
 void td_sc_reset(tap_dance_state_t *state, void *user_data);
 void td_l_finished(tap_dance_state_t *state, void *user_data);
 void td_l_reset(tap_dance_state_t *state, void *user_data);
-void td_eq_finished(tap_dance_state_t *state, void *user_data);
-void td_eq_reset(tap_dance_state_t *state, void *user_data);
 void td_sl_finished(tap_dance_state_t *state, void *user_data);
 void td_sl_reset(tap_dance_state_t *state, void *user_data);
 void td_mn_finished(tap_dance_state_t *state, void *user_data);
@@ -206,7 +127,6 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_K_PARENS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_k_finished, NULL),     // ( | () | ("") | () => {} | )
     [TD_SC_ANGLES] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sc_finished, NULL),  // < | <> | <=
     [TD_L_BRACKETS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_l_finished, NULL),   // [ | [] | [0] | ]
-    [TD_EQ_PLUS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_eq_finished, NULL),    // = | == | += | +
     [TD_SL_BACK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sl_finished, NULL),    // / | // | backslash
     [TD_MN_UNDER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_mn_finished, NULL),   // - | -- | => | _
     [TD_AM_PIPE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_am_finished, NULL),    // & | && | || | |

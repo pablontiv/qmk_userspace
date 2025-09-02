@@ -88,24 +88,6 @@ void td_l_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void td_eq_finished(tap_dance_state_t *state, void *user_data) {
-    clear_weak_mods();
-    switch (state->count) {
-        case 1:
-            if (state->pressed) {
-                tap_code16(KC_PLUS);   // Hold = +
-            } else {
-                tap_code16(KC_EQL);    // 1 tap = =
-            }
-            break;
-        case 2:
-            SEND_STRING("==");              // 2 taps = ==
-            break;
-        case 3:
-            SEND_STRING("+=");              // 3 taps = +=
-            break;
-    }
-}
 
 void td_sl_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
