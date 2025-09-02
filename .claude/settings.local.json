@@ -14,7 +14,8 @@
       "WebFetch(domain:docs.qmk.fm)",
       "Bash(rm:*)",
       "WebFetch(domain:getreuer.info)",
-      "WebFetch(domain:docs.taikohub.com)"
+      "WebFetch(domain:docs.taikohub.com)",
+      "Bash(dir C:Userspabloqmk_userspace)"
     ],
     "deny": [],
     "ask": [],
