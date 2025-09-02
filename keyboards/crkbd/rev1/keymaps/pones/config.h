@@ -17,6 +17,8 @@
 // Tap dance configuration
 #define TAPPING_TERM_PER_KEY
 
+#define  DYNAMIC_KEYMAP_LAYER_COUNT 5
+
 // Home row mods optimization
 // #define HOLD_ON_OTHER_KEY_PRESS
 // #define PERMISSIVE_HOLD
