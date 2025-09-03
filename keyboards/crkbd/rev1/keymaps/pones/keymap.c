@@ -1,6 +1,8 @@
 #include QMK_KEYBOARD_H
-#include "tap_dance.h"
-#include "custom_keycodes.h"
+#include "features/tap_dance.h"
+#include "features/custom_keycodes.h"
+#include "features/macros.h"
+#include "features/oled.h"
 
 // VS Code shortcuts (only the ones actually used)
 #define DV_TRM C(KC_GRV)        // Toggle integrated terminal
@@ -98,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
-// Combo definitions (press multiple keys simultaneously for action)
+// Combo definitions (required in keymap.c for QMK introspection system)
 const uint16_t PROGMEM combo_esc[] = {HM_J, HM_K, COMBO_END};        // J+K = Escape
 const uint16_t PROGMEM combo_tab[] = {HM_D, HM_F, COMBO_END};        // D+F = Tab
 const uint16_t PROGMEM del_word_r[] = {HM_K, HM_L, COMBO_END};       // K+L = Delete word right

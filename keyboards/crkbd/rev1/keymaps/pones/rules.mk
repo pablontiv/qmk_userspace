@@ -18,9 +18,9 @@ TAP_DANCE_ENABLE = yes
 SPACE_CADET_ENABLE = no
 
 # Include feature source files
-SRC += tap_dance.c
-SRC += macros.c
+SRC += features/tap_dance.c
+SRC += features/macros.c
 
 ifeq ($(strip $(OLED_ENABLE)), yes)
-    SRC += oled.c
+    SRC += features/oled.c
 endif

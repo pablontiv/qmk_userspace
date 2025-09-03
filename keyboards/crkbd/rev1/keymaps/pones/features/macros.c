@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "macros.h"
 #include "tap_dance.h"
 #include "custom_keycodes.h"
 
