@@ -106,6 +106,7 @@ const uint16_t PROGMEM combo_tab[] = {HM_D, HM_F, COMBO_END};        // D+F = Ta
 const uint16_t PROGMEM del_word_r[] = {HM_K, HM_L, COMBO_END};       // K+L = Delete word right
 const uint16_t PROGMEM del_word_l[] = {HM_S, HM_D, COMBO_END};       // S+D = Delete word left
 const uint16_t PROGMEM combo_enter[] = {KC_COMM, KC_DOT, COMBO_END}; // ,+. = Enter
+const uint16_t PROGMEM combo_capsword[] = {HM_F, HM_J, COMBO_END};  // F+J = Caps Word
 
 combo_t key_combos[] = {
     COMBO(combo_esc, KC_ESC),           // J+K combo produces Escape
@@ -113,6 +114,7 @@ combo_t key_combos[] = {
     COMBO(del_word_r, C(KC_BSPC)),      // K+L combo deletes word to the right
     COMBO(del_word_l, C(KC_DEL)),       // S+D combo deletes word to the left
     COMBO(combo_enter, KC_ENTER),       // ,+. combo produces Enter
+    COMBO(combo_capsword, CW_TOGG),     // F+J combo toggles Caps Word
 };
 
 // Tap dance function declarations (defined in tap_dance.c)

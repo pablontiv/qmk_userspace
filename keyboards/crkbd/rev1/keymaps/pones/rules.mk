@@ -1,7 +1,7 @@
 AUTO_SHIFT_ENABLE = no
 LTO_ENABLE = yes
 NKRO_ENABLE = yes
-CAPS_WORD_ENABLE = no
+CAPS_WORD_ENABLE = yes
 VIA_ENABLE      = no
 DYNAMIC_TAPPING_TERM_ENABLE = no
 RGBLIGHT_ENABLE    = no
@@ -17,7 +17,6 @@ COMBO_ENABLE = yes
 TAP_DANCE_ENABLE = yes
 SPACE_CADET_ENABLE = no
 
-# Phase 3: Performance optimization - enable asymmetric debouncing
 DEBOUNCE_TYPE = asym_eager_defer_pk
 
 # Include feature source files
