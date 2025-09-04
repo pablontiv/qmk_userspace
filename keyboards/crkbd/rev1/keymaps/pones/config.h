@@ -25,6 +25,13 @@
 // #define BILATERAL_COMBINATIONS_TYPING_STREAK_TIMEOUT 160
 #define COMBO_TERM 30
 
+// Debouncing configuration for faster key registration
+#define DEBOUNCE 5
+#define DEBOUNCE_TYPE "asym_eager_defer_pk"
+
+// USB polling optimization (1ms = 1000Hz polling rate)
+#define USB_POLLING_INTERVAL_MS 1
+
 #ifdef RGB_MATRIX_ENABLE
 #   define RGB_MATRIX_KEYPRESSES // reacts to keypresses
 // #   define RGB_MATRIX_KEYRELEASES // reacts to keyreleases (instead of keypresses)

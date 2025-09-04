@@ -15,7 +15,10 @@
       "Bash(rm:*)",
       "WebFetch(domain:getreuer.info)",
       "WebFetch(domain:docs.taikohub.com)",
-      "Bash(dir C:Userspabloqmk_userspace)"
+      "Bash(dir C:Userspabloqmk_userspace)",
+      "Bash(dir \"C:\\Users\\pablo\\qmk_userspace\\keyboards\\crkbd\\rev1\\keymaps\\pones\")",
+      "Bash(dir)",
+      "Bash(python:*)"
     ],
     "deny": [],
     "ask": [],
