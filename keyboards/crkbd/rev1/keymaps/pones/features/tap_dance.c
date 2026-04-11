@@ -159,4 +159,30 @@ void td_ex_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+static bool tab_layer_activated = false;
+
+void td_tab_finished(tap_dance_state_t *state, void *user_data) {
+    clear_weak_mods();
+    switch (state->count) {
+        case 1:
+            if (state->pressed) {
+                layer_on(TD_LAYER_SYMBOL);
+                tab_layer_activated = true;
+            } else {
+                tap_code(KC_TAB);
+            }
+            break;
+        case 2:
+            tap_code16(C(KC_TAB));
+            break;
+    }
+}
+
+void td_tab_reset(tap_dance_state_t *state, void *user_data) {
+    if (tab_layer_activated) {
+        layer_off(TD_LAYER_SYMBOL);
+        tab_layer_activated = false;
+    }
+}
+
 // Tap dance actions array is now defined in keymap.c

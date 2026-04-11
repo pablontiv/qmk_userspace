@@ -12,4 +12,8 @@ enum tap_dances {
     TD_MN_UNDER,    // - | -- | => | _
     TD_AM_PIPE,     // & | && | || | |
     TD_EX_QUEST,    // ! | != | ?
+    TD_TAB_CTRLTAB, // Tab | Ctrl+Tab | SYMBOL layer
 };
+
+// Layer index for tap_dance.c (must match enum layer_names in keymap.c)
+#define TD_LAYER_SYMBOL 2

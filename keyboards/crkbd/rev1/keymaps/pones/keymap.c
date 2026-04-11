@@ -33,7 +33,7 @@ enum layer_names {
 
 // Layer-tap definitions (tap for key, hold to access layer)
 #define L_SPC LT(_NUMBER, KC_SPACE)     // Space: tap for space, hold for numbers layer
-#define L_TAB LT(_SYMBOL, KC_TAB)   // Tab: tap for tab, hold for new symbols layer
+#define L_TAB TD(TD_TAB_CTRLTAB)    // Tab: tap for tab, 2x for Ctrl+Tab, hold for symbols layer
 #define L_ESC LT(_NAV, KC_ESCAPE)       // Escape: tap for escape, hold for navigation layer
 #define L_ENT LT(_SYMBOL, KC_ENTER)        // Enter: tap for enter, hold for symbols layer
 #define L_DEL KC_DEL                    // Delete: now just delete (layer access removed)
@@ -134,6 +134,8 @@ void td_am_finished(tap_dance_state_t *state, void *user_data);
 void td_am_reset(tap_dance_state_t *state, void *user_data);
 void td_ex_finished(tap_dance_state_t *state, void *user_data);
 void td_ex_reset(tap_dance_state_t *state, void *user_data);
+void td_tab_finished(tap_dance_state_t *state, void *user_data);
+void td_tab_reset(tap_dance_state_t *state, void *user_data);
 
 // Tap dance actions (different actions based on number of taps)
 tap_dance_action_t tap_dance_actions[] = {
@@ -145,4 +147,5 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_MN_UNDER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_mn_finished, NULL),   // - | -- | => | _
     [TD_AM_PIPE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_am_finished, NULL),    // & | && | || | |
     [TD_EX_QUEST] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_ex_finished, NULL),   // ! | != | ?
+    [TD_TAB_CTRLTAB] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_tab_finished, td_tab_reset), // Tab | Ctrl+Tab | SYMBOL layer
 };
