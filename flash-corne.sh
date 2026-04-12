@@ -44,12 +44,21 @@ done
 
 if [[ -e "$QMK_PORT" ]]; then
   echo "Trigger automático no funcionó — presiona RESET una vez en el Pro Micro..."
+  # Esperar que el puerto desaparezca (confirma que el reset ocurrió)
+  DEADLINE=$(( SECONDS + 30 ))
+  while [[ -e "$QMK_PORT" ]] && (( SECONDS < DEADLINE )); do
+    sleep 0.1
+  done
+  if [[ -e "$QMK_PORT" ]]; then
+    echo "Error: no se detectó reset en 30s."
+    exit 1
+  fi
 fi
 
 # ── 3. Esperar que reaparezca el puerto del bootloader ───────────────────────
 echo "Esperando bootloader..."
 BOOT_PORT=""
-DEADLINE=$(( SECONDS + 15 ))
+DEADLINE=$(( SECONDS + 10 ))
 while [[ -z "$BOOT_PORT" ]] && (( SECONDS < DEADLINE )); do
   BOOT_PORT=$(ls /dev/ttyACM* /dev/ttyUSB* 2>/dev/null | head -1 || true)
   [[ -z "$BOOT_PORT" ]] && sleep 0.2
