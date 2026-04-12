@@ -29,25 +29,34 @@ echo "Detectado: $QMK_PORT"
 
 # ── 2. Trigger 1200 baud → bootloader ───────────────────────────────────────
 echo "Enviando reset (1200 baud)..."
-stty -F "$QMK_PORT" 1200 cs8 -cstopb -parenb 2>/dev/null || true
+python3 -c "
+import serial, time
+s = serial.Serial('$QMK_PORT', 1200)
+time.sleep(0.1)
+s.close()
+" 2>/dev/null || true
 
-# Esperar que el puerto desaparezca (la mitad que tarda en reiniciar)
-DEADLINE=$(( SECONDS + 5 ))
+# Esperar que el puerto desaparezca (señal de que el reset fue aceptado)
+DEADLINE=$(( SECONDS + 3 ))
 while [[ -e "$QMK_PORT" ]] && (( SECONDS < DEADLINE )); do
   sleep 0.1
 done
 
+if [[ -e "$QMK_PORT" ]]; then
+  echo "Trigger automático no funcionó — presiona RESET una vez en el Pro Micro..."
+fi
+
 # ── 3. Esperar que reaparezca el puerto del bootloader ───────────────────────
 echo "Esperando bootloader..."
 BOOT_PORT=""
-DEADLINE=$(( SECONDS + 10 ))
+DEADLINE=$(( SECONDS + 15 ))
 while [[ -z "$BOOT_PORT" ]] && (( SECONDS < DEADLINE )); do
   BOOT_PORT=$(ls /dev/ttyACM* /dev/ttyUSB* 2>/dev/null | head -1 || true)
   [[ -z "$BOOT_PORT" ]] && sleep 0.2
 done
 
 if [[ -z "$BOOT_PORT" ]]; then
-  echo "Error: bootloader no detectado. Intenta presionar reset dos veces rápido."
+  echo "Error: bootloader no detectado."
   exit 1
 fi
 echo "Bootloader en: $BOOT_PORT"
