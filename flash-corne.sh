@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # Flash a Corne half (left or right) via caterina bootloader.
-# 1. Espera que aparezca un puerto /dev/ttyACM*  (teclado enchufado corriendo QMK)
-# 2. Envía el trigger 1200 baud → Pro Micro entra en bootloader
-# 3. Espera que el puerto reaparezca (re-enumeración del bootloader)
-# 4. Flashea con avrdude
+# Misma estrategia que QMK: snapshot de /dev/tty*, espera un puerto NUEVO.
 #
 # Usage: ./flash-corne.sh
 
@@ -12,6 +9,7 @@ cd "$(dirname "$0")"
 
 HEX="crkbd_rev1_pones.hex"
 MCU="atmega32u4"
+RETRY_TIME=0.5
 
 if [[ ! -f "$HEX" ]]; then
   echo "Error: $HEX not found in $(pwd)"
@@ -23,7 +21,7 @@ echo "Conecta la mitad del Corne por USB..."
 QMK_PORT=""
 while [[ -z "$QMK_PORT" ]]; do
   QMK_PORT=$(ls /dev/ttyACM* /dev/ttyUSB* 2>/dev/null | head -1 || true)
-  [[ -z "$QMK_PORT" ]] && sleep 0.5
+  [[ -z "$QMK_PORT" ]] && sleep "$RETRY_TIME"
 done
 echo "Detectado: $QMK_PORT"
 
@@ -36,42 +34,35 @@ time.sleep(0.1)
 s.close()
 " 2>/dev/null || true
 
-# Esperar que el puerto desaparezca (señal de que el reset fue aceptado)
-DEADLINE=$(( SECONDS + 3 ))
-while [[ -e "$QMK_PORT" ]] && (( SECONDS < DEADLINE )); do
-  sleep 0.1
-done
+# ── 3. Snapshot + esperar puerto NUEVO (estrategia QMK) ─────────────────────
+TMP1=$(mktemp)
+TMP2=$(mktemp)
+trap 'rm -f "$TMP1" "$TMP2"' EXIT
 
-if [[ -e "$QMK_PORT" ]]; then
-  echo "Trigger automático no funcionó — presiona RESET una vez en el Pro Micro..."
-  # Esperar que el puerto desaparezca (confirma que el reset ocurrió)
-  DEADLINE=$(( SECONDS + 30 ))
-  while [[ -e "$QMK_PORT" ]] && (( SECONDS < DEADLINE )); do
-    sleep 0.1
-  done
-  if [[ -e "$QMK_PORT" ]]; then
-    echo "Error: no se detectó reset en 30s."
-    exit 1
-  fi
-fi
+ls /dev/tty* 2>/dev/null | sort > "$TMP1"
 
-# ── 3. Esperar que reaparezca el puerto del bootloader ───────────────────────
-echo "Esperando bootloader..."
+echo "Presiona RESET en el Pro Micro si no entra solo (tienes 30s)..."
 BOOT_PORT=""
-DEADLINE=$(( SECONDS + 10 ))
+DEADLINE=$(( SECONDS + 30 ))
 while [[ -z "$BOOT_PORT" ]] && (( SECONDS < DEADLINE )); do
-  BOOT_PORT=$(ls /dev/ttyACM* /dev/ttyUSB* 2>/dev/null | head -1 || true)
-  [[ -z "$BOOT_PORT" ]] && sleep 0.2
+  sleep "$RETRY_TIME"
+  printf "."
+  ls /dev/tty* 2>/dev/null | sort > "$TMP2"
+  BOOT_PORT=$(comm -13 "$TMP1" "$TMP2" | grep -o '/dev/tty.*' || true)
+  cp "$TMP2" "$TMP1"
 done
+echo ""
 
 if [[ -z "$BOOT_PORT" ]]; then
-  echo "Error: bootloader no detectado."
+  echo "Error: bootloader no detectado en 30s."
   exit 1
 fi
-echo "Bootloader en: $BOOT_PORT"
+echo "Bootloader detectado: $BOOT_PORT"
 
-# Dar tiempo al bootloader para inicializar completamente
-sleep 1
+# Esperar que el puerto sea escribible
+printf "Esperando acceso a $BOOT_PORT"
+while [[ ! -w "$BOOT_PORT" ]]; do sleep "$RETRY_TIME"; printf "."; done
+echo ""
 
 # ── 4. Flashear ─────────────────────────────────────────────────────────────
 echo "Flasheando $HEX..."
