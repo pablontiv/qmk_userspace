@@ -22,9 +22,7 @@ fi
 echo "Conecta la mitad del Corne por USB..."
 QMK_PORT=""
 while [[ -z "$QMK_PORT" ]]; do
-  for p in /dev/ttyACM* /dev/ttyUSB* 2>/dev/null; do
-    [[ -e "$p" ]] && QMK_PORT="$p" && break
-  done
+  QMK_PORT=$(ls /dev/ttyACM* /dev/ttyUSB* 2>/dev/null | head -1 || true)
   [[ -z "$QMK_PORT" ]] && sleep 0.5
 done
 echo "Detectado: $QMK_PORT"
@@ -44,9 +42,7 @@ echo "Esperando bootloader..."
 BOOT_PORT=""
 DEADLINE=$(( SECONDS + 10 ))
 while [[ -z "$BOOT_PORT" ]] && (( SECONDS < DEADLINE )); do
-  for p in /dev/ttyACM* /dev/ttyUSB* 2>/dev/null; do
-    [[ -e "$p" ]] && BOOT_PORT="$p" && break
-  done
+  BOOT_PORT=$(ls /dev/ttyACM* /dev/ttyUSB* 2>/dev/null | head -1 || true)
   [[ -z "$BOOT_PORT" ]] && sleep 0.2
 done
 
