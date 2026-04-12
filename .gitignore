@@ -9,3 +9,6 @@
 *.hex
 *.bin
 *.uf2
+
+# Intermediate keymap-drawer artifacts
+crkbd_rev1_pones_keymap.json
