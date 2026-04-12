@@ -52,6 +52,9 @@ if [[ -z "$BOOT_PORT" ]]; then
 fi
 echo "Bootloader en: $BOOT_PORT"
 
+# Dar tiempo al bootloader para inicializar completamente
+sleep 1
+
 # ── 4. Flashear ─────────────────────────────────────────────────────────────
 echo "Flasheando $HEX..."
 avrdude -p "$MCU" -c avr109 -P "$BOOT_PORT" -U "flash:w:$HEX:i"
