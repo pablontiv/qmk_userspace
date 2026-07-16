@@ -105,6 +105,10 @@ Layers are accessed via layer-tap keys on thumbs and specific positions:
 - Mouse key integration
 - Configurable tapping term (220ms)
 
+## Flashing
+
+Use the `flash-corne` project skill (`.claude/skills/flash-corne/SKILL.md`).
+
 ## Development Notes
 
 - The keymap is heavily customized for programming workflows with VS Code shortcuts
@@ -112,4 +116,3 @@ Layers are accessed via layer-tap keys on thumbs and specific positions:
 - Master hand is configured as left side
 - Custom font included for OLED display
 - RGB animations are selectively enabled to save firmware space
-- Never compile
