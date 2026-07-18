@@ -1,6 +1,7 @@
 #pragma once
 
 #include QMK_KEYBOARD_H
+#include "layers.h"
 
 // Tap dance definitions
 enum tap_dances {
@@ -14,6 +15,3 @@ enum tap_dances {
     TD_EX_QUEST,    // ! | != | ?
     TD_TAB_CTRLTAB, // Tab | Ctrl+Tab | SYMBOL layer
 };
-
-// Layer index for tap_dance.c (must match enum layer_names in keymap.c)
-#define TD_LAYER_SYMBOL 2

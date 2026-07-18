@@ -166,7 +166,7 @@ void td_tab_finished(tap_dance_state_t *state, void *user_data) {
     switch (state->count) {
         case 1:
             if (state->pressed) {
-                layer_on(TD_LAYER_SYMBOL);
+                layer_on(_SYMBOL);
                 tab_layer_activated = true;
             } else {
                 tap_code(KC_TAB);
@@ -180,7 +180,7 @@ void td_tab_finished(tap_dance_state_t *state, void *user_data) {
 
 void td_tab_reset(tap_dance_state_t *state, void *user_data) {
     if (tab_layer_activated) {
-        layer_off(TD_LAYER_SYMBOL);
+        layer_off(_SYMBOL);
         tab_layer_activated = false;
     }
 }

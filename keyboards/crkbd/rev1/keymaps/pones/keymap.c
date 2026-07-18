@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "features/layers.h"
 #include "features/tap_dance.h"
 #include "features/custom_keycodes.h"
 #include "features/macros.h"
@@ -21,15 +22,6 @@
 #define HM_K RCTL_T(KC_K)       // K key: tap for 'k', hold for Ctrl
 #define HM_L LALT_T(KC_L)       // L key: tap for 'l', hold for Alt
 #define HM_SCLN RGUI_T(KC_SCLN) // ; key: tap for ';', hold for GUI/Win key
-
-// Layer names and their purposes
-enum layer_names {
-  _QWERTY,      // Base QWERTY layer with home row mods
-  _NUMBER,      // Number pad and arithmetic operators
-  _SYMBOL,      // Optimized symbols layer with tap dance functionality
-  _NAV,         // Navigation keys (arrows, page up/down, word movement)
-};
-
 
 // Layer-tap definitions (tap for key, hold to access layer)
 #define L_SPC LT(_NUMBER, KC_SPACE)     // Space: tap for space, hold for numbers layer
