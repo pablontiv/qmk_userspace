@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "print.h"
 #include "macros.h"
 #include "tap_dance.h"
 #include "custom_keycodes.h"
@@ -31,6 +32,12 @@ static bool process_herdr(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (debug_enable) {
+    uprintf("KL:t%lu,k0x%04X,r%u,c%u,%c\n",
+            timer_read32(), keycode,
+            record->event.key.row, record->event.key.col,
+            record->event.pressed ? 'd' : 'u');
+  }
   if (!process_herdr(keycode, record)) {
     return false;
   }
