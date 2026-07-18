@@ -109,21 +109,19 @@ bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record,
     return get_chordal_hold_default(tap_hold_record, other_record);
 }
 
-// Combo definitions (required in keymap.c for QMK introspection system)
-const uint16_t PROGMEM combo_esc[] = {HM_J, HM_K, COMBO_END};        // J+K = Escape
-const uint16_t PROGMEM combo_tab[] = {HM_D, HM_F, COMBO_END};        // D+F = Tab
-const uint16_t PROGMEM del_word_r[] = {HM_K, HM_L, COMBO_END};       // K+L = Delete word right
-const uint16_t PROGMEM del_word_l[] = {HM_S, HM_D, COMBO_END};       // S+D = Delete word left
-const uint16_t PROGMEM combo_enter[] = {KC_COMM, KC_DOT, COMBO_END}; // ,+. = Enter
-const uint16_t PROGMEM combo_capsword[] = {HM_F, HM_J, COMBO_END};  // F+J = Caps Word
+// Combo definitions (QMK introspection requires these in keymap.c)
+const uint16_t PROGMEM combo_capsword[] = {HM_F, HM_J, COMBO_END};   // F+J
+const uint16_t PROGMEM del_word_left[]  = {HM_K, HM_L, COMBO_END};   // K+L
+const uint16_t PROGMEM del_word_right[] = {HM_S, HM_D, COMBO_END};   // S+D
+const uint16_t PROGMEM del_wordc_left[] = {HM_L, HM_SCLN, COMBO_END};// L+;
+const uint16_t PROGMEM del_wordc_right[]= {HM_A, HM_S, COMBO_END};   // A+S
 
 combo_t key_combos[] = {
-    COMBO(combo_esc, KC_ESC),           // J+K combo produces Escape
-    COMBO(combo_tab, KC_TAB),           // D+F combo produces Tab
-    COMBO(del_word_r, C(KC_BSPC)),      // K+L combo deletes word to the right
-    COMBO(del_word_l, C(KC_DEL)),       // S+D combo deletes word to the left
-    COMBO(combo_enter, KC_ENTER),       // ,+. combo produces Enter
-    COMBO(combo_capsword, CW_TOGG),     // F+J combo toggles Caps Word
+    COMBO(combo_capsword, CW_TOGG),      // F+J  = Caps Word
+    COMBO(del_word_left,  A(KC_BSPC)),   // K+L  = Alt+Backspace (delete word left)
+    COMBO(del_word_right, A(KC_DEL)),    // S+D  = Alt+Delete (delete word right)
+    COMBO(del_wordc_left, C(KC_BSPC)),   // L+;  = Ctrl+Backspace
+    COMBO(del_wordc_right,C(KC_DEL)),    // A+S  = Ctrl+Delete
 };
 
 // Tap dance function declarations (defined in tap_dance.c)
