@@ -175,6 +175,9 @@ void td_tab_finished(tap_dance_state_t *state, void *user_data) {
         case 2:
             tap_code16(C(KC_TAB));
             break;
+        case 3:
+            tap_code16(C(S(KC_TAB)));
+            break;
     }
 }
 
