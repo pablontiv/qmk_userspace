@@ -7,23 +7,6 @@
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     switch (keycode) {
-      case DV_ARR:
-        SEND_STRING("=>");
-        break;
-      case DV_CMNT:
-        SEND_STRING(SS_LCTL("kc"));
-        break;
-      case DV_UNCMT:
-        SEND_STRING(SS_LCTL("ku"));
-        break;
-      case DV_REFS:
-        SEND_STRING(SS_LCTL("kr"));
-        break;
-      case DV_SELLN:
-        tap_code16(KC_HOME);
-        tap_code16(KC_HOME);
-        tap_code16(S(KC_END));
-        break;
       case KVM_PREV:
         tap_code16(KC_RCTL);
         wait_ms(50);

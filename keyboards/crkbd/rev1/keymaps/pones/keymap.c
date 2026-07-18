@@ -5,12 +5,6 @@
 #include "features/macros.h"
 #include "features/oled.h"
 
-// VS Code shortcuts (only the ones actually used)
-#define DV_TRM C(KC_GRV)        // Toggle integrated terminal
-#define CS_P C(S(KC_P))         // Command palette
-#define CS_V C(S(KC_V))         // Paste from clipboard history
-#define CS_F C(S(KC_F))         // Find in files
-
 // Left-hand home row modifiers (GUI/Alt/Ctrl/Shift on A/S/D/F)
 #define HM_A LGUI_T(KC_A)       // A key: tap for 'a', hold for GUI/Win key
 #define HM_S LALT_T(KC_S)       // S key: tap for 's', hold for Alt
@@ -24,12 +18,12 @@
 #define HM_SCLN RGUI_T(KC_SCLN) // ; key: tap for ';', hold for GUI/Win key
 
 // Layer-tap definitions (tap for key, hold to access layer)
-#define L_SPC LT(_NUMBER, KC_SPACE)     // Space: tap for space, hold for numbers layer
-#define L_TAB TD(TD_TAB_CTRLTAB)    // Tab: tap for tab, 2x for Ctrl+Tab, hold for symbols layer
-#define L_ESC LT(_NAV, KC_ESCAPE)       // Escape: tap for escape, hold for navigation layer
-#define L_ENT LT(_SYMBOL, KC_ENTER)        // Enter: tap for enter, hold for symbols layer
-#define L_DEL KC_DEL                    // Delete: now just delete (layer access removed)
-#define L_BK LT(_NAV, KC_BSPC)         // Backspace: tap for backspace, hold for navigation layer
+#define L_ESC LT(_HERDR, KC_ESCAPE)    // Escape: tap Esc, hold herdr prefix layer
+#define L_TAB TD(TD_TAB_CTRLTAB)       // Tab: 1=Tab 2=C+Tab 3=C+S+Tab, hold SYMBOL
+#define L_SPC LT(_NUMBER, KC_SPACE)    // Space: tap space, hold numbers
+#define L_ENT LT(_NAV, KC_ENTER)       // Enter: tap enter, hold navigation
+#define L_BK  LT(_MEDIA, KC_BSPC)      // Backspace: tap bspc, hold media/utility
+#define L_DEL KC_DEL                   // Delete: plain (free hold slot)
 
 // Tap dance aliases (max 7 characters)
 #define TD_JBR TD(TD_J_BRACES)    // { | 2x=} | hold={}
@@ -68,27 +62,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
     [_SYMBOL] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, C(KC_B), XXXXXXX,DV_UNCMT, DV_CMNT, XXXXXXX,                       KC_GRV,  TD_AMP, KC_HASH,  TD_SLB, KC_CIRC, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_PSCR,  DV_TRM,    CS_F,    CS_V,    CS_P,                        KC_AT,  TD_JBR,  TD_KPR,  TD_SAN,  TD_LBK, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX,KVM_PREV,KVM_NEXT, XXXXXXX,                      KC_GRV,  TD_AMP, KC_HASH,  TD_SLB, KC_CIRC, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, C(KC_C), C(KC_V),C(S(KC_V)),                     KC_AT,  TD_JBR,  TD_KPR,  TD_SAN,  TD_LBK, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_TILD,  TD_MNU,  KC_DLR, KC_PERC,  TD_EXQ, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
-                                      //`--------------------------'  `--------------------------'
   ),
 
     [_NAV] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, XXXXXXX,KVM_PREV,KVM_NEXT, XXXXXXX,                      XXXXXXX, KC_HOME,   KC_UP,  KC_END,  KC_INS, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_HOME,   KC_UP,  KC_END, XXXXXXX, XXXXXXX,
       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_PGUP, KC_LEFT, KC_DOWN,KC_RIGHT, KC_PGDN, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, UG_SPDD, UG_SPDU, XXXXXXX, UG_NEXT, UG_TOGG,                      KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX, XXXXXXX,   DV_SELLN, XXXXXXX, KC_CAPS
-                                      //`--------------------------'  `--------------------------'
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+  ),
+
+    [_HERDR] = LAYOUT_split_3x6_3(
+      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+  ),
+
+    [_MEDIA] = LAYOUT_split_3x6_3(
+      XXXXXXX, QK_BOOT, DB_TOGG, KC_CAPS, KC_PSCR,  KC_INS,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
   ),
 };
 
