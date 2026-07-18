@@ -7,20 +7,11 @@ void td_j_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
     switch (state->count) {
         case 1:
-            if (state->pressed) {
-                tap_code16(KC_RCBR);  // Hold = }
-            } else {
-                tap_code16(KC_LCBR);  // 1 tap = {
-            }
+            if (state->pressed) { SEND_STRING("{}"); } // hold = pair
+            else                { tap_code16(KC_LCBR); } // 1 tap = {
             break;
         case 2:
-            SEND_STRING("{}");
-            tap_code(KC_LEFT);              // 2 taps = {}←
-            break;
-        case 3:
-            SEND_STRING("{\n\t\n}");        // 3 taps = {\n\t\n}
-            tap_code(KC_UP);
-            tap_code(KC_END);
+            tap_code16(KC_RCBR); // 2 taps = }
             break;
     }
 }
@@ -29,24 +20,11 @@ void td_k_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
     switch (state->count) {
         case 1:
-            if (state->pressed) {
-                tap_code16(KC_RPRN);  // Hold = )
-            } else {
-                tap_code16(KC_LPRN);  // 1 tap = (
-            }
+            if (state->pressed) { SEND_STRING("()"); }
+            else                { tap_code16(KC_LPRN); }
             break;
         case 2:
-            SEND_STRING("()");
-            tap_code(KC_LEFT);              // 2 taps = ()←
-            break;
-        case 3:
-            SEND_STRING("(\"\")");
-            tap_code(KC_LEFT);
-            tap_code(KC_LEFT);              // 3 taps = ("")←←
-            break;
-        case 4:
-            SEND_STRING("() => {}");
-            tap_code(KC_LEFT);              // 4 taps = () => {}←
+            tap_code16(KC_RPRN);
             break;
     }
 }
@@ -55,18 +33,11 @@ void td_sc_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
     switch (state->count) {
         case 1:
-            if (state->pressed) {
-                tap_code16(KC_GT);     // Hold = >
-            } else {
-                tap_code16(KC_LT);     // 1 tap = <
-            }
+            if (state->pressed) { SEND_STRING("<>"); }
+            else                { tap_code16(KC_LT); }
             break;
         case 2:
-            SEND_STRING("<>");
-            tap_code(KC_LEFT);              // 2 taps = <>←
-            break;
-        case 3:
-            SEND_STRING("<=");              // 3 taps = <=
+            tap_code16(KC_GT);
             break;
     }
 }
@@ -75,15 +46,11 @@ void td_l_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
     switch (state->count) {
         case 1:
-            if (state->pressed) {
-                tap_code16(KC_RBRC);   // Hold = ]
-            } else {
-                tap_code16(KC_LBRC);   // 1 tap = [
-            }
+            if (state->pressed) { SEND_STRING("[]"); }
+            else                { tap_code16(KC_LBRC); }
             break;
         case 2:
-            SEND_STRING("[]");
-            tap_code(KC_LEFT);              // 2 taps = []←
+            tap_code16(KC_RBRC);
             break;
     }
 }

@@ -32,10 +32,10 @@
 #define L_BK LT(_NAV, KC_BSPC)         // Backspace: tap for backspace, hold for navigation layer
 
 // Tap dance aliases (max 7 characters)
-#define TD_JBR TD(TD_J_BRACES)    // { | {} | }
-#define TD_KPR TD(TD_K_PARENS)    // ( | () | ("") | () => {} | )
-#define TD_SAN TD(TD_SC_ANGLES)   // < | <> | <= | >
-#define TD_LBK TD(TD_L_BRACKETS)  // [ | [] | [0] | ]
+#define TD_JBR TD(TD_J_BRACES)    // { | 2x=} | hold={}
+#define TD_KPR TD(TD_K_PARENS)    // ( | 2x=) | hold=()
+#define TD_SAN TD(TD_SC_ANGLES)   // < | 2x=> | hold=<>
+#define TD_LBK TD(TD_L_BRACKETS)  // [ | 2x=] | hold=[]
 #define TD_SLB TD(TD_SL_BACK)     // / | // | backslash
 #define TD_MNU TD(TD_MN_UNDER)    // - | -- | => | _
 #define TD_AMP TD(TD_AM_PIPE)     // & | && | || | |
