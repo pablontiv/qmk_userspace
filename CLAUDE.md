@@ -48,8 +48,8 @@ Based on `qmk.json`, the currently configured build target is:
 ### Keyboard Configurations
 
 - `keyboards/crkbd/rev1/keymaps/` - Corne keyboard keymaps
-  - `pones/` - Main active keymap with home row mods, layers for symbols/numbers/navigation
-  - `pones-old/` - Previous version keymap
+  - `pones/` - Main active keymap (v6.3)
+  - `pones-old/` - Previous version
   - `vial/` - Vial-compatible keymap with visual configuration support
 - `keyboards/ymdk/ymd40/air40/keymaps/` - YMD40 Air40 keymaps
   - `pones/` - Current keymap
@@ -63,56 +63,61 @@ Based on `qmk.json`, the currently configured build target is:
 
 ## Keymap Architecture
 
-The main keymap (`keyboards/crkbd/rev1/keymaps/pones/`) uses a sophisticated layer system:
+The main keymap (`keyboards/crkbd/rev1/keymaps/pones/`) uses six layers optimized for programming workflows. See [`docs/keymap-redesign-plan.md`](docs/keymap-redesign-plan.md) for full layout diagrams and design rationale.
 
-### Layers
+### Layers (v6.3)
 
-- `_QWERTY` - Base QWERTY layout with home row modifiers
-- `_NUMBER` - Number pad and arithmetic operators  
-- `_SYMBOL` - Symbol keys and brackets
-- `_SYMBOL2` - Additional symbols (@, #, $, %, etc.)
-- `_NAV` - Navigation keys (arrows, page up/down, word movement)
-- `_DEV` - Development shortcuts (VS Code terminal, debugging, navigation)
-- `_FUNC` - Function keys (F1-F12)
-- `_MEDIA` - Media controls and mouse keys
-- `_UTIL` - RGB lighting controls
+- `_QWERTY` - Base layer with home row modifiers
+- `_NUMBER` - Numbers (hold Space)
+- `_SYMBOL` - Symbols and brackets (hold Tab); includes copy/paste cluster on left home row
+- `_NAV` - Navigation with cursor arrows (hold Enter)
+- `_HERDR` - herdr window-manager bindings (hold Escape)
+- `_MEDIA` - Media controls, boot, and utility keys (hold Backspace)
 
 ### Home Row Modifiers
 
-The keymap implements home row mods for efficient modifier access:
+Left hand: GUI(A), Alt(S), Ctrl(D), Shift(F)  
+Right hand: Shift(J), Ctrl(K), Alt(L), GUI(;)
 
-- Left hand: GUI(A), Alt(S), Ctrl(D), Shift(F)
-- Right hand: Shift(J), Ctrl(K), Alt(L), GUI(;)
+### Thumb Cluster
 
-### Layer Access
+| Thumb | Tap | Hold |
+|---|---|---|
+| Esc (L1) | Escape | `_HERDR` |
+| Tab (L2) | Tab · 2x = Ctrl+Tab · 3x = Ctrl+Shift+Tab | `_SYMBOL` |
+| Space (L3) | Space | `_NUMBER` |
+| Enter (R1) | Enter | `_NAV` |
+| Backspace (R2) | Backspace | `_MEDIA` |
+| Delete (R3) | Delete | — |
 
-Layers are accessed via layer-tap keys on thumbs and specific positions:
+The Tab tap dance gains one level: 3x = Ctrl+Shift+Tab. Shift+tap = Shift+Tab works as a bonus via composed held Shift.
 
-- Space → Numbers layer
-- Tab → Symbols layer  
-- Escape → Symbols2 layer
-- Enter → Development layer
-- Backspace → Function keys layer
-- Delete → Media layer
-- Z → Navigation layer
-- Quote → Utilities layer
+### Combos (v6.3)
+
+Fast-access shortcuts without additional holds:
+
+- **F+J** = CapsWord
+- **K+L** = Alt+Backspace (word delete)
+- **S+D** = Alt+Delete (word delete forward)
+- **L+;** = Ctrl+Backspace (word delete backward, Ctrl variant)
+- **A+S** = Ctrl+Delete (word delete forward, Ctrl variant)
 
 ### Custom Features
 
 - OLED display support with layer and modifier status
-- RGB Matrix with selective animations enabled
-- Custom macros for development workflows (VS Code shortcuts)
-- Mouse key integration
+- Custom macros for herdr window-manager integration
+- Chordal Hold + Permissive Hold (220 ms term)
 - Configurable tapping term (220ms)
+- Console logging support (debug toggle via `_MEDIA`)
 
 ## Flashing
 
-Use the `flash-corne` project skill (`.claude/skills/flash-corne/SKILL.md`).
+Use the `flash-corne` project skill (`.claude/skills/flash-corne/SKILL.md`). The keymap uses **EE_HANDS** for hand detection — each half stores its role in EEPROM on first flash, allowing either half to be plugged and programmed without physical RESET.
 
 ## Development Notes
 
-- The keymap is heavily customized for programming workflows with VS Code shortcuts
-- Uses split keyboard features extensively (OLED, RGB, etc.)
-- Master hand is configured as left side
-- Custom font included for OLED display
-- RGB animations are selectively enabled to save firmware space
+- Firmware size: 27,182 / 28,672 bytes (1,490 bytes free)
+- CONSOLE_ENABLE for firmware-side keystroke logging (toggled via `_MEDIA`)
+- Chordal Hold prevents unintended modifiers on fast typing
+- OLED display includes custom font for layer/modifier status
+- Master hand role stored in EEPROM; either half can initialize via EE_HANDS

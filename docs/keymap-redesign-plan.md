@@ -1,7 +1,7 @@
-# Keymap Redesign Plan — crkbd/rev1:pones (v6.2 FINAL)
+# Keymap Redesign Plan — crkbd/rev1:pones (v6.3 IMPLEMENTED)
 
-**Status:** Design closed and validated — awaiting explicit "go" for implementation.
-**Last updated:** 2026-07-17
+**Status:** Implemented 2026-07-18 — pending physical flash (EE_HANDS bootstrap) and 2–4 week validation.
+**Last updated:** 2026-07-18
 **Evidence base:**
 - Usage log: `keycombo-log.csv` (Google Drive), 57,543 combo events, 2026-03-23 → 2026-07-16
 - Ergonomics research: [`docs/research/ergonomics.md`](research/ergonomics.md)
@@ -15,7 +15,7 @@
 |---|---|---|---|
 | Ctrl+Tab | 22,922 | ~40% | One-key access (existing Tab TD); 34% of presses are bursts (<3 s, runs up to 14) |
 | Alt+Backspace | 8,319 | ~14% | Word-delete combos emit Alt, not Ctrl (7:1 in log) |
-| Ctrl+Shift+Tab | 3,307 | ~6% | Shift + 2x-tap on the Tab TD |
+| Ctrl+Shift+Tab | 3,307 | ~6% | Tab 3x on the Tab TD |
 | Ctrl+C / Ctrl+V | ~6,000 | ~11% | copy/paste cluster on `_SYMBOL` home row (D/F/G) |
 | Shift+/ (`?`) | 4,358 | ~8% | Zero-overlap rhythm issue — measure only (see diagnosis correction) |
 | Shift+Tab | 1,330 | ~2% | Shift + tap on the Tab TD |
@@ -137,15 +137,14 @@ Shift+Arrow chords. KVM, tab-switchers, INS, CAPS all relocated; `DV_SELLN` remo
 ### `_MEDIA` — hold Backspace (new)
 
 ```
- · BOOT DBTG CAPS PSCR INS │  ·  RGB- RGB+ RGBfx RGBt ·
+ · BOOT DBTG CAPS PSCR INS │  ·    ·    ·    ·    ·   ·
  ·  ·    ·    ·    ·    ·  │  · prev vol-  vol+  next play
  ·  ·    ·    ·    ·    ·  │  ·   ·    ·    ·     ·    ·
 ```
 
 - Left row 1: QK_BOOT (Q corner — hardest to hit accidentally), DB_TOGG, CAPS, PSCR,
   INS — base keys centralized here.
-- Right: RGB row 1 (`UG_SPDD/UG_SPDU/UG_NEXT/UG_TOGG`), media on home row with volume
-  on index/middle (J/K) per the Tier-1 frequency→strong-fingers finding.
+- Right: media controls on home row with volume on index/middle (J/K) per the Tier-1 frequency→strong-fingers finding.
 - DB_TOGG requires `CONSOLE_ENABLE = yes` (ties into the firmware-telemetry plan).
 
 ## Firmware configuration
@@ -173,8 +172,7 @@ Shift+Arrow chords. KVM, tab-switchers, INS, CAPS all relocated; `DV_SELLN` remo
 - `SS_DELAY(10)` in herdr prefix macros.
 - **Flow Tap deferred** — evaluate with data after v1.
 - Upstream: `~/qmk_firmware` at master 0.33.8, 0 commits behind (verified 2026-07-16).
-- Flash: ~+1.3 KB → ~9.7 KB free estimated; CONSOLE_ENABLE adds more — **measure at
-  compile time**.
+- **Flash: 27,182 / 28,672 bytes (1,490 bytes free)** — measured at compile time with CONSOLE_ENABLE enabled.
 
 ## Cleanup
 
