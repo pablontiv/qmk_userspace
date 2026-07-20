@@ -19,21 +19,17 @@
 
 // Layer-tap definitions (tap for key, hold to access layer)
 #define L_ESC LT(_HERDR, KC_ESCAPE)    // Escape: tap Esc, hold herdr prefix layer
-#define L_TAB TD(TD_TAB_CTRLTAB)       // Tab: 1=Tab 2=C+Tab 3=C+S+Tab, hold SYMBOL
+#define L_TAB LT(_MOVE, KC_TAB)        // Tab: tap for Tab, hold for MOVE layer (KVM, Ctrl+Tab)
 #define L_SPC LT(_NUMBER, KC_SPACE)    // Space: tap space, hold numbers
-#define L_ENT LT(_NAV, KC_ENTER)       // Enter: tap enter, hold navigation
-#define L_BK  LT(_MEDIA, KC_BSPC)      // Backspace: tap bspc, hold media/utility
-#define L_DEL KC_DEL                   // Delete: plain (free hold slot)
+#define L_ENT LT(_SYMBOL, KC_ENTER)    // Enter: tap enter, hold SYMBOL layer
+#define L_BK  LT(_NAV, KC_BSPC)        // Backspace: tap bspc, hold navigation
+#define L_DEL LT(_MEDIA, KC_DEL)       // Delete: tap delete, hold media/utility
 
 // Tap dance aliases (max 7 characters)
 #define TD_JBR TD(TD_J_BRACES)    // { | 2x=} | hold={}
 #define TD_KPR TD(TD_K_PARENS)    // ( | 2x=) | hold=()
 #define TD_SAN TD(TD_SC_ANGLES)   // < | 2x=> | hold=<>
 #define TD_LBK TD(TD_L_BRACKETS)  // [ | 2x=] | hold=[]
-#define TD_SLB TD(TD_SL_BACK)     // / | // | backslash
-#define TD_MNU TD(TD_MN_UNDER)    // - | -- | => | _
-#define TD_AMP TD(TD_AM_PIPE)     // & | && | || | |
-#define TD_EXQ TD(TD_EX_QUEST)    // ! | != | ?
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_split_3x6_3(
@@ -62,9 +58,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
     [_SYMBOL] = LAYOUT_split_3x6_3(
-      XXXXXXX, XXXXXXX, XXXXXXX,KVM_PREV,KVM_NEXT, XXXXXXX,                      KC_GRV,  TD_AMP, KC_HASH,  TD_SLB, KC_CIRC, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, C(KC_C), C(KC_V),C(S(KC_V)),                     KC_AT,  TD_JBR,  TD_KPR,  TD_SAN,  TD_LBK, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_TILD,  TD_MNU,  KC_DLR, KC_PERC,  TD_EXQ, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_GRV, KC_AMPR, KC_HASH, KC_SLSH, KC_CIRC, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_AT,  TD_JBR,  TD_KPR,  TD_SAN,  TD_LBK, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_TILD, KC_MINS, KC_DLR, KC_PERC, KC_EXLM, XXXXXXX,
+                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+  ),
+
+    [_MOVE] = LAYOUT_split_3x6_3(
+      XXXXXXX, XXXXXXX, XXXXXXX, KVM_PREV, KVM_NEXT, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, C(KC_TAB), C(S(KC_TAB)), XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
   ),
 
@@ -108,39 +111,25 @@ bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record,
 }
 
 // Combo definitions (QMK introspection requires these in keymap.c)
-const uint16_t PROGMEM combo_capsword[] = {HM_F, HM_J, COMBO_END};   // F+J
-const uint16_t PROGMEM del_word_left[]  = {HM_K, HM_L, COMBO_END};   // K+L
-const uint16_t PROGMEM del_word_right[] = {HM_S, HM_D, COMBO_END};   // S+D
-const uint16_t PROGMEM del_wordc_left[] = {HM_L, HM_SCLN, COMBO_END};// L+;
-const uint16_t PROGMEM del_wordc_right[]= {HM_A, HM_S, COMBO_END};   // A+S
+const uint16_t PROGMEM combo_capsword[] = {HM_F, HM_J, COMBO_END};    // F+J
+const uint16_t PROGMEM alt_bspc[]       = {HM_S, HM_D, COMBO_END};    // S+D (left)
+const uint16_t PROGMEM ctl_bspc[]       = {HM_A, HM_S, COMBO_END};    // A+S (left)
+const uint16_t PROGMEM alt_del[]        = {HM_K, HM_L, COMBO_END};    // K+L (right)
+const uint16_t PROGMEM ctl_del[]        = {HM_L, HM_SCLN, COMBO_END}; // L+; (right)
 
 combo_t key_combos[] = {
     COMBO(combo_capsword, CW_TOGG),      // F+J  = Caps Word
-    COMBO(del_word_left,  A(KC_BSPC)),   // K+L  = Alt+Backspace (delete word left)
-    COMBO(del_word_right, A(KC_DEL)),    // S+D  = Alt+Delete (delete word right)
-    COMBO(del_wordc_left, C(KC_BSPC)),   // L+;  = Ctrl+Backspace
-    COMBO(del_wordc_right,C(KC_DEL)),    // A+S  = Ctrl+Delete
+    COMBO(alt_bspc, A(KC_BSPC)),         // S+D  = Alt+Backspace (delete word left)
+    COMBO(ctl_bspc, C(KC_BSPC)),         // A+S  = Ctrl+Backspace (delete word left)
+    COMBO(alt_del,  A(KC_DEL)),          // K+L  = Alt+Delete (delete word right)
+    COMBO(ctl_del,  C(KC_DEL)),          // L+;  = Ctrl+Delete (delete word right)
 };
 
 // Tap dance function declarations (defined in tap_dance.c)
 void td_j_finished(tap_dance_state_t *state, void *user_data);
-void td_j_reset(tap_dance_state_t *state, void *user_data);
 void td_k_finished(tap_dance_state_t *state, void *user_data);
-void td_k_reset(tap_dance_state_t *state, void *user_data);
 void td_sc_finished(tap_dance_state_t *state, void *user_data);
-void td_sc_reset(tap_dance_state_t *state, void *user_data);
 void td_l_finished(tap_dance_state_t *state, void *user_data);
-void td_l_reset(tap_dance_state_t *state, void *user_data);
-void td_sl_finished(tap_dance_state_t *state, void *user_data);
-void td_sl_reset(tap_dance_state_t *state, void *user_data);
-void td_mn_finished(tap_dance_state_t *state, void *user_data);
-void td_mn_reset(tap_dance_state_t *state, void *user_data);
-void td_am_finished(tap_dance_state_t *state, void *user_data);
-void td_am_reset(tap_dance_state_t *state, void *user_data);
-void td_ex_finished(tap_dance_state_t *state, void *user_data);
-void td_ex_reset(tap_dance_state_t *state, void *user_data);
-void td_tab_finished(tap_dance_state_t *state, void *user_data);
-void td_tab_reset(tap_dance_state_t *state, void *user_data);
 
 // Tap dance actions (different actions based on number of taps)
 tap_dance_action_t tap_dance_actions[] = {
@@ -148,9 +137,4 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_K_PARENS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_k_finished, NULL),     // ( | () | ("") | () => {} | )
     [TD_SC_ANGLES] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sc_finished, NULL),  // < | <> | <=
     [TD_L_BRACKETS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_l_finished, NULL),   // [ | [] | [0] | ]
-    [TD_SL_BACK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sl_finished, NULL),    // / | // | backslash
-    [TD_MN_UNDER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_mn_finished, NULL),   // - | -- | => | _
-    [TD_AM_PIPE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_am_finished, NULL),    // & | && | || | |
-    [TD_EX_QUEST] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_ex_finished, NULL),   // ! | != | ?
-    [TD_TAB_CTRLTAB] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_tab_finished, td_tab_reset), // Tab | Ctrl+Tab | SYMBOL layer
 };

@@ -10,6 +10,9 @@ enum layer_names {
   _SYMBOL_LGCY,
   _SYMBOL,
   _NAV,
+  _HERDR,
+  _MEDIA,
+  _MOVE,
 };
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) { 
@@ -181,6 +184,7 @@ void render_layer_state(void) {
     } else if(layer_state_is(_NUMBER)) {
         oled_write_P(lower_layer, false);
     } else if(layer_state_is(_SYMBOL) || layer_state_is(_SYMBOL_LGCY)) {
+        // TODO: Remove _SYMBOL_LGCY enum entry in a separate cleanup pass
         oled_write_P(raise_layer, false);
     } else {
         oled_write_P(default_layer, false);

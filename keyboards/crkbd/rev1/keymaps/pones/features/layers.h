@@ -8,4 +8,5 @@ enum layer_names {
   _NAV,      // Pure cursor navigation
   _HERDR,    // herdr prefix layer (Ctrl+B + key)
   _MEDIA,    // RGB, media, base utility keys, BOOT/DEBUG
+  _MOVE,     // Tab hold: KVM switches and Ctrl+Tab navigation
 };
