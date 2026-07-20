@@ -18,7 +18,7 @@
 #define HM_SCLN RGUI_T(KC_SCLN) // ; key: tap for ';', hold for GUI/Win key
 
 // Layer-tap definitions (tap for key, hold to access layer)
-#define L_ESC LT(_HERDR, KC_ESCAPE)    // Escape: tap Esc, hold herdr prefix layer
+#define L_ESC KC_ESC                   // Escape: plain (hold slot free — _HERDR removed)
 #define L_TAB LT(_MOVE, KC_TAB)        // Tab: tap for Tab, hold for MOVE layer (KVM, Ctrl+Tab)
 #define L_SPC LT(_NUMBER, KC_SPACE)    // Space: tap space, hold numbers
 #define L_ENT LT(_SYMBOL, KC_ENTER)    // Enter: tap enter, hold SYMBOL layer
@@ -30,9 +30,10 @@
 #define TD_KPR TD(TD_K_PARENS)    // ( | 2x=) | hold=()
 #define TD_SAN TD(TD_SC_ANGLES)   // < | 2x=> | hold=<>
 #define TD_LBK TD(TD_L_BRACKETS)  // [ | 2x=] | hold=[]
-#define TD_EXQ TD(TD_EX_QUEST)    // ! | hold=?
+#define TD_EXQ TD(TD_EX_QUEST)    // ? | hold=!
 #define TD_MNU TD(TD_MN_UNDER)    // - | hold=_
 #define TD_AMP TD(TD_AM_PIPE)     // & | hold=|
+#define TD_SLB TD(TD_SL_BACK)     // / | hold=backslash
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_split_3x6_3(
@@ -61,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
     [_SYMBOL] = LAYOUT_split_3x6_3(
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_GRV,  TD_AMP, KC_HASH, KC_SLSH, KC_CIRC, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_GRV,  TD_AMP, KC_HASH,  TD_SLB, KC_CIRC, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_AT,  TD_JBR,  TD_KPR,  TD_SAN,  TD_LBK, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_TILD, TD_MNU, KC_DLR, KC_PERC,  TD_EXQ, XXXXXXX,
                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
@@ -78,13 +79,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_HOME,   KC_UP,  KC_END, XXXXXXX, XXXXXXX,
       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_PGUP, KC_LEFT, KC_DOWN,KC_RIGHT, KC_PGDN, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
-  ),
-
-    [_HERDR] = LAYOUT_split_3x6_3(
-      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
   ),
 
@@ -136,6 +130,7 @@ void td_l_finished(tap_dance_state_t *state, void *user_data);
 void td_ex_finished(tap_dance_state_t *state, void *user_data);
 void td_mn_finished(tap_dance_state_t *state, void *user_data);
 void td_am_finished(tap_dance_state_t *state, void *user_data);
+void td_sl_finished(tap_dance_state_t *state, void *user_data);
 
 // Tap dance actions (different actions based on number of taps)
 tap_dance_action_t tap_dance_actions[] = {
@@ -143,7 +138,8 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_K_PARENS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_k_finished, NULL),     // ( | () | ("") | () => {} | )
     [TD_SC_ANGLES] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sc_finished, NULL),  // < | <> | <=
     [TD_L_BRACKETS] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_l_finished, NULL),   // [ | [] | [0] | ]
-    [TD_EX_QUEST] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_ex_finished, NULL),    // ! | hold=?
+    [TD_EX_QUEST] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_ex_finished, NULL),    // ? | hold=!
     [TD_MN_UNDER] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_mn_finished, NULL),    // - | hold=_
     [TD_AM_PIPE]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_am_finished, NULL),    // & | hold=|
+    [TD_SL_BACK]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_sl_finished, NULL),    // / | hold=backslash
 };

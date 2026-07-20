@@ -58,8 +58,14 @@ void td_l_finished(tap_dance_state_t *state, void *user_data) {
 // Single-symbol tap/hold: tap = primary, hold = shifted secondary.
 void td_ex_finished(tap_dance_state_t *state, void *user_data) {
     clear_weak_mods();
-    if (state->pressed) { tap_code16(KC_QUES); } // hold = ?
-    else                { tap_code16(KC_EXLM); } // tap  = !
+    if (state->pressed) { tap_code16(KC_EXLM); } // hold = !
+    else                { tap_code16(KC_QUES); } // tap  = ?
+}
+
+void td_sl_finished(tap_dance_state_t *state, void *user_data) {
+    clear_weak_mods();
+    if (state->pressed) { tap_code16(KC_BSLS); } // hold = backslash
+    else                { tap_code16(KC_SLSH); } // tap  = /
 }
 
 void td_mn_finished(tap_dance_state_t *state, void *user_data) {

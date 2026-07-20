@@ -3,14 +3,12 @@
 
 #ifdef OLED_ENABLE
 
-// Layer names (synchronized with keymap.c)
+// Layer names (synchronized with features/layers.h)
 enum layer_names {
   _QWERTY,
   _NUMBER,
-  _SYMBOL_LGCY,
   _SYMBOL,
   _NAV,
-  _HERDR,
   _MEDIA,
   _MOVE,
 };
@@ -183,8 +181,7 @@ void render_layer_state(void) {
         oled_write_P(adjust_layer, false);
     } else if(layer_state_is(_NUMBER)) {
         oled_write_P(lower_layer, false);
-    } else if(layer_state_is(_SYMBOL) || layer_state_is(_SYMBOL_LGCY)) {
-        // TODO: Remove _SYMBOL_LGCY enum entry in a separate cleanup pass
+    } else if(layer_state_is(_SYMBOL)) {
         oled_write_P(raise_layer, false);
     } else {
         oled_write_P(default_layer, false);
