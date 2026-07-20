@@ -73,7 +73,10 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case TD_J_BRACES:
         case TD_K_PARENS:
         case TD_L_BRACKETS:
-        case TD_SC_ANGLES:  return 180;
+        case TD_SC_ANGLES:
+        case TD_EX_QUEST:
+        case TD_MN_UNDER:
+        case TD_AM_PIPE:    return 180;
         default: return TAPPING_TERM;
     }
 }

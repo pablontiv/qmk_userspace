@@ -55,4 +55,23 @@ void td_l_finished(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+// Single-symbol tap/hold: tap = primary, hold = shifted secondary.
+void td_ex_finished(tap_dance_state_t *state, void *user_data) {
+    clear_weak_mods();
+    if (state->pressed) { tap_code16(KC_QUES); } // hold = ?
+    else                { tap_code16(KC_EXLM); } // tap  = !
+}
+
+void td_mn_finished(tap_dance_state_t *state, void *user_data) {
+    clear_weak_mods();
+    if (state->pressed) { tap_code16(KC_UNDS); } // hold = _
+    else                { tap_code16(KC_MINS); } // tap  = -
+}
+
+void td_am_finished(tap_dance_state_t *state, void *user_data) {
+    clear_weak_mods();
+    if (state->pressed) { tap_code16(KC_PIPE); } // hold = |
+    else                { tap_code16(KC_AMPR); } // tap  = &
+}
+
 // Tap dance actions array is now defined in keymap.c
