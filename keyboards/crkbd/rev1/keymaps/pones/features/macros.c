@@ -57,6 +57,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         wait_ms(50);
         tap_code16(KC_PGDN);
         break;
+      case HRD_NTAB: SEND_STRING(SS_LCTL("b") SS_DELAY(10) "n"); break; // herdr next tab
+      case HRD_PTAB: SEND_STRING(SS_LCTL("b") SS_DELAY(10) "p"); break; // herdr prev tab
+      case HRD_NSPC: SEND_STRING(SS_LCTL("b") SS_DELAY(10) "."); break; // herdr next space
+      case HRD_PSPC: SEND_STRING(SS_LCTL("b") SS_DELAY(10) ","); break; // herdr prev space
     }
   }
 
