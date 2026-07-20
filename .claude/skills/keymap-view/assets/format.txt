@@ -1,0 +1,43 @@
+Canonical rendering. Held thumb marked with ‹ ›. Base marks no thumb.
+● = home row mod. │ = hand split. · = empty key.
+
+## _QWERTY (base — ningún pulgar sostenido)
+Combos inline bajo la home row: bracket └─┘ conecta el par físico, label debajo.
+ ·   Q   W   E   R   T  │  Y   U   I   O   P   ·
+ ·   A●  S●  D●  F●  G  │  H   J●  K●  L●  ;●  ·      ● = home row mod (GACS)
+     └───┘       └─────────────┘   └───┘
+   Ctrl+Del         CapsWord     Alt+Bspc            combos (sin hold)
+         └───┘                         └───┘
+       Alt+Del                       Ctrl+Bspc
+ ·   Z   X   C   V   B  │  N   M   ,   .   '   ·
+        ESC  TAB  SPC   │  ENT  BSPC  DEL
+
+## _NUMBER (hold Space)
+ ·   F1  F2  F3  F4  ·  │  ·   7   8   9   *   ·
+ ·   F5  F6  F7  F8  ·  │  =   4   5   6   +   ·
+ ·   F9 F10 F11 F12  ·  │  ·   1   2   3   /   ·
+        ESC  TAB ‹SPC›  │  ENT  BSPC  DEL
+
+## _SYMBOL (hold Tab)   símbolos = 1-tap · 2-tap cierra · hold = par
+ ·   ·   ·  KVp KVn  ·  │  `   &   #   /   ^   ·
+ ·   ·   ·  C+C C+V CSV │  @   {   (   <   [   ·
+ ·   ·   ·   ·   ·   ·  │  ~   -   $   %   !   ·
+        ESC ‹TAB› SPC   │  ENT  BSPC  DEL
+
+## _NAV (hold Enter)
+ ·   ·    ·    ·    ·   ·  │  ·  HOME  ↑  END   ·   ·
+ ·  GUI  ALT  CTL  SFT  ·  │ PGU  ←   ↓   →   PGD  ·
+ ·   ·    ·    ·    ·   ·  │  ·    ·   ·   ·    ·   ·
+        ESC   TAB  SPC     │ ‹ENT› BSPC  DEL
+
+## _HERDR (hold Esc — window manager, letras → prefijo Ctrl+B)
+ ·   Q   W   E   R   T  │  ·   ·   ·   ·   ·   ·
+ ·   A   S   D   F   G  │  ·   ·   ·   ·   ·   ·
+ ·   Z   X   C   V   B  │  ·   ·   ·   ·   ·   ·
+       ‹ESC› TAB  SPC   │  ENT  BSPC  DEL
+
+## _MEDIA (hold Backspace)
+ · BOOT DBTG CAP PSC INS │  ·    ·    ·    ·    ·   ·
+ ·   ·   ·    ·   ·   ·  │ prev vol- vol+ next play ·
+ ·   ·   ·    ·   ·   ·  │  ·    ·    ·    ·    ·   ·
+        ESC  TAB  SPC    │  ENT ‹BSPC› DEL
