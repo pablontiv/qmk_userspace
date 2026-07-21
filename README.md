@@ -1,58 +1,103 @@
-# QMK Userspace
+# pones' QMK Userspace
 
-This is a template repository which allows for an external set of QMK keymaps to be defined and compiled. This is useful for users who want to maintain their own keymaps without having to fork the main QMK repository.
+Personal [QMK](https://qmk.fm) keymaps, built as an external userspace. The main
+build is a **Corne (crkbd/rev1)** split keyboard with a programming-focused,
+home-row-mod layout.
 
-## Howto configure your build targets
+![Keymap](docs/keymap.svg)
 
-1. Run the normal `qmk setup` procedure if you haven't already done so -- see [QMK Docs](https://docs.qmk.fm/#/newbs) for details.
-1. Fork this repository
-1. Clone your fork to your local machine
-1. Add a new keymap for your board using `qmk new-keymap`
-    * This will create a new keymap in the `keyboards` directory, in the same location that would normally be used in the main QMK repository. For example, if you wanted to add a keymap for the Planck, it will be created in `keyboards/planck/keymaps/<your keymap name>`
-    * You can also create a new keymap using `qmk new-keymap -kb <your_keyboard> -km <your_keymap>`
-    * Alternatively, add your keymap manually by placing it in the location specified above.
-    * `layouts/<layout name>/<your keymap name>/keymap.*` is also supported if you prefer the layout system
-1. Add your keymap(s) to the build by running `qmk userspace-add -kb <your_keyboard> -km <your_keymap>`
-    * This will automatically update your `qmk.json` file
-    * Corresponding `qmk userspace-remove -kb <your_keyboard> -km <your_keymap>` will delete it
-    * Listing the build targets can be done with with `qmk userspace-list`
-1. Commit your changes
+> The image above is generated from `keymap.c` with
+> [keymap-drawer](https://github.com/caksoylar/keymap-drawer) and kept in sync by
+> a pre-commit hook — see [Keymap image](#keymap-image).
 
-## Howto build with GitHub
+## Layout at a glance
 
-1. In the GitHub Actions tab, enable workflows
-1. Push your changes above to your forked GitHub repository
-1. Look at the GitHub Actions for a new actions run
-1. Wait for the actions run to complete
-1. Inspect the Releases tab on your repository for the latest firmware build
+Base layer uses **home row mods** and a 6-key thumb cluster where every thumb is a
+tap on one key and a hold into a layer. Split halves use **EE_HANDS** (handedness
+stored in EEPROM), so either half can take the USB cable.
 
-## Howto build locally
+### Layers
 
-1. Run the normal `qmk setup` procedure if you haven't already done so -- see [QMK Docs](https://docs.qmk.fm/#/newbs) for details.
-1. Fork this repository
-1. Clone your fork to your local machine
-1. `cd` into this repository's clone directory
-1. Set global userspace path: `qmk config user.overlay_dir="$(realpath .)"` -- you MUST be located in the cloned userspace location for this to work correctly
-    * This will be automatically detected if you've `cd`ed into your userspace repository, but the above makes your userspace available regardless of your shell location.
-1. Compile normally: `qmk compile -kb your_keyboard -km your_keymap` or `make your_keyboard:your_keymap`
+| Layer | Reached by | Purpose |
+|---|---|---|
+| `_QWERTY` | base | Letters + home-row mods |
+| `_NUMBER` | hold **Space** | Numbers, F-keys, math operators |
+| `_SYMBOL` | hold **Tab** | Symbols and brackets (tap-dance pairs) |
+| `_MOVE` | hold **Enter** | Window management (herdr / KVM), Ctrl+Tab |
+| `_NAV` | hold **Esc** | Arrows, word-jump, Page Up/Down |
+| `_MEDIA` | hold **Delete** | Media controls, boot, utility keys |
+| `_MOUSE` | hold **Backspace** | Mouse movement, clicks, and wheel |
 
-Alternatively, if you configured your build targets above, you can use `qmk userspace-compile` to build all of your userspace targets at once.
+### Home row mods
 
-## Extra info
+| Hand | A / ; | S / L | D / K | F / J |
+|---|---|---|---|---|
+| Left | GUI | Alt | Ctrl | Shift |
+| Right | GUI | Alt | Ctrl | Shift |
 
-If you wish to point GitHub actions to a different repository, a different branch, or even a different keymap name, you can modify `.github/workflows/build_binaries.yml` to suit your needs.
+Ctrl (D) has a same-hand exemption via Chordal Hold so left-handed `Ctrl+W/R/F`
+etc. stay usable.
 
-To override the `build` job, you can change the following parameters to use a different QMK repository or branch:
+### Thumb cluster
+
+| Thumb | Tap | Hold |
+|---|---|---|
+| Left 1 | Esc | `_NAV` |
+| Left 2 | Tab | `_SYMBOL` |
+| Left 3 | Space | `_NUMBER` |
+| Right 1 | Enter | `_MOVE` |
+| Right 2 | Backspace | `_MOUSE` |
+| Right 3 | Delete | `_MEDIA` |
+
+### Combos
+
+Fast shortcuts without an extra hold:
+
+| Combo | Action |
+|---|---|
+| **F + J** | Caps Word |
+| **A + S** | Ctrl+Backspace (delete word left) |
+| **S + D** | Alt+Backspace (delete word left) |
+| **K + L** | Alt+Delete (delete word right) |
+| **L + ;** | Ctrl+Delete (delete word right) |
+
+## Build & flash
+
+```bash
+# Compile
+qmk compile -kb crkbd/rev1 -km pones
+
+# Flash (handedness already set): enter the bootloader with QK_BOOT —
+# hold Delete (opens _MEDIA) + tap Q — then:
+qmk flash -kb crkbd/rev1 -km pones
 ```
-    with:
-      qmk_repo: qmk/qmk_firmware
-      qmk_ref: master
+
+First-time setup, if this userspace isn't wired up yet:
+
+```bash
+qmk config user.overlay_dir="$(realpath .)"
 ```
 
-If you wish to manually manage `qmk_firmware` using git within the userspace repository, you can add `qmk_firmware` as a submodule in the userspace directory instead. GitHub Actions will automatically use the submodule at the pinned revision if it exists, otherwise it will use the default latest revision of `qmk_firmware` from the main repository.
+## Keymap image
 
-This can also be used to control which fork is used, though only upstream `qmk_firmware` will have support for external userspace until other manufacturers update their forks.
+`docs/keymap.svg` is generated from the current `keymap.c`:
 
-1. (First time only) `git submodule add https://github.com/qmk/qmk_firmware.git`
-1. (To update) `git submodule update --init --recursive`
-1. Commit your changes to your userspace repository
+```bash
+bash gen-keymap-svg.sh          # needs: pipx install keymap-drawer
+```
+
+`qmk c2json` can't parse this keymap (it silently drops repeated `#define`'d
+keycodes), so `parse_keymap.py` expands the macros itself before handing off to
+keymap-drawer.
+
+To regenerate automatically on every keymap change, enable the pre-commit hook
+once:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+## Layout reference
+
+Full layer diagrams and design rationale live in
+[`docs/keymap-redesign-plan.md`](docs/keymap-redesign-plan.md).
