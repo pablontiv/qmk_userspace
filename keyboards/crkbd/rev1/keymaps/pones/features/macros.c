@@ -7,9 +7,10 @@
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (debug_enable) {
-    uprintf("KL:t%lu,k0x%04X,r%u,c%u,%c\n",
+    uprintf("KL:t%lu,k0x%04X,r%u,c%u,m0x%02X,%c\n",
             timer_read32(), keycode,
             record->event.key.row, record->event.key.col,
+            get_mods() | get_oneshot_mods(),
             record->event.pressed ? 'd' : 'u');
   }
   if (record->event.pressed) {
