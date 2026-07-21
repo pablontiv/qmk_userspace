@@ -14,16 +14,16 @@ layers:
   - P
   - ''
   - ''
-  - {t: A, h: LGUI}
-  - {t: S, h: LALT}
-  - {t: D, h: LCTL}
-  - {t: F, h: LSFT}
+  - {t: A, h: GUI}
+  - {t: S, h: Alt}
+  - {t: D, h: Ctrl}
+  - {t: F, h: Shift}
   - G
   - H
-  - {t: J, h: RSFT}
-  - {t: K, h: RCTL}
-  - {t: L, h: LALT}
-  - {t: ;, h: RGUI}
+  - {t: J, h: Shift}
+  - {t: K, h: Ctrl}
+  - {t: L, h: Alt}
+  - {t: ;, h: GUI}
   - ''
   - ''
   - Z
@@ -37,79 +37,38 @@ layers:
   - .
   - ''''
   - ''
-  - {t: ESCAPE, h: NAV}
-  - TD(TD TAB CTRLTAB)
-  - {t: SPACE, h: NUMBER}
-  - {t: ENTER, h: SYMBOL}
-  - {t: BSPC, h: NAV}
-  - DEL
-  NUMBER:
-  - ''
-  - F1
-  - F2
-  - F3
-  - F4
-  - ''
-  - ''
-  - '7'
-  - '8'
-  - '9'
-  - '*'
-  - ''
-  - ''
-  - F5
-  - F6
-  - F7
-  - F8
-  - ''
-  - '='
-  - '4'
-  - '5'
-  - '6'
-  - +
-  - ''
-  - ''
-  - F9
-  - F10
-  - F11
-  - F12
-  - ''
-  - ''
-  - '1'
-  - '2'
-  - '3'
-  - /
-  - ''
-  - ''
-  - ''
-  - {type: held}
-  - '-'
-  - .
-  - '0'
+  - {t: esc, h: NAV}
+  - {t: ⇥, h: SYM}
+  - {t: ␣, h: NUM}
+  - {t: ⏎, h: MOVE}
+  - {t: ⌫, h: MOUSE}
+  - {t: ⌦, h: MEDIA}
+  NUMBER: ['', F1, F2, F3, F4, '', '', '7', '8', '9', '*', '', '', F5, F6, F7, F8, '', '=', '4', '5', '6', +, '', '', F9, F10, F11, F12, '', '', '1', '2', '3', /,
+    '', '', '', '', '-', ., '0']
   SYMBOL:
   - ''
-  - Ctl+B
   - ''
-  - DV UNCMT
-  - DV CMNT
+  - ''
+  - ''
+  - ''
   - ''
   - '`'
-  - TD(TD AM PIPE)
+  - {t: '&', h: '|'}
   - '#'
-  - TD(TD SL BACK)
+  - {t: /, h: \}
   - ^
   - ''
   - ''
-  - PSCR
-  - Ctl+`
-  - Ctl+Sft+F
-  - Ctl+Sft+V
-  - Ctl+Sft+P
+  - prtsc
+  - Ctrl+C
+  - Ctrl+V
+  - Ctrl+Shift+V
+  - ''
   - '@'
-  - TD(TD J BRACES)
-  - TD(TD K PARENS)
-  - TD(TD SC ANGLES)
-  - TD(TD L BRACKETS)
+  - {t: '{', h: '}'}
+  - {t: (, h: )}
+  - {t: <, h: '>'}
+  - {t: '[', h: ']'}
   - ''
   - ''
   - ''
@@ -118,57 +77,22 @@ layers:
   - ''
   - ''
   - '~'
-  - TD(TD MN UNDER)
+  - {t: '-', h: _}
   - $
   - '%'
-  - TD(TD EX QUEST)
+  - {t: '?', h: '!'}
   - ''
   - ''
   - ''
   - ''
-  - {type: held}
-  - ''
-  - ''
-  NAV:
   - ''
   - ''
   - ''
-  - KVM PREV
-  - KVM NEXT
-  - ''
-  - ''
-  - HOME
-  - UP
-  - END
-  - INS
-  - ''
-  - ''
-  - LGUI
-  - LALT
-  - LCTL
-  - LSFT
-  - ''
-  - PGUP
-  - LEFT
-  - DOWN
-  - RIGHT
-  - PGDN
-  - ''
-  - ''
-  - UG SPDD
-  - UG SPDU
-  - ''
-  - UG NEXT
-  - UG TOGG
-  - MPRV
-  - VOLD
-  - VOLU
-  - MNXT
-  - MPLY
-  - ''
-  - {type: held}
-  - ''
-  - ''
-  - DV SELLN
-  - ''
-  - CAPS
+  MOVE: ['', '', ◂ space, ◂ tab, Ctrl+Shift+⇥, ◂ KVM, '', '', '', '', '', '', '', '', space ▸, tab ▸, Ctrl+⇥, KVM ▸, '', '', '', '', '', '', '', '', '', '', '', '',
+    '', '', '', '', '', '', '', '', '', '', '', '']
+  NAV: ['', '', '', '', '', '', '', ⇤, ↑, ⇥, '', '', '', GUI, Alt, Ctrl, Shift, '', ⇞, ←, ↓, →, ⇟, '', '', '', '', '', '', '', '', Alt+←, '', Alt+→, '', '', '', '',
+    '', '', '', '']
+  MEDIA: ['', boot, debug, caps, '', ins, '', '', '', '', '', '', '', '', '', '', '', '', ⏮, vol −, vol +, ⏭, ⏯, '', '', '', '', '', '', '', '', '', '', '', '', '',
+    '', '', '', '', '', '']
+  MOUSE: ['', '', '', ↑, '', whl ↑, '', '', '', '', '', '', '', '', ←, ↓, →, whl ↓, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', btn
+      2, btn 1, '', '', '']

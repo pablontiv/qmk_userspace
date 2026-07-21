@@ -1,0 +1,117 @@
+# keymap-drawer overrides for the pones Corne keymap.
+# Merged on top of keymap-drawer defaults; only legends that need fixing live here.
+# Used by gen-keymap-svg.sh (passed via `keymap -c` to both parse and draw).
+
+draw_config:
+  # More breathing room top/bottom: pushes the hold legend up and the shifted
+  # legend down, away from the key edges.
+  small_pad: 5.0
+  # Slightly smaller main (tap) legends so wide shortcuts like Ctrl+Shift+⇥
+  # fit inside the key, and smaller "lower" (hold) legends — the mod on a
+  # home-row key, the ) on a tap-dance — so they read as secondary and clear
+  # the bottom edge.
+  svg_extra_style: |
+    text.tap { font-size: 12px; }
+    text.hold { font-size: 9px; }
+
+parse_config:
+  # Tap-dance keys render their real tap / hold symbols instead of TD(...) enum names.
+  raw_binding_map:
+    # Home-row mods: tap letter / hold macOS modifier glyph.
+    "LGUI_T(KC_A)":    { t: "A", h: "GUI" }
+    "LALT_T(KC_S)":    { t: "S", h: "Alt" }
+    "LCTL_T(KC_D)":    { t: "D", h: "Ctrl" }
+    "LSFT_T(KC_F)":    { t: "F", h: "Shift" }
+    "RSFT_T(KC_J)":    { t: "J", h: "Shift" }
+    "RCTL_T(KC_K)":    { t: "K", h: "Ctrl" }
+    "LALT_T(KC_L)":    { t: "L", h: "Alt" }
+    "RGUI_T(KC_SCLN)": { t: ";", h: "GUI" }
+    # Thumb layer-taps: tap glyph / hold layer name (keymap-drawer's LT regex
+    # needs a numeric layer and no space, so these are mapped explicitly).
+    "LT(_NAV, KC_ESC)":     { t: "esc", h: "NAV" }
+    "LT(_SYMBOL, KC_TAB)":  { t: "⇥", h: "SYM" }
+    "LT(_NUMBER, KC_SPACE)": { t: "␣", h: "NUM" }
+    "LT(_MOVE, KC_ENTER)":  { t: "⏎", h: "MOVE" }
+    "LT(_MOUSE, KC_BSPC)":  { t: "⌫", h: "MOUSE" }
+    "LT(_MEDIA, KC_DEL)":   { t: "⌦", h: "MEDIA" }
+    # Tap-dance keys: real tap / hold symbols instead of TD(...) enum names.
+    "TD(TD_J_BRACES)":   { t: "{", h: "}" }
+    "TD(TD_K_PARENS)":   { t: "(", h: ")" }
+    "TD(TD_L_BRACKETS)": { t: "[", h: "]" }
+    "TD(TD_SC_ANGLES)":  { t: "<", h: ">" }
+    "TD(TD_EX_QUEST)":   { t: "?", h: "!" }
+    "TD(TD_MN_UNDER)":   { t: "-", h: "_" }
+    "TD(TD_AM_PIPE)":    { t: "&", h: "|" }
+    "TD(TD_SL_BACK)":    { t: "/", h: "\\" }
+
+  # Home-row-mod holds and modified keycodes show macOS glyphs.
+  modifier_fn_map:
+    left_ctrl:  "Ctrl"
+    right_ctrl: "Ctrl"
+    left_shift: "Shift"
+    right_shift: "Shift"
+    left_alt:   "Alt"
+    right_alt:  "Alt"
+    left_gui:   "GUI"
+    right_gui:  "GUI"
+    keycode_combiner: "{mods}+{key}"
+
+  # Custom keycodes and glyphs for keys keymap-drawer leaves as raw names.
+  qmk_keycode_map:
+    # standalone modifier keys as neutral, platform-agnostic labels
+    LGUI: "GUI"
+    RGUI: "GUI"
+    LALT: "Alt"
+    RALT: "Alt"
+    LCTL: "Ctrl"
+    RCTL: "Ctrl"
+    LSFT: "Shift"
+    RSFT: "Shift"
+    PSCR: "prtsc"
+    # herdr window manager (prev / next workspace and window)
+    HRD_PSPC: "◂ space"
+    HRD_NSPC: "space ▸"
+    HRD_PTAB: "◂ tab"
+    HRD_NTAB: "tab ▸"
+    # KVM switch
+    KVM_PREV: "◂ KVM"
+    KVM_NEXT: "KVM ▸"
+    # utility
+    DB_TOGG: "debug"
+    QK_BOOT: "boot"
+    # mouse layer
+    MS_UP: "↑"
+    MS_DOWN: "↓"
+    MS_LEFT: "←"
+    MS_RGHT: "→"
+    MS_WHLU: "whl ↑"
+    MS_WHLD: "whl ↓"
+    MS_BTN1: "btn 1"
+    MS_BTN2: "btn 2"
+    # navigation arrows / motion
+    LEFT: "←"
+    RIGHT: "→"
+    RGHT: "→"
+    UP: "↑"
+    DOWN: "↓"
+    HOME: "⇤"
+    END: "⇥"
+    PGUP: "⇞"
+    PGDN: "⇟"
+    # thumb taps
+    BSPC: "⌫"
+    DEL: "⌦"
+    ENT: "⏎"
+    ENTER: "⏎"
+    SPC: "␣"
+    SPACE: "␣"
+    ESC: "esc"
+    TAB: "⇥"
+    CAPS: "caps"
+    INS: "ins"
+    # media
+    MPLY: "⏯"
+    MPRV: "⏮"
+    MNXT: "⏭"
+    VOLU: "vol +"
+    VOLD: "vol −"

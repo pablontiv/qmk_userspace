@@ -43,9 +43,13 @@ def extract_tap_dance_enum(src):
     return {name: i for i, name in enumerate(names)}
 
 def extract_layout_calls(src):
-    """Find all LAYOUT_split_3x6_3(...) calls and return the inner content of each."""
+    """Find each keymap layer's LAYOUT_split_3x6_3(...) call and return its inner content.
+
+    Only matches layout calls that are layer definitions (`[_NAME] = LAYOUT(...)`),
+    skipping other uses of the macro such as the `chordal_hold_layout` handedness map.
+    """
     results = []
-    pattern = r'LAYOUT_split_3x6_3\s*\('
+    pattern = r'\[_\w+\]\s*=\s*LAYOUT_split_3x6_3\s*\('
     for match in re.finditer(pattern, src):
         start = match.end()
         depth = 1
