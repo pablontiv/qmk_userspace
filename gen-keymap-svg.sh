@@ -32,8 +32,29 @@ PY
 
 keymap -c "$CONFIG" parse \
   -q crkbd_rev1_pones_keymap.json \
-  -l QWERTY NUMBER SYMBOL MOVE NAV MEDIA MOUSE \
+  -l QWERTY NUMBER SYMBOL MOVE NAV MOUSE \
   -o docs/keymap.yaml
+
+# Highlight, on each layer, the thumb key that is held to reach it.
+python3 - docs/keymap.yaml <<'PY'
+import sys, yaml
+# layer name -> (thumb index in LAYOUT order, tap glyph of that thumb)
+ACTIVATORS = {
+    "NAV":    (36, "esc"),
+    "SYMBOL": (37, "⇥"),
+    "NUMBER": (38, "␣"),
+    "MOVE":   (39, "⏎"),
+    "MOUSE":  (40, "⌫"),
+}
+path = sys.argv[1]
+data = yaml.safe_load(open(path))
+for name, (idx, glyph) in ACTIVATORS.items():
+    layer = data["layers"].get(name)
+    if layer and idx < len(layer):
+        layer[idx] = {"t": glyph, "type": "held"}
+with open(path, "w") as out:
+    yaml.safe_dump(data, out, allow_unicode=True, sort_keys=False)
+PY
 
 keymap -c "$CONFIG" draw docs/keymap.yaml -o docs/keymap.svg
 

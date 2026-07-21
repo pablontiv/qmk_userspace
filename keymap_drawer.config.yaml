@@ -3,6 +3,9 @@
 # Used by gen-keymap-svg.sh (passed via `keymap -c` to both parse and draw).
 
 draw_config:
+  # Don't underline or hyperlink layer-activator legends — they read as broken
+  # links in a static README image.
+  style_layer_activators: false
   # More breathing room top/bottom: pushes the hold legend up and the shifted
   # legend down, away from the key edges.
   small_pad: 5.0
@@ -33,7 +36,6 @@ parse_config:
     "LT(_NUMBER, KC_SPACE)": { t: "␣", h: "NUM" }
     "LT(_MOVE, KC_ENTER)":  { t: "⏎", h: "MOVE" }
     "LT(_MOUSE, KC_BSPC)":  { t: "⌫", h: "MOUSE" }
-    "LT(_MEDIA, KC_DEL)":   { t: "⌦", h: "MEDIA" }
     # Tap-dance keys: real tap / hold symbols instead of TD(...) enum names.
     "TD(TD_J_BRACES)":   { t: "{", h: "}" }
     "TD(TD_K_PARENS)":   { t: "(", h: ")" }
