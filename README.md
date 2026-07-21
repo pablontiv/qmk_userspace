@@ -23,10 +23,9 @@ stored in EEPROM), so either half can take the USB cable.
 | `_QWERTY` | base | Letters + home-row mods |
 | `_NUMBER` | hold **Space** | Numbers, F-keys, math operators |
 | `_SYMBOL` | hold **Tab** | Symbols and brackets (tap-dance pairs) |
-| `_MOVE` | hold **Enter** | Window management (herdr / KVM), Ctrl+Tab |
+| `_MOVE` | hold **Enter** | Window management (herdr / KVM), Ctrl+Tab, media & volume |
 | `_NAV` | hold **Esc** | Arrows, word-jump, Page Up/Down |
-| `_MEDIA` | hold **Delete** | Media controls, boot, utility keys |
-| `_MOUSE` | hold **Backspace** | Mouse movement, clicks, and wheel |
+| `_MOUSE` | hold **Backspace** | Mouse movement, clicks, wheel; boot / debug / caps / insert |
 
 ### Home row mods
 
@@ -47,7 +46,7 @@ etc. stay usable.
 | Left 3 | Space | `_NUMBER` |
 | Right 1 | Enter | `_MOVE` |
 | Right 2 | Backspace | `_MOUSE` |
-| Right 3 | Delete | `_MEDIA` |
+| Right 3 | Delete | — |
 
 ### Combos
 
@@ -68,7 +67,7 @@ Fast shortcuts without an extra hold:
 qmk compile -kb crkbd/rev1 -km pones
 
 # Flash (handedness already set): enter the bootloader with QK_BOOT —
-# hold Delete (opens _MEDIA) + tap Q — then:
+# hold Backspace (opens _MOUSE) + tap P — then:
 qmk flash -kb crkbd/rev1 -km pones
 ```
 
