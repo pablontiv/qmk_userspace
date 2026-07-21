@@ -15,3 +15,8 @@ crkbd_rev1_pones_keymap.json
 cartyx-out/
 .codegraph/
 .claude/settings.local.json
+
+# clangd
+compile_commands.json
+.clangd/
+.cache/
