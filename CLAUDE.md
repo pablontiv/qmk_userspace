@@ -95,10 +95,10 @@ Right hand: Shift(J), Ctrl(K), Alt(L), GUI(;)
 Fast-access shortcuts without additional holds:
 
 - **F+J** = CapsWord
-- **K+L** = Alt+Backspace (word delete)
-- **S+D** = Alt+Delete (word delete forward)
-- **L+;** = Ctrl+Backspace (word delete backward, Ctrl variant)
-- **A+S** = Ctrl+Delete (word delete forward, Ctrl variant)
+- **S+D** = Alt+Backspace (delete word left)
+- **A+S** = Ctrl+Backspace (delete word left)
+- **K+L** = Alt+Delete (delete word right)
+- **L+;** = Ctrl+Delete (delete word right)
 
 ### Custom Features
 
@@ -114,7 +114,7 @@ Use the `flash-corne` project skill (`.claude/skills/flash-corne/SKILL.md`). The
 
 ## Development Notes
 
-- Firmware size: 27,182 / 28,672 bytes (1,490 bytes free)
+- Firmware size: 28,478 / 28,672 bytes (194 bytes free)
 - CONSOLE_ENABLE for firmware-side keystroke logging (toggled via `_MOUSE`)
 - Chordal Hold prevents unintended modifiers on fast typing
 - OLED display includes custom font for layer/modifier status

@@ -37,7 +37,7 @@ qmk flash -kb crkbd/rev1 -km pones -bl avrdude-split-right    # right half, then
 
 Enter the bootloader with QK_BOOT, then flash normally:
 
-- Hold **Delete** (opens `_MEDIA`) + tap **Q** (top-left) = QK_BOOT.
+- Hold **Backspace** (opens `_MOUSE`) + tap **P** (top-right) = QK_BOOT.
 
 ```
 qmk flash -kb crkbd/rev1 -km pones
