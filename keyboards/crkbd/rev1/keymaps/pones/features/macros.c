@@ -40,6 +40,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       case HRD_PTAB: SEND_STRING(SS_LCTL("b") SS_DELAY(10) "p"); break; // herdr prev tab
       case HRD_NSPC: SEND_STRING(SS_LCTL("b") SS_DELAY(10) "."); break; // herdr next space
       case HRD_PSPC: SEND_STRING(SS_LCTL("b") SS_DELAY(10) ","); break; // herdr prev space
+      case HRD_NWSP: SEND_STRING(SS_LCTL("b") SS_DELAY(10) "N"); break; // herdr new space
+      case HRD_NWTB: SEND_STRING(SS_LCTL("b") SS_DELAY(10) "c"); break; // herdr new tab
+      case HRD_SPLH: SEND_STRING(SS_LCTL("b") SS_DELAY(10) "-"); break; // herdr split horizontal
     }
   }
 
