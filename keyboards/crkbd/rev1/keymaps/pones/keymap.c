@@ -23,7 +23,7 @@
 #define L_SPC LT(_NUMBER, KC_SPACE)    // Space: tap space, hold numbers
 #define L_ENT LT(_MOVE, KC_ENTER)      // Enter: tap enter, hold MOVE layer (KVM, Ctrl+Tab) — right thumb keeps left-hand MOVE keys cross-handed
 #define L_BK  LT(_MOUSE, KC_BSPC)      // Backspace: tap bspc, hold MOUSE layer (WASD move, thumb clicks)
-#define L_DEL LT(_MEDIA, KC_DEL)       // Delete: tap delete, hold media/utility
+#define L_DEL KC_DEL                    // Delete (plain; _MEDIA layer removed)
 
 // Tap dance aliases (max 7 characters)
 #define TD_JBR TD(TD_J_BRACES)    // { | 2x=} | hold={}
@@ -69,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
     [_MOVE] = LAYOUT_split_3x6_3(
-      XXXXXXX, XXXXXXX, HRD_PSPC, HRD_PTAB, C(S(KC_TAB)), KVM_PREV,               XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, HRD_PSPC, HRD_PTAB, C(S(KC_TAB)), KVM_PREV,               KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, XXXXXXX,
       XXXXXXX, XXXXXXX, HRD_NSPC, HRD_NTAB, C(KC_TAB), KVM_NEXT,                  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
@@ -82,15 +82,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                           XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
   ),
 
-    [_MEDIA] = LAYOUT_split_3x6_3(
-      XXXXXXX, QK_BOOT, DB_TOGG, KC_CAPS, XXXXXXX,  KC_INS,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
-  ),
-
     [_MOUSE] = LAYOUT_split_3x6_3(
-      XXXXXXX, XXXXXXX, XXXXXXX, MS_UP,   XXXXXXX, MS_WHLU,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, MS_UP,   XXXXXXX, MS_WHLU,                      KC_INS, XXXXXXX, KC_CAPS, DB_TOGG, QK_BOOT, XXXXXXX,
       XXXXXXX, XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, MS_WHLD,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                           XXXXXXX, MS_BTN2, MS_BTN1,    XXXXXXX, XXXXXXX, XXXXXXX

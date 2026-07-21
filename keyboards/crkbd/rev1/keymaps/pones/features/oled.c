@@ -9,7 +9,6 @@ enum layer_names {
   _NUMBER,
   _SYMBOL,
   _NAV,
-  _MEDIA,
   _MOVE,
   _MOUSE,
 };
