@@ -5,6 +5,13 @@
 #include "custom_keycodes.h"
 #include "layers.h"
 
+// DB_TOGG only flips debug_enable in RAM; QMK reloads it from EEPROM (0) on
+// every boot, so keystroke logging silently dies on each unplug or reflash.
+// Force it on after quantum_init() so the console logger is always live.
+void keyboard_post_init_user(void) {
+  debug_enable = true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (debug_enable) {
     uprintf("KL:t%lu,k0x%04X,r%u,c%u,m0x%02X,%c\n",
