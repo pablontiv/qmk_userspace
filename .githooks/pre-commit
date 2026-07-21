@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Regenerate docs/keymap.svg whenever the keymap source is part of this commit,
+# so the committed image never drifts from keymap.c.
+#
+# Requires keymap-drawer:  pipx install keymap-drawer
+# Enable this hook once:    git config core.hooksPath .githooks
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+keymap_src="keyboards/crkbd/rev1/keymaps/pones/keymap.c"
+
+# Nothing to do unless the keymap source is staged in this commit.
+if git diff --cached --quiet -- "$keymap_src"; then
+  exit 0
+fi
+
+if ! command -v keymap >/dev/null 2>&1; then
+  echo "pre-commit: keymap-drawer not found (pipx install keymap-drawer); skipping SVG regen" >&2
+  exit 0
+fi
+
+echo "pre-commit: $keymap_src changed -> regenerating docs/keymap.svg"
+( cd "$repo_root" && bash gen-keymap-svg.sh )
+git -C "$repo_root" add docs/keymap.svg docs/keymap.yaml
