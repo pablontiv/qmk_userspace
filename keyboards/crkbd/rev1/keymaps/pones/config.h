@@ -8,9 +8,9 @@
 
 #define TAPPING_TERM 220
 
-// Mouse keys: constant-speed mode. ACL0/1/2 become persistent speed
-// selectors (tap to set, not momentary) — used on the _MOUSE layer T/G.
-#define MK_3_SPEED
+// Mouse keys: kinetic mode. Cursor starts slow/precise and accelerates on a
+// quadratic curve while a movement key is held — gradual speed, no presets.
+#define MK_KINETIC_SPEED
 #ifdef OLED_ENABLE
 #   define SPLIT_LAYER_STATE_ENABLE
 #   define SPLIT_LED_STATE_ENABLE
