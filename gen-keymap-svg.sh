@@ -37,4 +37,19 @@ keymap -c "$CONFIG" parse \
 
 keymap -c "$CONFIG" draw docs/keymap.yaml -o docs/keymap.svg
 
+# Post-process: strip the clickable layer-activator links (they don't work in a
+# README <img> embed) and add a solid white background so the diagram reads in
+# both GitHub light and dark themes.
+python3 - docs/keymap.svg <<'PY'
+import re, sys
+path = sys.argv[1]
+svg = open(path).read()
+svg = re.sub(r"<a\b[^>]*>", "", svg)   # drop <a ...> wrappers
+svg = svg.replace("</a>", "")
+svg = re.sub(r"(<svg\b[^>]*>)",
+             r'\1\n<rect width="100%" height="100%" fill="#ffffff"/>',
+             svg, count=1)
+open(path, "w").write(svg)
+PY
+
 echo "Done: docs/keymap.svg"
