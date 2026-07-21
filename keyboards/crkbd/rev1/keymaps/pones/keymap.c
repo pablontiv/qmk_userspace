@@ -109,17 +109,9 @@ bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record,
 
 // Combo definitions (QMK introspection requires these in keymap.c)
 const uint16_t PROGMEM combo_capsword[] = {HM_F, HM_J, COMBO_END};    // F+J
-const uint16_t PROGMEM alt_bspc[]       = {HM_S, HM_D, COMBO_END};    // S+D (left)
-const uint16_t PROGMEM ctl_bspc[]       = {HM_A, HM_S, COMBO_END};    // A+S (left)
-const uint16_t PROGMEM alt_del[]        = {HM_K, HM_L, COMBO_END};    // K+L (right)
-const uint16_t PROGMEM ctl_del[]        = {HM_L, HM_SCLN, COMBO_END}; // L+; (right)
 
 combo_t key_combos[] = {
     COMBO(combo_capsword, CW_TOGG),      // F+J  = Caps Word
-    COMBO(alt_bspc, A(KC_BSPC)),         // S+D  = Alt+Backspace (delete word left)
-    COMBO(ctl_bspc, C(KC_BSPC)),         // A+S  = Ctrl+Backspace (delete word left)
-    COMBO(alt_del,  A(KC_DEL)),          // K+L  = Alt+Delete (delete word right)
-    COMBO(ctl_del,  C(KC_DEL)),          // L+;  = Ctrl+Delete (delete word right)
 };
 
 // Tap dance function declarations (defined in tap_dance.c)

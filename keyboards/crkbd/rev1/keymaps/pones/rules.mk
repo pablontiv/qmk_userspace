@@ -17,7 +17,7 @@ COMBO_ENABLE = yes
 TAP_DANCE_ENABLE = yes
 SPACE_CADET_ENABLE = no
 
-DEBOUNCE_TYPE = asym_eager_defer_pk
+DEBOUNCE_TYPE = sym_defer_pk
 
 # Include feature source files
 SRC += features/tap_dance.c

@@ -31,9 +31,10 @@
 // #define BILATERAL_COMBINATIONS_TYPING_STREAK_TIMEOUT 160
 #define COMBO_TERM 30
 
-// Debouncing configuration for faster key registration
+// Debounce timing (ms of stable state before a change registers). The
+// algorithm itself (sym_defer_pk) is selected in rules.mk via DEBOUNCE_TYPE —
+// that is a make-level choice; a #define here would be ignored by QMK.
 #define DEBOUNCE 5
-#define DEBOUNCE_TYPE "asym_eager_defer_pk"
 
 // USB polling optimization (1ms = 1000Hz polling rate)
 #define USB_POLLING_INTERVAL_MS 1

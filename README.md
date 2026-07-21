@@ -55,10 +55,6 @@ Fast shortcuts without an extra hold:
 | Combo | Action |
 |---|---|
 | **F + J** | Caps Word |
-| **A + S** | Ctrl+Backspace (delete word left) |
-| **S + D** | Alt+Backspace (delete word left) |
-| **K + L** | Alt+Delete (delete word right) |
-| **L + ;** | Ctrl+Delete (delete word right) |
 
 ## Build & flash
 
