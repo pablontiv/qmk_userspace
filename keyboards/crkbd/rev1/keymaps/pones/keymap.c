@@ -18,11 +18,11 @@
 #define HM_SCLN RGUI_T(KC_SCLN) // ; key: tap for ';', hold for GUI/Win key
 
 // Layer-tap definitions (tap for key, hold to access layer)
-#define L_ESC KC_ESC                   // Escape: plain (hold slot free — _HERDR removed)
-#define L_TAB LT(_MOVE, KC_TAB)        // Tab: tap for Tab, hold for MOVE layer (KVM, Ctrl+Tab)
+#define L_ESC LT(_NAV, KC_ESC)         // Escape: tap Esc, hold NAV — left thumb holds, right-hand arrows stay cross-handed
+#define L_TAB LT(_SYMBOL, KC_TAB)      // Tab: tap for Tab, hold for SYMBOL layer
 #define L_SPC LT(_NUMBER, KC_SPACE)    // Space: tap space, hold numbers
-#define L_ENT LT(_SYMBOL, KC_ENTER)    // Enter: tap enter, hold SYMBOL layer
-#define L_BK  LT(_NAV, KC_BSPC)        // Backspace: tap bspc, hold navigation
+#define L_ENT LT(_MOVE, KC_ENTER)      // Enter: tap enter, hold MOVE layer (KVM, Ctrl+Tab) — right thumb keeps left-hand MOVE keys cross-handed
+#define L_BK  KC_BSPC                  // Backspace: plain (hold slot free)
 #define L_DEL LT(_MEDIA, KC_DEL)       // Delete: tap delete, hold media/utility
 
 // Tap dance aliases (max 7 characters)
