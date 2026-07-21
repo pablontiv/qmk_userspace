@@ -8,4 +8,5 @@ enum layer_names {
   _NAV,      // Pure cursor navigation
   _MEDIA,    // RGB, media, base utility keys, BOOT/DEBUG
   _MOVE,     // Tab hold: KVM, app tabs, herdr tabs/spaces
+  _MOUSE,    // Backspace hold: mouse move (WASD) + buttons on thumbs
 };

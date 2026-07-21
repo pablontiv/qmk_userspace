@@ -11,6 +11,7 @@ enum layer_names {
   _NAV,
   _MEDIA,
   _MOVE,
+  _MOUSE,
 };
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) { 
