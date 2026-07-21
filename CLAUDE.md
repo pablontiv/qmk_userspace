@@ -63,7 +63,7 @@ Based on `qmk.json`, the currently configured build target is:
 
 ## Keymap Architecture
 
-The main keymap (`keyboards/crkbd/rev1/keymaps/pones/`) uses six layers optimized for programming workflows. See [`docs/keymap-redesign-plan.md`](docs/keymap-redesign-plan.md) for full layout diagrams and design rationale.
+The main keymap (`keyboards/crkbd/rev1/keymaps/pones/`) uses seven layers optimized for programming workflows. See the keymap diagram and layer summary in [`README.md`](README.md).
 
 ### Layers (v6.3)
 

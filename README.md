@@ -96,8 +96,3 @@ once:
 ```bash
 git config core.hooksPath .githooks
 ```
-
-## Layout reference
-
-Full layer diagrams and design rationale live in
-[`docs/keymap-redesign-plan.md`](docs/keymap-redesign-plan.md).
