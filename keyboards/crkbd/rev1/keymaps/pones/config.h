@@ -1,8 +1,6 @@
 #pragma once
 
 #define EE_HANDS
-#define PERMISSIVE_HOLD
-#define CHORDAL_HOLD
 
 #define LAYER_STATE_16BIT
 

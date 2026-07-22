@@ -90,23 +90,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
-// Chordal Hold handedness: opposite-hands rule; thumbs ('*') always allowed.
-const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
-    LAYOUT_split_3x6_3(
-  'L','L','L','L','L','L',      'R','R','R','R','R','R',
-  'L','L','L','L','L','L',      'R','R','R','R','R','R',
-  'L','L','L','L','L','L',      'R','R','R','R','R','R',
-                '*','*','*',    '*','*','*'
-);
-
-// Same-hand exemption for the Ctrl mod-tap on D: Ctrl+W/R/A/F etc. stay usable
-// left-handed (decided in the plan; the _SYMBOL cluster covers C/V).
-bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record,
-                      uint16_t other_keycode, keyrecord_t *other_record) {
-    if (tap_hold_keycode == HM_D) return true;
-    return get_chordal_hold_default(tap_hold_record, other_record);
-}
-
 // Combo definitions (QMK introspection requires these in keymap.c)
 const uint16_t PROGMEM combo_capsword[] = {HM_F, HM_J, COMBO_END};    // F+J
 

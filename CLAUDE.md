@@ -100,8 +100,7 @@ Fast-access shortcuts without additional holds:
 
 - OLED display support with layer and modifier status
 - Custom macros for herdr window-manager integration
-- Chordal Hold + Permissive Hold (220 ms term)
-- Configurable tapping term (220ms)
+- Plain tapping-term tap-hold decisions (220 ms, no Permissive/Chordal Hold)
 - Console logging support (debug toggle via `_MOUSE`)
 
 ## Flashing
@@ -111,6 +110,5 @@ Use the `flash-corne` project skill (`.claude/skills/flash-corne/SKILL.md`). The
 ## Development Notes
 
 - CONSOLE_ENABLE for firmware-side keystroke logging (toggled via `_MOUSE`)
-- Chordal Hold prevents unintended modifiers on fast typing
 - OLED display includes custom font for layer/modifier status
 - Master hand role stored in EEPROM; either half can initialize via EE_HANDS

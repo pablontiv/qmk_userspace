@@ -34,9 +34,6 @@ stored in EEPROM), so either half can take the USB cable.
 | Left | GUI | Alt | Ctrl | Shift |
 | Right | GUI | Alt | Ctrl | Shift |
 
-Ctrl (D) has a same-hand exemption via Chordal Hold so left-handed `Ctrl+W/R/F`
-etc. stay usable.
-
 ### Thumb cluster
 
 | Thumb | Tap | Hold |
